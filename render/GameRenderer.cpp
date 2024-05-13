@@ -23,11 +23,15 @@ void GameRenderer::drawScene() {
 
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-//    cache->planetShader->bind();
-//    cache->planetShader->loadEnvironment(&cache->basicEnv);
-//    cache->planetShader->loadCamera(&camera, glm::mat4(1.0f));
-//    cache->planetShader->drawModel(cache->blueOrb);
+    cache->perlinShader->draw(cache->cubemap);
+    cache->screenBuffer->bind();
+    cache->planetShader->bind();
+    cache->planetShader->bindTexture(GL_TEXTURE1, *cache->cubemap->texture);
+    cache->planetShader->loadEnvironment(&cache->basicEnv);
+    cache->planetShader->loadCamera(&camera, glm::mat4(1.0f));
+    cache->planetShader->drawModel(cache->blueOrb);
 
-    cache->perlinShader->bind();
-    cache->perlinShader->draw();
+//    cache->perlinShader->bind(Shader2D::TEX_NEGX_BUFFER);
+//    cache->screenBuffer->bind();
+//    cache->perlinShader->draw();
 }

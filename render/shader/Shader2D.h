@@ -8,6 +8,7 @@
 
 #include "ShaderProgram.h"
 #include "../GlBuffer.h"
+#include "../model/Cubemap.h"
 
 class Shader2D: public ShaderProgram {
 private:
@@ -36,6 +37,7 @@ public:
     void loadTexture(Texture* texture);
 
     void draw();
+    void draw(Cubemap *cubemap);
 
     void bind(GlBuffer* texCoords);
     void bind() override;

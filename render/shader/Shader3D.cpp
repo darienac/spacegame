@@ -22,6 +22,7 @@ void Shader3D::link() {
     aNormal = attribute("aNormal");
 
     textureDiffuse = uniform("textureDiffuse");
+    textureCubemap = uniform("textureCubemap");
 
     uViewProjectionMatrix = uniform("uViewProjectionMatrix");
     uModelMatrix = uniform("uModelMatrix");
@@ -38,6 +39,10 @@ void Shader3D::link() {
     uEmissiveColor = uniform("uEmissiveColor");
 
     uOpacity = uniform("uOpacity");
+
+    ShaderProgram::bind();
+    glUniform1i(textureDiffuse, 0);
+    glUniform1i(textureCubemap, 1);
 }
 
 void Shader3D::bind() {
@@ -76,9 +81,7 @@ void Shader3D::loadMaterial(Material *material) {
 
     glUniform1f(uOpacity, material->opacity);
 
-    glUniform1i(textureDiffuse, 0);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, material->texture->getTextureId());
+    bindTexture(GL_TEXTURE0, *material->texture);
 }
 
 void Shader3D::loadEnvironment(Environment *env) {

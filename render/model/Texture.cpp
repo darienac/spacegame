@@ -7,12 +7,12 @@
 
 Texture::Texture(const std::string &fileName) {
     textureId = -1;
-    useMultisampling = false;
+    textureType = GL_TEXTURE_2D;
 
     load(fileName);
 }
 
-Texture::Texture(int width, int height, GLint internalformat, GLenum format, bool useMultisampling): internalformat(internalformat), format(format), useMultisampling(useMultisampling) {
+Texture::Texture(int width, int height, GLint internalformat, GLenum format, GLenum textureType): internalformat(internalformat), format(format), textureType(textureType) {
     glGenTextures(1, &textureId);
     if ((int) textureId < 0) {
         throw "Unable to create texture";
@@ -21,7 +21,7 @@ Texture::Texture(int width, int height, GLint internalformat, GLenum format, boo
     resize(width, height);
 }
 
-Texture::Texture(int width, int height): Texture(width, height, GL_RGBA, GL_RGBA, false) {}
+Texture::Texture(int width, int height): Texture(width, height, GL_RGBA, GL_RGBA, GL_TEXTURE_2D) {}
 
 void Texture::resize(int width, int height) {
     std::cout << "Texture resize" << std::endl;
@@ -29,20 +29,36 @@ void Texture::resize(int width, int height) {
     this->height = height;
 
     bind();
-    if (useMultisampling) {
-        glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 4, internalformat, width, height, GL_TRUE);
+    switch (textureType) {
+        case GL_TEXTURE_2D_MULTISAMPLE:
+            glTexImage2DMultisample(textureType, 4, internalformat, width, height, GL_TRUE);
 
-//        glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//        glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    } else {
-        glTexImage2D(GL_TEXTURE_2D, 0, internalformat, width, height, 0, format, GL_UNSIGNED_BYTE, NULL);
+//            glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//            glTexParameteri(GL_TEXTURE_2D_MULTISAMPLE, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            break;
+        case GL_TEXTURE_2D:
+            glTexImage2D(GL_TEXTURE_2D, 0, internalformat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            break;
+        case GL_TEXTURE_CUBE_MAP:
+            for (uint8_t i = 0; i < 6; i++) {
+                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, internalformat, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
+            }
+
+            glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+            break;
+        default:
+            throw std::runtime_error("Unsupported texture type");
     }
 }
 
-void Texture::load(const std::string &fileName) {
+void Texture::load(const std::string &fileName) { // only works for GL_TEXTURE_2D
     if (textureId != (GLuint) -1) {
         throw "Texture already loaded";
     }
@@ -69,11 +85,7 @@ void Texture::load(const std::string &fileName) {
 }
 
 void Texture::bind() {
-    if (useMultisampling) {
-        glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, textureId);
-    } else {
-        glBindTexture(GL_TEXTURE_2D, textureId);
-    }
+    glBindTexture(textureType, textureId);
 }
 
 GLuint Texture::getTextureId() const {
@@ -88,8 +100,8 @@ int Texture::getHeight() const {
     return height;
 }
 
-bool Texture::usesMultisampling() const {
-    return useMultisampling;
+GLenum Texture::getTextureType() const {
+    return textureType;
 }
 
 Texture::~Texture() {

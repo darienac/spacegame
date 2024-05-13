@@ -93,7 +93,7 @@ float Noise3D(float x, float y, float z) {
 float FractalBrownianMotion(vec3 value, int numOctaves) {
     float result = 0.0;
     float amplitude = 1.0;
-    float frequency = 0.1; // was 0.005
+    float frequency = 0.2; // was 0.005
 
     for (int octave = 0; octave < numOctaves; octave++) {
         float n = amplitude * Noise3D(value.x * frequency, value.y * frequency, value.z * frequency);
@@ -107,6 +107,7 @@ float FractalBrownianMotion(vec3 value, int numOctaves) {
 }
 
 void main() {
-    float fractalMult = FractalBrownianMotion((vTexCoord + 1.0) * 20.0, 2) * 0.5 + 0.5;
+    float fractalMult = FractalBrownianMotion((normalize(vTexCoord) + 1.0) * 20.0, 2) * 0.5 + 0.5;
     fragColor = vec4(fractalMult, fractalMult, fractalMult, 1.0);
+    // fragColor = vec4((vTexCoord + 1.0) / 2.0, 1.0);
 }

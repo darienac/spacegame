@@ -18,40 +18,40 @@ void Shader2D::initBuffers() {
             1.0f, 1.0f, 0.0f
     });
     TEX_POSX_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            1.0f, 0.0f, 0.0f,
-            1.0f, 1.0f, 0.0f,
-            1.0f, 0.0f, 1.0f,
             1.0f, 1.0f, 1.0f,
+            1.0f, 1.0f, -1.0f,
+            1.0f, -1.0f, 1.0f,
+            1.0f, -1.0f, -1.0f,
     });
     TEX_NEGX_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            0.0f, 0.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
-            0.0f, 0.0f, 1.0f,
-            0.0f, 1.0f, 1.0f,
+            -1.0f, 1.0f, -1.0f,
+            -1.0f, 1.0f, 1.0f,
+            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f, 1.0f,
     });
     TEX_POSY_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            0.0f, 1.0f, 0.0f,
-            1.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 1.0f,
+            -1.0f, 1.0f, -1.0f,
+            1.0f, 1.0f, -1.0f,
+            -1.0f, 1.0f, 1.0f,
             1.0f, 1.0f, 1.0f,
     });
     TEX_NEGY_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            0.0f, -1.0f, 0.0f,
-            1.0f, -1.0f, 0.0f,
-            0.0f, -1.0f, 1.0f,
+            -1.0f, -1.0f, 1.0f,
             1.0f, -1.0f, 1.0f,
+            -1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
     });
     TEX_POSZ_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            0.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 1.0f,
-            0.0f, 1.0f, 1.0f,
+            -1.0f, 1.0f, 1.0f,
             1.0f, 1.0f, 1.0f,
+            -1.0f, -1.0f, 1.0f,
+            1.0f, -1.0f, 1.0f,
     });
     TEX_NEGZ_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            0.0f, 0.0f, -1.0f,
-            1.0f, 0.0f, -1.0f,
-            0.0f, 1.0f, -1.0f,
             1.0f, 1.0f, -1.0f,
+            -1.0f, 1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f,
     });
     FACES_BUFFER = new GlBuffer(std::vector<GLint>{
             0, 1, 2,
@@ -103,4 +103,13 @@ Shader2D::~Shader2D() {
 //    delete VERTICES_BUFFER;
 //    delete TEX_BUFFER;
 //    delete FACES_BUFFER;
+}
+
+void Shader2D::draw(Cubemap *cubemap) {
+    GlBuffer *buffers[] = {TEX_POSX_BUFFER, TEX_NEGX_BUFFER, TEX_POSY_BUFFER, TEX_NEGY_BUFFER, TEX_POSZ_BUFFER, TEX_NEGZ_BUFFER};
+    for (uint8_t i = 0; i < 6; i++) {
+        cubemap->fbs[i]->bind();
+        bind(buffers[i]);
+        draw();
+    }
 }

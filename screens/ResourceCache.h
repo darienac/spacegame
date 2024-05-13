@@ -10,6 +10,7 @@
 #include "../render/shader/Shader3D.h"
 #include "../render/shader/Shader2D.h"
 #include "../render/shader/ShaderPerlin.h"
+#include "../render/GlScreenBuffer.h"
 
 class ResourceCache {
 public:
@@ -19,10 +20,12 @@ public:
     ShaderPerlin *perlinShader;
 
     Model *blueOrb;
+    Cubemap *cubemap;
     Environment basicEnv;
 
-    Controls* controls;
-    GlWindow* window;
+    Controls *controls;
+    GlWindow *window;
+    GlScreenBuffer *screenBuffer;
 
     explicit ResourceCache(GlWindow* window);
 

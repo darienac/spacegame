@@ -24,7 +24,8 @@ protected:
 public:
     static GlFramebuffer* getCurrentFramebuffer();
 
-    GlFramebuffer(std::vector<Texture*> textures, bool useDepthBuffer);
+    GlFramebuffer(const std::vector<Texture*> &textures, bool useDepthBuffer, GLenum textureTarget);
+    GlFramebuffer(const std::vector<Texture*> &textures, bool useDepthBuffer);
     GlFramebuffer(GLsizei width, GLsizei height);
     GlFramebuffer();
 

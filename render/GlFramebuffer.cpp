@@ -11,7 +11,7 @@ GlFramebuffer *GlFramebuffer::getCurrentFramebuffer() {
     return currentFramebuffer;
 }
 
-GlFramebuffer::GlFramebuffer(std::vector<Texture *> textures, bool useDepthBuffer): textures(textures) {
+GlFramebuffer::GlFramebuffer(const std::vector<Texture *> &textures, bool useDepthBuffer, GLenum textureTarget): textures(textures) {
     this->useDepthBuffer = useDepthBuffer;
 
     width = textures[0]->getWidth();
@@ -23,10 +23,16 @@ GlFramebuffer::GlFramebuffer(std::vector<Texture *> textures, bool useDepthBuffe
     if (useDepthBuffer) {
         glGenRenderbuffers(1, &depthBufferId);
         glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
-        if (textures[0]->usesMultisampling()) {
-            glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT, width, height);
-        } else {
-            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+        switch (textures[0]->getTextureType()) {
+            case GL_TEXTURE_2D_MULTISAMPLE:
+                glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT, width, height);
+                break;
+            case GL_TEXTURE_2D:
+            case GL_TEXTURE_CUBE_MAP:
+                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+                break;
+            default:
+                throw std::runtime_error("Unsupported texture type");
         }
 //        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
@@ -34,7 +40,7 @@ GlFramebuffer::GlFramebuffer(std::vector<Texture *> textures, bool useDepthBuffe
 
     auto drawBuffers = new GLenum[textures.size()];
     for (int i = 0; i < textures.size(); i++) {
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, textures[i]->usesMultisampling() ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D, textures[i]->getTextureId(), 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, textureTarget, textures[i]->getTextureId(), 0);
         drawBuffers[i] = GL_COLOR_ATTACHMENT0 + i;
     }
     glDrawBuffers(textures.size(), drawBuffers);
@@ -42,6 +48,10 @@ GlFramebuffer::GlFramebuffer(std::vector<Texture *> textures, bool useDepthBuffe
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
         throw std::runtime_error("Unable to create framebuffer");
     }
+}
+
+GlFramebuffer::GlFramebuffer(const std::vector<Texture *> &textures, bool useDepthBuffer): GlFramebuffer(textures, useDepthBuffer, textures[0]->getTextureType()) {
+
 }
 
 GlFramebuffer::GlFramebuffer(GLsizei width, GLsizei height) {
@@ -66,10 +76,16 @@ void GlFramebuffer::resize(GLsizei width, GLsizei height) {
         glDeleteRenderbuffers(1, &depthBufferId);
         glGenRenderbuffers(1, &depthBufferId);
         glBindRenderbuffer(GL_RENDERBUFFER, depthBufferId);
-        if (textures[0]->usesMultisampling()) {
-            glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT, width, height);
-        } else {
-            glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+        switch (textures[0]->getTextureType()) {
+            case GL_TEXTURE_2D_MULTISAMPLE:
+                glRenderbufferStorageMultisample(GL_RENDERBUFFER, 4, GL_DEPTH_COMPONENT, width, height);
+                break;
+            case GL_TEXTURE_2D:
+            case GL_TEXTURE_CUBE_MAP:
+                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+                break;
+            default:
+                throw std::runtime_error("Unsupported texture type");
         }
 //        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBufferId);
@@ -124,4 +140,3 @@ GlFramebuffer::~GlFramebuffer() {
         glDeleteRenderbuffers(1, &depthBufferId);
     }
 }
-

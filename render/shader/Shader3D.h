@@ -12,7 +12,7 @@
 #include "../model/Model.h"
 #include "../Environment.h"
 
-class Shader3D: protected ShaderProgram {
+class Shader3D: public ShaderProgram {
 private:
     static std::string GLSL_HEADER;
 
@@ -23,6 +23,7 @@ private:
 
     // uniforms
     GLint textureDiffuse;
+    GLint textureCubemap;
 
     GLint uViewProjectionMatrix;
     GLint uModelMatrix;

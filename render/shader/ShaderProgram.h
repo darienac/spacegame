@@ -28,11 +28,12 @@ public:
 
     void createShaderFromPaths(const std::vector<std::string> &paths, GLenum shaderType);
     virtual void link();
+    void validate() const;
 
     virtual void bind();
     static void unbind();
 
-    void bindTexture(const Texture& texture);
+    void bindTexture(GLenum textureUnit, const Texture& texture);
 
     GLuint getProgramId() const;
 

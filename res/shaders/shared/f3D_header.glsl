@@ -1,6 +1,7 @@
 #version 330
 
 uniform sampler2D textureDiffuse;
+uniform samplerCube cubemap;
 
 uniform vec3 uLightPosition;
 uniform vec3 uLightColor;

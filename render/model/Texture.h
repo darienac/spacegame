@@ -18,11 +18,11 @@ private:
     GLenum format;
     int width;
     int height;
-    bool useMultisampling;
+    GLenum textureType;
 
 public:
     Texture(const std::string& fileName);
-    Texture(int width, int height, GLint internalformat, GLenum format, bool useMultisampling);
+    Texture(int width, int height, GLint internalformat, GLenum format, GLenum textureType);
     Texture(int width, int height);
 
     void resize(int width, int height);
@@ -30,10 +30,10 @@ public:
 
     void bind();
 
-    GLuint getTextureId() const;
-    int getWidth() const;
-    int getHeight() const;
-    bool usesMultisampling() const;
+    [[nodiscard]] GLuint getTextureId() const;
+    [[nodiscard]] int getWidth() const;
+    [[nodiscard]] int getHeight() const;
+    [[nodiscard]] GLenum getTextureType() const;
 
     ~Texture();
 };

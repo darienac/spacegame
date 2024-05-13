@@ -86,7 +86,10 @@ void ShaderProgram::link() {
 
     glDetachShader(programId, vertexShaderId);
     glDetachShader(programId, fragmentShaderId);
+}
 
+void ShaderProgram::validate() const {
+    GLint paramValue;
     glValidateProgram(programId);
     glGetProgramiv(programId, GL_VALIDATE_STATUS, &paramValue);
     if (paramValue == 0) {
@@ -105,9 +108,9 @@ void ShaderProgram::unbind() {
     glUseProgram(0);
 }
 
-void ShaderProgram::bindTexture(const Texture &texture) {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture.getTextureId());
+void ShaderProgram::bindTexture(GLenum textureUnit, const Texture &texture) {
+    glActiveTexture(textureUnit);
+    glBindTexture(texture.getTextureType(), texture.getTextureId());
 }
 
 GLuint ShaderProgram::getProgramId() const {
