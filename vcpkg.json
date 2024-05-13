@@ -1,0 +1,30 @@
+{
+  "name" : "spacegame",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "a34c873a9717a888f58dc05268dea15592c2f0ff",
+  "dependencies" : [ {
+    "name" : "glfw3",
+    "version>=" : "3.4"
+  }, {
+    "name" : "glm",
+    "version>=" : "1.0.1#1"
+  }, {
+    "name" : "vcpkg-cmake-config",
+    "version>=" : "2022-02-06#1"
+  }, {
+    "name" : "vcpkg-cmake",
+    "version>=" : "2023-05-04"
+  }, {
+    "name" : "vcpkg-pkgconfig-get-modules",
+    "version>=" : "2023-09-06"
+  }, {
+    "name" : "assimp",
+    "version>=" : "5.3.1#4"
+  }, {
+    "name" : "glew",
+    "version>=" : "2.2.0#3"
+  }, {
+    "name" : "stb",
+    "version>=" : "2023-04-11#1"
+  } ]
+}
