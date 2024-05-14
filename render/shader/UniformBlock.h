@@ -11,7 +11,16 @@
 
 class UniformBlock: public GlBuffer {
 private:
-    static void loadVec3(GLfloat *buffer, const glm::vec3 &data);
+    struct GLSL_Material {
+        glm::vec3 ambient;
+        float padding1;
+        glm::vec3 diffuse;
+        float padding2;
+        glm::vec3 specular;
+        float padding3;
+        glm::vec3 emissive;
+        float opacity;
+    };
 public:
     enum BindingPoint {
         MATERIAL
