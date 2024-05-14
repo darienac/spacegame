@@ -3,7 +3,7 @@
 
 void main() {
     fragColor = phongShading() * texture(cubemap, vVertex);
-    // fragColor = texture(cubemap, vVertex);
+//    fragColor = texture(cubemap, vVertex);
 
     // fragColor = vec4(fractalMult, fractalMult, fractalMult, 1.0);
     // fragColor = vec4(normal + vec3(0.5, 0.5, 0.5), 1.0);

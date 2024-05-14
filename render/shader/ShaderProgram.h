@@ -22,6 +22,7 @@ private:
 protected:
     [[nodiscard]] GLint attribute(const std::string &name) const;
     [[nodiscard]] GLint uniform(const std::string &name) const;
+    GLuint uniformBlock(const std::string &name, GLuint blockBinding) const;
 public:
     ShaderProgram();
     ShaderProgram(const std::vector<std::string> &vertexShader, const std::vector<std::string> &fragmentShader);

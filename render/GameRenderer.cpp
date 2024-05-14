@@ -12,7 +12,7 @@ void GameRenderer::updateCamera() {
 }
 
 GameRenderer::GameRenderer(GameState *state, ResourceCache* cache): state(state), shader3D(cache->sceneShader), shader2D(cache->shader2D), cache(cache), camera(cache->window) {
-
+    cache->perlinShader->draw(cache->cubemap);
 }
 
 void GameRenderer::drawScene() {
@@ -21,10 +21,10 @@ void GameRenderer::drawScene() {
     }
     updateCamera();
 
+    cache->screenBuffer->bind();
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    cache->perlinShader->draw(cache->cubemap);
-    cache->screenBuffer->bind();
+
     cache->planetShader->bind();
     cache->planetShader->bindTexture(GL_TEXTURE1, *cache->cubemap->texture);
     cache->planetShader->loadEnvironment(&cache->basicEnv);

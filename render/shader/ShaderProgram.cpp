@@ -40,6 +40,12 @@ GLint ShaderProgram::uniform(const std::string &name) const {
     return glGetUniformLocation(programId, name.c_str());
 }
 
+GLuint ShaderProgram::uniformBlock(const std::string &name, GLuint blockBinding) const {
+    GLuint out = glGetUniformBlockIndex(programId, name.c_str());
+    glUniformBlockBinding(programId, out, blockBinding);
+    return out;
+}
+
 ShaderProgram::ShaderProgram() {
     programId = glCreateProgram();
     if (programId == 0) {

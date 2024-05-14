@@ -3,6 +3,8 @@
 //
 
 #include "Shader3D.h"
+#include "UniformBlock.h"
+#include "UniformBlockCache.h"
 
 std::string Shader3D::GLSL_HEADER = "shared/f3D_header.glsl";
 std::string Shader3D::GLSL_PHONG_SHADING = "shared/fPhong.glsl";
@@ -37,8 +39,9 @@ void Shader3D::link() {
     uDiffuseColor = uniform("uDiffuseColor");
     uSpecularColor = uniform("uSpecularColor");
     uEmissiveColor = uniform("uEmissiveColor");
-
     uOpacity = uniform("uOpacity");
+
+    ubMaterial = uniformBlock("ubMaterial", UniformBlock::MATERIAL);
 
     ShaderProgram::bind();
     glUniform1i(textureDiffuse, 0);
@@ -66,20 +69,13 @@ void Shader3D::loadMesh(Mesh *mesh) {
 }
 
 void Shader3D::loadMaterial(Material *material) {
-    if (material->opacity < 1.0f) {
-        glDisable(GL_CULL_FACE);
-    } else {
-        glEnable(GL_CULL_FACE);
-    }
-
     // Setup uniform values
-    glUniform3fv(uAmbientColor, 1, &material->ambient[0]);
-    glUniform3fv(uDiffuseColor, 1, &material->diffuse[0]);
-    glUniform3fv(uDiffuseColor, 1, &material->diffuse[0]);
-    glUniform3fv(uSpecularColor, 1, &material->specular[0]);
-    glUniform3fv(uEmissiveColor, 1, &material->emissive[0]);
-
-    glUniform1f(uOpacity, material->opacity);
+//    glUniform3fv(uAmbientColor, 1, &material->ambient[0]);
+//    glUniform3fv(uDiffuseColor, 1, &material->diffuse[0]);
+//    glUniform3fv(uSpecularColor, 1, &material->specular[0]);
+//    glUniform3fv(uEmissiveColor, 1, &material->emissive[0]);
+//    glUniform1f(uOpacity, material->opacity);
+    UniformBlockCache::getMaterialBlock(material)->setBindingPoint(UniformBlock::MATERIAL);
 
     bindTexture(GL_TEXTURE0, *material->texture);
 }

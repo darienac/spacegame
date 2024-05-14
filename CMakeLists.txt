@@ -57,7 +57,11 @@ add_executable(spacegame main.cpp
         render/shader/ShaderPerlin.cpp
         render/shader/ShaderPerlin.h
         render/model/Cubemap.cpp
-        render/model/Cubemap.h)
+        render/model/Cubemap.h
+        render/shader/UniformBlock.cpp
+        render/shader/UniformBlock.h
+        render/shader/UniformBlockCache.cpp
+        render/shader/UniformBlockCache.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE glm::glm)

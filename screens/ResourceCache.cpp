@@ -22,7 +22,7 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
     }
 
     blueOrb = new Model("blue_orb.obj");
-    cubemap = new Cubemap(64, 64, false, GL_RGBA, GL_RGBA);
+    cubemap = new Cubemap(256, false, GL_RGBA, GL_RGBA);
 
     basicEnv = {
             .lightPos = {0.0f, 100.0f, 0.0f},

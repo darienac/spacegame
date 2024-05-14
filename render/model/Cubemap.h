@@ -14,8 +14,8 @@ public:
     Texture *texture;
     GlFramebuffer *fbs[6];
 
-    Cubemap(int width, int height, bool useDepthBuffer, GLint internalformat, GLenum format);
-    Cubemap(int width, int height, bool useDepthBuffer);
+    Cubemap(int width, bool useDepthBuffer, GLint internalformat, GLenum format);
+    Cubemap(int width, bool useDepthBuffer);
 
     ~Cubemap();
 };

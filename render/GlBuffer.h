@@ -10,7 +10,7 @@
 #include "GL/glew.h"
 
 class GlBuffer {
-private:
+protected:
     GLuint id;
 public:
     GlBuffer();

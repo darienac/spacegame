@@ -38,8 +38,9 @@ private:
     GLint uDiffuseColor;
     GLint uSpecularColor;
     GLint uEmissiveColor;
-
     GLint uOpacity;
+
+    GLuint ubMaterial;
 public:
     static std::string GLSL_PHONG_SHADING;
 
