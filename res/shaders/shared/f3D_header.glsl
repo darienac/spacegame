@@ -8,18 +8,16 @@ uniform vec3 uLightColor;
 uniform vec3 uAmbientLightColor;
 uniform vec3 uViewPosition;
 
-// Material
-//uniform vec3 uAmbientColor;
-//uniform vec3 uDiffuseColor;
-//uniform vec3 uSpecularColor;
-//uniform vec3 uEmissiveColor;
-//uniform float uOpacity;
+struct Material {
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    vec3 emissive;
+    float opacity;
+};
+
 layout (std140) uniform ubMaterial {
-    vec3 uAmbientColor;
-    vec3 uDiffuseColor;
-    vec3 uSpecularColor;
-    vec3 uEmissiveColor;
-    float uOpacity;
+    Material material;
 };
 
 in vec3 vVertex;

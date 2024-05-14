@@ -2,7 +2,7 @@
 // include shared/fPhong.glsl
 
 void main() {
-    fragColor = phongShading() * texture(cubemap, vVertex);
+    fragColor = phongShading(material) * texture(cubemap, vVertex);
 //    fragColor = texture(cubemap, vVertex);
 
     // fragColor = vec4(fractalMult, fractalMult, fractalMult, 1.0);
