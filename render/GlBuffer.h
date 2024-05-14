@@ -22,8 +22,7 @@ public:
     void bind(GLenum target);
     void bind();
     void bindToAttribute(GLint attribute, GLint size);
-    void bufferData(GLsizeiptr size, const GLfloat *data);
-    void bufferData(GLsizeiptr size, const GLint *data);
+    void bufferData(GLsizeiptr size, const void *data);
 
     ~GlBuffer();
 };

@@ -39,12 +39,7 @@ void GlBuffer::bindToAttribute(GLint attribute, GLint size) {
     glVertexAttribPointer(attribute, size, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-void GlBuffer::bufferData(GLsizeiptr size, const GLfloat *data) {
-    bind();
-    glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-}
-
-void GlBuffer::bufferData(GLsizeiptr size, const GLint *data) {
+void GlBuffer::bufferData(GLsizeiptr size, const void *data) {
     bind();
     glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 }
