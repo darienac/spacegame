@@ -1,10 +1,4 @@
-#version 330
-
-uniform sampler2D uTexture;
-
-in vec3 vTexCoord;
-
-out vec4 fragColor;
+// include shared/f2D_header.glsl
 
 void main() {
     fragColor = texture(uTexture, vTexCoord.xy);

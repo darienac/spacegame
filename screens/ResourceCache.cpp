@@ -9,20 +9,19 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
     controls = new Controls(window);
 
     Shader2D::initBuffers();
+    skyboxShader = new Shader3D({"v3D.glsl"}, {"fSkybox3D.glsl"});
     sceneShader = new Shader3D({"v3D.glsl"}, {Shader3D::GLSL_PHONG_SHADING, "f3D.glsl"});
-    planetShader = new Shader3D({"v3D.glsl"}, {Shader3D::GLSL_PHONG_SHADING, "fPlanet3D.glsl"});
+    planetShader = new ShaderPlanet({"v3D.glsl"}, {Shader3D::GLSL_PHONG_SHADING, "fPlanet3D.glsl"});
     shader2D = new Shader2D({"v2D.glsl"}, {"f2D.glsl"});
-    perlinShader = new ShaderPerlin({"v2D.glsl"}, {"fPerlin.glsl"});
+    perlinShader = new ShaderPerlin({"v2D.glsl"}, {"shared/perlin.glsl", "fPerlin.glsl"});
 
     if (GlobalFlags::DEBUG) {
+        skyboxShader->validate();
         sceneShader->validate();
         planetShader->validate();
         shader2D->validate();
         perlinShader->validate();
     }
-
-    blueOrb = new Model("blue_orb.obj");
-    cubemap = new Cubemap(256, false, GL_RGBA, GL_RGBA);
 
     basicEnv = {
             .lightPos = {0.0f, 100.0f, 0.0f},
@@ -31,15 +30,18 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
     };
 
     screenBuffer = new GlScreenBuffer(window->getWindow());
+
+    stateRenderCache = new StateRenderCache();
 }
 
 ResourceCache::~ResourceCache() {
+    delete skyboxShader;
     delete sceneShader;
     delete planetShader;
     delete shader2D;
     delete perlinShader;
 
-    delete blueOrb;
-    delete cubemap;
     delete screenBuffer;
+
+    delete stateRenderCache;
 }

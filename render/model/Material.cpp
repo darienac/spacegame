@@ -26,3 +26,8 @@ Material::Material(aiMaterial *material) {
     emissive = {color.r, color.g, color.b};
     material->Get(AI_MATKEY_OPACITY, opacity);
 }
+
+Material::Material(const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm::vec3 &specular,
+                   const glm::vec3 &emissive, float opacity): ambient(ambient), diffuse(diffuse),
+                   specular(specular), emissive(emissive), opacity(opacity),
+                   texture(TextureCache::getTexture("")) {}

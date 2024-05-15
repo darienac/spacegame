@@ -13,6 +13,7 @@
 class Material {
 public:
     Material(aiMaterial* material);
+    Material(const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm::vec3 &specular, const glm::vec3 &emissive, float opacity);
 
     glm::vec3 ambient;
     glm::vec3 diffuse;

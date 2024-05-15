@@ -9,6 +9,9 @@
 #include "IGameEngine.h"
 #include "GameState.h"
 #include "../Controls.h"
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 class FreeFlyGameEngine: public IGameEngine {
 private:

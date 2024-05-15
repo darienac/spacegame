@@ -32,7 +32,9 @@ GLuint ShaderProgram::createShader(const std::vector<std::string> &code, GLenum 
 
 GLint ShaderProgram::attribute(const std::string &name) const {
     GLint out = glGetAttribLocation(programId, name.c_str());
-    glEnableVertexAttribArray(out);
+    if (out != -1) {
+        glEnableVertexAttribArray(out);
+    }
     return out;
 }
 
@@ -42,7 +44,9 @@ GLint ShaderProgram::uniform(const std::string &name) const {
 
 GLuint ShaderProgram::uniformBlock(const std::string &name, GLuint blockBinding) const {
     GLuint out = glGetUniformBlockIndex(programId, name.c_str());
-    glUniformBlockBinding(programId, out, blockBinding);
+    if (out != GL_INVALID_INDEX) {
+        glUniformBlockBinding(programId, out, blockBinding);
+    }
     return out;
 }
 

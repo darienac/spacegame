@@ -12,6 +12,8 @@
 
 class Shader2D: public ShaderProgram {
 private:
+    static std::string GLSL_HEADER;
+
     static inline GlBuffer *VERTICES_BUFFER;
     static inline GlBuffer *TEX_BUFFER;
     static inline GlBuffer *FACES_BUFFER;
@@ -32,7 +34,7 @@ public:
 
     static void initBuffers();
 
-    Shader2D(const std::vector<std::string> &vertexShader, const std::vector<std::string> &fragmentShader);
+    Shader2D(const std::vector<std::string> &vertexShader, std::vector<std::string> fragmentShader);
 
     void loadTexture(Texture* texture);
 

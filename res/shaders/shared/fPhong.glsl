@@ -3,7 +3,7 @@ const float diffuseStrength = 1.0;
 const float specularStrength = 1.0;
 const float reflectStrength = 0.0;
 const float emissiveStrength = 1.0;
-const float shininess = 2.0;
+const float shininess = 30.0;
 
 vec4 phongShading(Material material) {
     vec4 texColor = vec4(material.diffuse, 1.0) * texture(textureDiffuse, vTexCoord);

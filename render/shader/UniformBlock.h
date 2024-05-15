@@ -8,6 +8,7 @@
 
 #include "../GlBuffer.h"
 #include "../model/Material.h"
+#include "../../game/GameState.h"
 
 class UniformBlock: public GlBuffer {
 private:
@@ -21,11 +22,25 @@ private:
         glm::vec3 emissive;
         float opacity;
     };
+
+    struct GLSL_PERLIN_CONFIG {
+        int perm[256 * 4];
+        int numOctaves;
+        float amplitude;
+        float frequency;
+        float amplitudeMult;
+        float frequencyMult;
+    };
 public:
     enum BindingPoint {
-        MATERIAL
+        MATERIAL,
+        PLANET_PROPS,
+        PERLIN_CONFIG
     };
     explicit UniformBlock(Material* material);
+    explicit UniformBlock(const std::vector<Material*> &materials);
+
+    explicit UniformBlock(const GameState::PerlinNoise &perlinNoise);
 
     void setBindingPoint(GLuint index);
 };

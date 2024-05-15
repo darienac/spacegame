@@ -4,6 +4,8 @@
 
 #include "Shader2D.h"
 
+std::string Shader2D::GLSL_HEADER = "shared/f2D_header.glsl";
+
 void Shader2D::initBuffers() {
     VERTICES_BUFFER = new GlBuffer(std::vector<GLfloat>{
             -1.0f, -1.0f,
@@ -59,7 +61,10 @@ void Shader2D::initBuffers() {
     });
 }
 
-Shader2D::Shader2D(const std::vector<std::string> &vertexShader, const std::vector<std::string> &fragmentShader) : ShaderProgram(vertexShader, fragmentShader) {
+Shader2D::Shader2D(const std::vector<std::string> &vertexShader, std::vector<std::string> fragmentShader) : ShaderProgram() {
+    fragmentShader.insert(fragmentShader.begin(), GLSL_HEADER);
+    createShaderFromPaths(vertexShader, GL_VERTEX_SHADER);
+    createShaderFromPaths(fragmentShader, GL_FRAGMENT_SHADER);
     Shader2D::link();
 }
 

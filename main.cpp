@@ -10,6 +10,7 @@
 #include <format>
 #include <chrono>
 #include <filesystem>
+#include <boost/uuid/uuid.hpp>
 #include "GL/glew.h"
 #include "glm/glm.hpp"
 #include "GLFW/glfw3.h"
@@ -20,6 +21,9 @@
 
 #include "GlWindow.h"
 #include "screens/ScreenManager.h"
+
+// TODO: add lights, then add stars
+// Change system for freeing Uniform Blocks (how can I tie to deleting a Material, etc?)
 
 int main() {
     if (!glfwInit()) {

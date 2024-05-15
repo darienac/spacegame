@@ -61,7 +61,11 @@ add_executable(spacegame main.cpp
         render/shader/UniformBlock.cpp
         render/shader/UniformBlock.h
         render/shader/UniformBlockCache.cpp
-        render/shader/UniformBlockCache.h)
+        render/shader/UniformBlockCache.h
+        render/shader/ShaderPlanet.cpp
+        render/shader/ShaderPlanet.h
+        render/StateRenderCache.cpp
+        render/StateRenderCache.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE glm::glm)
@@ -71,6 +75,15 @@ find_package(GLEW REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE GLEW::GLEW)
 find_package(Stb REQUIRED)
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${Stb_INCLUDE_DIR})
+
+#set(Boost_USE_STATIC_LIBS OFF)
+#set(Boost_USE_MULTITHREADED ON)
+#set(Boost_USE_STATIC_RUNTIME OFF)
+find_package(Boost COMPONENTS uuid)
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+    target_link_libraries(${CMAKE_PROJECT_NAME} ${Boost_LIBRARIES})
+endif()
 
 # Include Assimp headers
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE ${ASSIMP_INCLUDE_DIRS})

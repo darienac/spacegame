@@ -10,7 +10,7 @@ std::string Shader3D::GLSL_HEADER = "shared/f3D_header.glsl";
 std::string Shader3D::GLSL_PHONG_SHADING = "shared/fPhong.glsl";
 
 Shader3D::Shader3D(std::vector<std::string> vertexShader, std::vector<std::string> fragmentShader): ShaderProgram() {
-    fragmentShader.insert(fragmentShader.begin(), Shader3D::GLSL_HEADER);
+    fragmentShader.insert(fragmentShader.begin(), GLSL_HEADER);
     createShaderFromPaths(vertexShader, GL_VERTEX_SHADER);
     createShaderFromPaths(fragmentShader, GL_FRAGMENT_SHADER);
     Shader3D::link();
@@ -34,12 +34,6 @@ void Shader3D::link() {
     uLightColor = uniform("uLightColor");
     uAmbientLightColor = uniform("uAmbientLightColor");
     uViewPosition = uniform("uViewPosition");
-
-    uAmbientColor = uniform("uAmbientColor");
-    uDiffuseColor = uniform("uDiffuseColor");
-    uSpecularColor = uniform("uSpecularColor");
-    uEmissiveColor = uniform("uEmissiveColor");
-    uOpacity = uniform("uOpacity");
 
     ubMaterial = uniformBlock("ubMaterial", UniformBlock::MATERIAL);
 
@@ -70,11 +64,6 @@ void Shader3D::loadMesh(Mesh *mesh) {
 
 void Shader3D::loadMaterial(Material *material) {
     // Setup uniform values
-//    glUniform3fv(uAmbientColor, 1, &material->ambient[0]);
-//    glUniform3fv(uDiffuseColor, 1, &material->diffuse[0]);
-//    glUniform3fv(uSpecularColor, 1, &material->specular[0]);
-//    glUniform3fv(uEmissiveColor, 1, &material->emissive[0]);
-//    glUniform1f(uOpacity, material->opacity);
     UniformBlockCache::getMaterialBlock(material)->setBindingPoint(UniformBlock::MATERIAL);
 
     bindTexture(GL_TEXTURE0, *material->texture);

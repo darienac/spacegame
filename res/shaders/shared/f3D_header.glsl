@@ -17,7 +17,7 @@ struct Material {
 };
 
 layout (std140) uniform ubMaterial {
-    Material material;
+    Material materials[2];
 };
 
 in vec3 vVertex;

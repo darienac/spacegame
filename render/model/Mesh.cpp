@@ -16,12 +16,18 @@ Mesh::Mesh(const GLfloat *vertices, GLsizeiptr verticesSize, const GLint *faces,
 }
 
 void Mesh::bind(GLint aVertex, GLint aTexCoord, GLint aNormal) {
-    glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
-    glVertexAttribPointer(aVertex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer);
-    glVertexAttribPointer(aTexCoord, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-    glVertexAttribPointer(aNormal, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    if (aVertex != -1) {
+        glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
+        glVertexAttribPointer(aVertex, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    }
+    if (aTexCoord != -1) {
+        glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer);
+        glVertexAttribPointer(aTexCoord, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    }
+    if (aNormal != -1) {
+        glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+        glVertexAttribPointer(aNormal, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    }
 }
 
 void Mesh::draw() {

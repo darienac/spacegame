@@ -7,13 +7,16 @@
 
 
 #include "Shader2D.h"
+#include "../../game/GameState.h"
+#include "../StateRenderCache.h"
 
 class ShaderPerlin: public Shader2D {
 private:
+    GLuint ubPerlinConfig;
 public:
     ShaderPerlin(const std::vector<std::string> &vertexShader, const std::vector<std::string> &fragmentShader);
 
-    void link() override;
+    void loadPerlinConfig(const GameState::PerlinNoise &config);
 };
 
 
