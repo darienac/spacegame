@@ -53,6 +53,10 @@ void GameRenderer::drawScene() {
     cache->skyboxShader->drawModel(cache->stateRenderCache->skybox);
     glEnable(GL_DEPTH_TEST);
 
-    drawPlanet(state->planet);
-    drawStar(state->star);
+    for (auto &pair : state->planets) {
+        drawPlanet(*pair.second);
+    }
+    for (auto &pair : state->stars) {
+        drawStar(*pair.second);
+    }
 }

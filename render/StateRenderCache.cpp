@@ -11,7 +11,7 @@ glm::mat4 StateRenderCache::getModelTransformMatrix(glm::vec3 pos, float scale) 
 
 void StateRenderCache::syncPlanetsToState(GameState *state) {
     for (auto it = planetResources.cbegin(); it != planetResources.cend();) {
-        if (it->first != state->planet.id) {
+        if (!state->planets.contains(it->first)) {
             delete it->second->surfaceMat;
             delete it->second->liquidMat;
             delete it->second->matBlock;
@@ -20,23 +20,28 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
             it++;
         }
     }
-    if (!planetResources.count(state->planet.id)) {
-        planetResources[state->planet.id] = new PlanetData {
-                .modelTransform = getModelTransformMatrix(state->planet.position, state->planet.radius),
-                .surfaceMat = new Material({1.0f, 1.0f, 1.0f}, state->planet.surfaceColor, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 1.0f),
-                .liquidMat = new Material({1.0f, 1.0f, 1.0f}, state->planet.liquidColor, {0.2f, 0.2f, 0.2f}, {0.0f, 0.0f, 0.0f}, 1.0f),
+    for (auto &pair : state->planets) {
+        GameState::Planet *planet = pair.second;
+        boost::uuids::uuid id = pair.first;
+        if (planetResources.contains(id)) {
+            continue;
+        }
+        auto *data = new PlanetData {
+                .modelTransform = getModelTransformMatrix(planet->position, planet->radius),
+                .surfaceMat = new Material({1.0f, 1.0f, 1.0f}, planet->surfaceColor, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 1.0f),
+                .liquidMat = new Material({1.0f, 1.0f, 1.0f}, planet->liquidColor, {0.2f, 0.2f, 0.2f}, {0.0f, 0.0f, 0.0f}, 1.0f),
                 .matBlock = nullptr,
                 .planetSurfaceMap = new Cubemap(256, false, GL_RED, GL_RED)
         };
-        PlanetData *data = planetResources[state->planet.id];
         data->matBlock = new UniformBlock({data->surfaceMat, data->liquidMat});
-        perlinRenderer->drawToCubemap(&state->planet.surfaceNoise, data->planetSurfaceMap);
+        perlinRenderer->drawToCubemap(&planet->surfaceNoise, data->planetSurfaceMap);
+        planetResources[id] = data;
     }
 }
 
 void StateRenderCache::syncStarsToState(GameState *state) {
     for (auto it = starResources.cbegin(); it != starResources.cend();) {
-        if (it->first != state->star.id) {
+        if (!state->stars.contains(it->first)) {
             delete it->second->material;
             delete it->second->matBlock;
             it = starResources.erase(it);
@@ -44,14 +49,19 @@ void StateRenderCache::syncStarsToState(GameState *state) {
             it++;
         }
     }
-    if (!starResources.count(state->star.id)) {
-        starResources[state->star.id] = new StarData {
-            .modelTransform = getModelTransformMatrix(state->star.position, state->star.radius),
-            .material = new Material({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, state->star.color, 1.0f),
-            .matBlock = nullptr
+    for (auto &pair : state->stars) {
+        GameState::Star *star = pair.second;
+        boost::uuids::uuid id = pair.first;
+        if (starResources.contains(id)) {
+            continue;
+        }
+        auto *data = new StarData {
+                .modelTransform = getModelTransformMatrix(star->position, star->radius),
+                .material = new Material({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, star->color, 1.0f),
+                .matBlock = nullptr
         };
-        StarData *data = starResources[state->star.id];
         data->matBlock = new UniformBlock(data->material);
+        starResources[id] = data;
     }
 }
 

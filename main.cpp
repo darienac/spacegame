@@ -22,7 +22,7 @@
 #include "GlWindow.h"
 #include "screens/ScreenManager.h"
 
-// TODO: add lights, then add stars
+// TODO: add multiple planets / stars add lights
 // Change system for freeing Uniform Blocks (how can I tie to deleting a Material, etc?)
 
 int main() {
