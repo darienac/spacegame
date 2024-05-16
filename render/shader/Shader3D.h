@@ -11,6 +11,7 @@
 #include "../model/Mesh.h"
 #include "../model/Model.h"
 #include "../Environment.h"
+#include "UniformBlock.h"
 
 class Shader3D: public ShaderProgram {
 private:
@@ -45,6 +46,7 @@ public:
     void loadCamera(Camera* camera, const glm::mat4& modelMatrix) const;
     void loadMesh(Mesh* mesh);
     void loadMaterial(Material* material);
+    static void loadMaterialBlock(UniformBlock* matBlock);
     void loadEnvironment(Environment* env);
 
     void drawModel(Model *model);

@@ -23,7 +23,6 @@
 #include "screens/ScreenManager.h"
 
 // TODO: add lights, then add stars
-// Add ambient light to the calculation (make sure material ambient constants make sense too, probably all just set to 1)
 // Change system for freeing Uniform Blocks (how can I tie to deleting a Material, etc?)
 
 int main() {

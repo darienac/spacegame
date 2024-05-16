@@ -23,6 +23,15 @@ public:
         glm::vec3 liquidColor;
         float liquidHeight;
         PerlinNoise surfaceNoise;
+        glm::vec3 position;
+        float radius;
+    };
+
+    struct Star {
+        boost::uuids::uuid id;
+        glm::vec3 color;
+        glm::vec3 position;
+        float radius;
     };
 
     CameraState camera = {
@@ -54,7 +63,16 @@ public:
             .frequency = 0.1f,
             .amplitudeMult = 0.5f,
             .frequencyMult = 2.0f
-        }
+        },
+        .position = {0.0f, 0.0f, 0.0f},
+        .radius = 1.0f
+    };
+
+    Star star {
+        .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+        .color = {3.0, 3.0, 3.0},
+        .position = {0.0f, 100.0f, 0.0f},
+        .radius = 1.0f
     };
 };
 

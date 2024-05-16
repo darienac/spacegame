@@ -66,9 +66,13 @@ void Shader3D::loadMesh(Mesh *mesh) {
 
 void Shader3D::loadMaterial(Material *material) {
     // Setup uniform values
-    UniformBlockCache::getMaterialBlock(material)->setBindingPoint(UniformBlock::MATERIAL);
+    loadMaterialBlock(UniformBlockCache::getMaterialBlock(material));
 
     bindTexture(DIFFUSE_TEX_UNIT, *material->texture);
+}
+
+void Shader3D::loadMaterialBlock(UniformBlock *matBlock) {
+    matBlock->setBindingPoint(UniformBlock::MATERIAL);
 }
 
 void Shader3D::loadEnvironment(Environment *env) {

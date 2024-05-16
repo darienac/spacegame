@@ -18,8 +18,8 @@ vec4 phongShading(Material material) {
     vec3 ambientColor = ambientStrength * texColor.rgb;
     vec3 diffuseColor = diffuseStrength * max(0.0, dot(normal, lightDirection)) * texColor.rgb;
     vec3 specularColor = specularStrength * pow(max(dot(viewDirection, reflectLightDirection), 0.0), shininess) * material.specular;
-    // vec3 emissiveColor = emissiveStrength * material.emissive * texture(textureDiffuse, vTexCoord).rgb;
-    vec3 emissiveColor = vec3(0.0, 0.0, 0.0);
+    vec3 emissiveColor = emissiveStrength * material.emissive;
+    // vec3 emissiveColor = vec3(0.0, 0.0, 0.0);
     // vec3 reflectColor = reflectStrength * texture(textureReflect, reflectViewDirection.xy).rgb;
     vec3 reflectColor = vec3(0.0, 0.0, 0.0);
 

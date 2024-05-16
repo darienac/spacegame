@@ -11,6 +11,24 @@ void GameRenderer::updateCamera() {
     camera.setUp(state->camera.up);
 }
 
+void GameRenderer::drawPlanet(GameState::Planet &planet) {
+    StateRenderCache::PlanetData *planetData = cache->stateRenderCache->planetResources[planet.id];
+    cache->planetShader->bind();
+    cache->planetShader->loadEnvironment(&cache->spaceEnv);
+    cache->planetShader->loadCamera(&camera, planetData->modelTransform);
+    cache->planetShader->drawPlanet(planet, cache->stateRenderCache);
+}
+
+void GameRenderer::drawStar(GameState::Star &star) {
+    StateRenderCache::StarData *starData = cache->stateRenderCache->starResources[star.id];
+    cache->sceneShader->bind();
+    cache->sceneShader->loadEnvironment(&cache->spaceEnv);
+    cache->sceneShader->loadCamera(&camera, starData->modelTransform);
+    cache->sceneShader->loadMesh(cache->stateRenderCache->blueOrb->getMeshes()[0]);
+    Shader3D::loadMaterialBlock(cache->stateRenderCache->starResources[star.id]->matBlock);
+    cache->stateRenderCache->blueOrb->getMeshes()[0]->draw();
+}
+
 GameRenderer::GameRenderer(GameState *state, ResourceCache* cache): state(state), shader3D(cache->sceneShader), shader2D(cache->shader2D), cache(cache), camera(cache->window) {
     cache->spaceShader->bind();
     cache->spaceShader->loadPerlinConfig(state->spaceNoise);
@@ -35,8 +53,6 @@ void GameRenderer::drawScene() {
     cache->skyboxShader->drawModel(cache->stateRenderCache->skybox);
     glEnable(GL_DEPTH_TEST);
 
-    cache->planetShader->bind();
-    cache->planetShader->loadEnvironment(&cache->spaceEnv);
-    cache->planetShader->loadCamera(&camera, glm::mat4(1.0f));
-    cache->planetShader->drawPlanet(state->planet, cache->stateRenderCache);
+    drawPlanet(state->planet);
+    drawStar(state->star);
 }
