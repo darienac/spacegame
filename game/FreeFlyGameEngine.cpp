@@ -4,8 +4,8 @@
 
 #include "FreeFlyGameEngine.h"
 
-float FreeFlyGameEngine::camSpeed = 0.1f;
-float FreeFlyGameEngine::camRotSpeed = 0.02f;
+float FreeFlyGameEngine::camSpeed = 0.01f;
+float FreeFlyGameEngine::camRotSpeed = 0.002f;
 
 void FreeFlyGameEngine::tick() {
     // logic for a free flying camera, no game logic happening otherwise

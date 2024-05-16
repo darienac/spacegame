@@ -14,6 +14,7 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
     planetShader = new ShaderPlanet({"v3D.glsl"}, {Shader3D::GLSL_PHONG_SHADING, "fPlanet3D.glsl"});
     shader2D = new Shader2D({"v2D.glsl"}, {"f2D.glsl"});
     perlinShader = new ShaderPerlin({"v2D.glsl"}, {"shared/perlin.glsl", "fPerlin.glsl"});
+    spaceShader = new ShaderPerlin({"v2D.glsl"}, {"shared/perlin.glsl", "fEmptySpace.glsl"});
 
     if (GlobalFlags::DEBUG) {
         skyboxShader->validate();
@@ -31,7 +32,7 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
 
     screenBuffer = new GlScreenBuffer(window->getWindow());
 
-    stateRenderCache = new StateRenderCache();
+    stateRenderCache = new StateRenderCache(perlinShader);
 }
 
 ResourceCache::~ResourceCache() {
@@ -40,6 +41,7 @@ ResourceCache::~ResourceCache() {
     delete planetShader;
     delete shader2D;
     delete perlinShader;
+    delete spaceShader;
 
     delete screenBuffer;
 

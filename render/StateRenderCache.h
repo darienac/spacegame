@@ -12,22 +12,25 @@
 #include "../game/GameState.h"
 #include "model/Model.h"
 #include "model/Cubemap.h"
+#include "shader/IPerlinRenderer.h"
 
 class StateRenderCache {
+private:
+    IPerlinRenderer *perlinRenderer;
 public:
     struct PlanetData {
         Material *surfaceMat;
         Material *liquidMat;
         UniformBlock *matBlock;
+        Cubemap *planetSurfaceMap;
     };
 
     std::map<boost::uuids::uuid, PlanetData*> planetResources;
 
     Model *blueOrb;
     Model *skybox;
-    Cubemap *cubemap;
 
-    StateRenderCache();
+    StateRenderCache(IPerlinRenderer *perlinRenderer);
 
     void syncToState(GameState *state);
 

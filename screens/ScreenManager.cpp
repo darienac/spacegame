@@ -6,7 +6,7 @@
 #include "TestScreen.h"
 #include "../GlobalFlags.h"
 
-const double ScreenManager::TICK_RATE = 60.0;
+const double ScreenManager::TICK_RATE = 600.0;
 
 void ScreenManager::updateCurrentScreen() {
     switch (IScreen::currentScreen) {

@@ -12,8 +12,8 @@ void GameRenderer::updateCamera() {
 }
 
 GameRenderer::GameRenderer(GameState *state, ResourceCache* cache): state(state), shader3D(cache->sceneShader), shader2D(cache->shader2D), cache(cache), camera(cache->window) {
-    cache->perlinShader->loadPerlinConfig(state->planet.surfaceNoise);
-    cache->perlinShader->draw(cache->stateRenderCache->cubemap);
+//    cache->perlinShader->loadPerlinConfig(state->planet.surfaceNoise);
+//    cache->perlinShader->draw(cache->stateRenderCache->cubemap);
 }
 
 void GameRenderer::drawScene() {

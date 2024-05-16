@@ -12,7 +12,7 @@ ShaderPlanet::ShaderPlanet(const std::vector<std::string> &vertexShader, const s
 void ShaderPlanet::drawPlanet(GameState::Planet &planet, StateRenderCache *cache) {
     bind();
     loadMesh(cache->blueOrb->getMeshes()[0]);
-    bindTexture(GL_TEXTURE1, *cache->cubemap->texture);
+    bindTexture(GL_TEXTURE1, *cache->planetResources[planet.id]->planetSurfaceMap->texture);
     cache->planetResources[planet.id]->matBlock->setBindingPoint(UniformBlock::MATERIAL);
     cache->blueOrb->getMeshes()[0]->draw();
 }

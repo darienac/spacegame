@@ -65,7 +65,8 @@ add_executable(spacegame main.cpp
         render/shader/ShaderPlanet.cpp
         render/shader/ShaderPlanet.h
         render/StateRenderCache.cpp
-        render/StateRenderCache.h)
+        render/StateRenderCache.h
+        render/shader/IPerlinRenderer.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE glm::glm)

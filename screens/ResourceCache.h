@@ -25,6 +25,7 @@ public:
     ShaderPlanet *planetShader;
     Shader2D *shader2D;
     ShaderPerlin *perlinShader;
+    ShaderPerlin *spaceShader;
 
     Environment basicEnv;
 
