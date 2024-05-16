@@ -7,7 +7,7 @@
 
 
 #include "IGameEngine.h"
-#include "GameState.h"
+#include "state/GameState.h"
 #include "../Controls.h"
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>

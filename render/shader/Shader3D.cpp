@@ -8,6 +8,8 @@
 
 std::string Shader3D::GLSL_HEADER = "shared/f3D_header.glsl";
 std::string Shader3D::GLSL_PHONG_SHADING = "shared/fPhong.glsl";
+GLenum Shader3D::DIFFUSE_TEX_UNIT = GL_TEXTURE0;
+GLenum Shader3D::CUBEMAP_TEX_UNIT = GL_TEXTURE1;
 
 Shader3D::Shader3D(std::vector<std::string> vertexShader, std::vector<std::string> fragmentShader): ShaderProgram() {
     fragmentShader.insert(fragmentShader.begin(), GLSL_HEADER);
@@ -66,7 +68,7 @@ void Shader3D::loadMaterial(Material *material) {
     // Setup uniform values
     UniformBlockCache::getMaterialBlock(material)->setBindingPoint(UniformBlock::MATERIAL);
 
-    bindTexture(GL_TEXTURE0, *material->texture);
+    bindTexture(DIFFUSE_TEX_UNIT, *material->texture);
 }
 
 void Shader3D::loadEnvironment(Environment *env) {

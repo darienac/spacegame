@@ -38,7 +38,7 @@ void UniformBlock::setBindingPoint(GLuint index) {
     glBindBufferBase(GL_UNIFORM_BUFFER, index, id);
 }
 
-UniformBlock::UniformBlock(const GameState::PerlinNoise &perlinNoise) : GlBuffer() {
+UniformBlock::UniformBlock(const PerlinNoise &perlinNoise) : GlBuffer() {
     GLSL_PERLIN_CONFIG buffer = {
         .numOctaves = perlinNoise.numOctaves,
         .amplitude = perlinNoise.amplitude,

@@ -1,3 +1,3 @@
 void main() {
-    fragColor = texture(cubemap, vVertex);
+    fragColor = texture(textureCubemap, vVertex);
 }

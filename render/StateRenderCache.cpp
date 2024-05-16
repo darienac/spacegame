@@ -7,6 +7,7 @@
 StateRenderCache::StateRenderCache(IPerlinRenderer *perlinRenderer): perlinRenderer(perlinRenderer) {
     blueOrb = new Model("blue_orb.obj");
     skybox = new Model("inverse_cube.obj");
+    cameraCubemap = new Cubemap(256, true, GL_RGB, GL_RGB);
 }
 
 void StateRenderCache::syncToState(GameState *state) {
@@ -22,8 +23,8 @@ void StateRenderCache::syncToState(GameState *state) {
     }
     if (!planetResources.count(state->planet.id)) {
         planetResources[state->planet.id] = new PlanetData {
-                .surfaceMat = new Material({0.0f, 0.0f, 0.0f}, state->planet.surfaceColor, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 1.0f),
-                .liquidMat = new Material({0.0f, 0.0f, 0.0f}, state->planet.liquidColor, {0.2f, 0.2f, 0.2f}, {0.0f, 0.0f, 0.0f}, 1.0f),
+                .surfaceMat = new Material({1.0f, 1.0f, 1.0f}, state->planet.surfaceColor, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 1.0f),
+                .liquidMat = new Material({1.0f, 1.0f, 1.0f}, state->planet.liquidColor, {0.2f, 0.2f, 0.2f}, {0.0f, 0.0f, 0.0f}, 1.0f),
                 .matBlock = nullptr,
                 .planetSurfaceMap = new Cubemap(256, false, GL_RED, GL_RED)
         };
@@ -36,4 +37,5 @@ void StateRenderCache::syncToState(GameState *state) {
 StateRenderCache::~StateRenderCache() {
     delete blueOrb;
     delete skybox;
+    delete cameraCubemap;
 }

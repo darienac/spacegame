@@ -8,7 +8,7 @@
 
 #include "../GlBuffer.h"
 #include "../model/Material.h"
-#include "../../game/GameState.h"
+#include "../../game/state/GameState.h"
 
 class UniformBlock: public GlBuffer {
 private:
@@ -40,7 +40,7 @@ public:
     explicit UniformBlock(Material* material);
     explicit UniformBlock(const std::vector<Material*> &materials);
 
-    explicit UniformBlock(const GameState::PerlinNoise &perlinNoise);
+    explicit UniformBlock(const PerlinNoise &perlinNoise);
 
     void setBindingPoint(GLuint index);
 };

@@ -12,7 +12,9 @@ void GameRenderer::updateCamera() {
 }
 
 GameRenderer::GameRenderer(GameState *state, ResourceCache* cache): state(state), shader3D(cache->sceneShader), shader2D(cache->shader2D), cache(cache), camera(cache->window) {
-
+    cache->spaceShader->bind();
+    cache->spaceShader->loadPerlinConfig(state->spaceNoise);
+    cache->spaceShader->draw(cache->stateRenderCache->cameraCubemap);
 }
 
 void GameRenderer::drawScene() {
@@ -27,13 +29,14 @@ void GameRenderer::drawScene() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     cache->skyboxShader->bind();
+    cache->skyboxShader->bindTexture(Shader3D::CUBEMAP_TEX_UNIT, *cache->stateRenderCache->cameraCubemap->texture);
     cache->skyboxShader->loadCamera(&camera, glm::translate(glm::mat4(1.0f), camera.getPos()));
     glDisable(GL_DEPTH_TEST);
     cache->skyboxShader->drawModel(cache->stateRenderCache->skybox);
     glEnable(GL_DEPTH_TEST);
 
     cache->planetShader->bind();
-    cache->planetShader->loadEnvironment(&cache->basicEnv);
+    cache->planetShader->loadEnvironment(&cache->spaceEnv);
     cache->planetShader->loadCamera(&camera, glm::mat4(1.0f));
     cache->planetShader->drawPlanet(state->planet, cache->stateRenderCache);
 }

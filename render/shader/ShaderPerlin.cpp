@@ -11,11 +11,11 @@ ShaderPerlin::ShaderPerlin(const std::vector<std::string> &vertexShader, const s
     ubPerlinConfig = uniformBlock("ubPerlinConfig", UniformBlock::PERLIN_CONFIG);
 }
 
-void ShaderPerlin::loadPerlinConfig(const GameState::PerlinNoise &config) {
+void ShaderPerlin::loadPerlinConfig(const PerlinNoise &config) {
     UniformBlockCache::getPerlinNoiseBlock(config)->setBindingPoint(UniformBlock::PERLIN_CONFIG);
 }
 
-void ShaderPerlin::drawToCubemap(GameState::PerlinNoise *noise, Cubemap *cubemap) {
+void ShaderPerlin::drawToCubemap(PerlinNoise *noise, Cubemap *cubemap) {
     loadPerlinConfig(*noise);
     draw(cubemap);
 }

@@ -37,6 +37,8 @@ private:
     GLuint ubMaterial;
 public:
     static std::string GLSL_PHONG_SHADING;
+    static GLenum DIFFUSE_TEX_UNIT;
+    static GLenum CUBEMAP_TEX_UNIT;
 
     Shader3D(std::vector<std::string> vertexShader, std::vector<std::string> fragmentShader);
 

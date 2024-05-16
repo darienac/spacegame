@@ -41,7 +41,7 @@ add_executable(spacegame main.cpp
         GlWindow.cpp
         GlobalFlags.h
         GlWindow.h
-        game/GameState.h
+        game/state/GameState.h
         screens/ResourceCache.cpp
         screens/ResourceCache.h
         screens/IScreen.h
@@ -66,7 +66,9 @@ add_executable(spacegame main.cpp
         render/shader/ShaderPlanet.h
         render/StateRenderCache.cpp
         render/StateRenderCache.h
-        render/shader/IPerlinRenderer.h)
+        render/shader/IPerlinRenderer.h
+        game/state/PerlinNoise.cpp
+        game/state/PerlinNoise.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE glm::glm)

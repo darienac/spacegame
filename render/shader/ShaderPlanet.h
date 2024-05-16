@@ -7,7 +7,7 @@
 
 
 #include "Shader3D.h"
-#include "../../game/GameState.h"
+#include "../../game/state/GameState.h"
 #include "../StateRenderCache.h"
 
 class ShaderPlanet: public Shader3D {

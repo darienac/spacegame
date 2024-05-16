@@ -6,7 +6,7 @@
 #define CS455GAME_GAMERENDERER_H
 
 
-#include "../game/GameState.h"
+#include "../game/state/GameState.h"
 #include "Camera.h"
 #include "shader/Shader3D.h"
 #include "shader/Shader2D.h"

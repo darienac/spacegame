@@ -14,7 +14,7 @@
 #include "../render/GlScreenBuffer.h"
 #include "../render/shader/ShaderPlanet.h"
 #include "boost/uuid/uuid.hpp"
-#include "../game/GameState.h"
+#include "../game/state/GameState.h"
 #include "../render/shader/UniformBlock.h"
 #include "../render/StateRenderCache.h"
 
@@ -27,7 +27,7 @@ public:
     ShaderPerlin *perlinShader;
     ShaderPerlin *spaceShader;
 
-    Environment basicEnv;
+    Environment spaceEnv;
 
     Controls *controls;
     GlWindow *window;

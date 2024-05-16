@@ -9,7 +9,7 @@
 #include <map>
 #include "boost/uuid/uuid.hpp"
 #include "shader/UniformBlock.h"
-#include "../game/GameState.h"
+#include "../game/state/GameState.h"
 #include "model/Model.h"
 #include "model/Cubemap.h"
 #include "shader/IPerlinRenderer.h"
@@ -27,6 +27,7 @@ public:
 
     std::map<boost::uuids::uuid, PlanetData*> planetResources;
 
+    Cubemap *cameraCubemap;
     Model *blueOrb;
     Model *skybox;
 

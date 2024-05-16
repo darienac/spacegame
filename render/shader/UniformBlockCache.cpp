@@ -18,7 +18,7 @@ UniformBlock *UniformBlockCache::getMaterialBlock(std::vector<Material *> *mater
     return materialLists[materialList];
 }
 
-UniformBlock *UniformBlockCache::getPerlinNoiseBlock(const GameState::PerlinNoise &perlinNoise) {
+UniformBlock *UniformBlockCache::getPerlinNoiseBlock(const PerlinNoise &perlinNoise) {
     if (!perlinNoises.count(perlinNoise.id)) {
         perlinNoises[perlinNoise.id] = new UniformBlock(perlinNoise);
     }
@@ -39,7 +39,7 @@ void UniformBlockCache::freeMaterialBlock(std::vector<Material *> *materialList)
     }
 }
 
-void UniformBlockCache::freePerlinNoiseBlock(const GameState::PerlinNoise &perlinNoise) {
+void UniformBlockCache::freePerlinNoiseBlock(const PerlinNoise &perlinNoise) {
     if (perlinNoises.count(perlinNoise.id)) {
         delete perlinNoises[perlinNoise.id];
         perlinNoises.erase(perlinNoise.id);

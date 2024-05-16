@@ -7,7 +7,7 @@
 
 
 #include "IScreen.h"
-#include "../game/GameState.h"
+#include "../game/state/GameState.h"
 #include "../render/GameRenderer.h"
 #include "../game/FreeFlyGameEngine.h"
 #include "ResourceCache.h"

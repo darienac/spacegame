@@ -2,7 +2,7 @@
 // include shared/fPhong.glsl
 
 void main() {
-    float height = texture(cubemap, vVertex).r;
+    float height = texture(textureCubemap, vVertex).r;
     float liquidHeight = 0.5;
     float liquidTransition = 0.05;
     Material material1 = materials[0];
