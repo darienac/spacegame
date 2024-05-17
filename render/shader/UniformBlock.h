@@ -35,6 +35,7 @@ private:
     struct GLSL_LIGHT {
         GLSL_LIGHT_SOURCE lightSources[MAX_LIGHTS];
         uint32_t numLightSources;
+        glm::vec3 padding;
         glm::vec3 ambientLightColor;
     };
 
