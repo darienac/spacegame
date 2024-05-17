@@ -22,14 +22,10 @@ add_executable(spacegame main.cpp
         render/shader/Shader2D.h
         render/shader/Shader3D.cpp
         render/shader/Shader3D.h
-        render/shader/ShaderEnv.cpp
-        render/shader/ShaderEnv.h
         render/shader/ShaderProgram.cpp
         render/shader/ShaderProgram.h
         render/Camera.cpp
         render/Camera.h
-        render/Environment.cpp
-        render/Environment.h
         render/GameRenderer.cpp
         render/GameRenderer.h
         render/GlFramebuffer.cpp

@@ -20,6 +20,21 @@ layout (std140) uniform ubMaterial {
     Material materials[2];
 };
 
+struct LightSource {
+    vec3 position;
+    vec3 color;
+};
+
+struct Light {
+    LightSource lightSources[8];
+    uint numLightSources;
+    vec3 ambientLightColor;
+};
+
+layout (std140) uniform ubLight {
+    Light light;
+};
+
 in vec3 vVertex;
 in vec3 vPosition;
 in vec3 vNormal;

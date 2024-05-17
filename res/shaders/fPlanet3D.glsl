@@ -17,7 +17,7 @@ void main() {
     Material material2 = materials[1];
     material1.diffuse *= 0.5 + 0.5 * height;
     if (height < liquidHeight - liquidTransition) {
-        fragColor = phongShading(material2);
+        fragColor = phongShading(material2, light);
     } else if (height < liquidHeight) {
         float bias1 = ((height - liquidHeight + liquidTransition) / liquidTransition);
         float bias2 = 1.0 - bias1;
@@ -28,9 +28,9 @@ void main() {
             material1.emissive * bias1 + material2.emissive * bias2,
             1.0
         );
-        fragColor = phongShading(material);
+        fragColor = phongShading(material, light);
     } else {
-        fragColor = phongShading(material1);
+        fragColor = phongShading(material1, light);
     }
 //    fragColor = texture(cubemap, vVertex);
 

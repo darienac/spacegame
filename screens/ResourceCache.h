@@ -27,8 +27,6 @@ public:
     ShaderPerlin *perlinShader;
     ShaderPerlin *spaceShader;
 
-    Environment spaceEnv;
-
     Controls *controls;
     GlWindow *window;
     GlScreenBuffer *screenBuffer;

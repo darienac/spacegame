@@ -4,8 +4,32 @@
 
 #include "UniformBlock.h"
 
+UniformBlock::UniformBlock(UniformBlock::BindingPoint type) {
+    // block only created with a specified size, so needs to be rewritten later
+    GLsizeiptr size;
+    switch (type) {
+        case MATERIAL:
+            size = sizeof(GLSL_MATERIAL);
+            break;
+        case LIGHT:
+            size = sizeof(GLSL_LIGHT);
+            break;
+        case PLANET_PROPS:
+            size = sizeof(GLSL_PLANET_PROPS);
+            break;
+        case PERLIN_CONFIG:
+            size = sizeof(GLSL_PERLIN_CONFIG);
+            break;
+        default:
+            throw std::runtime_error("Unsupported uniform block type");
+    }
+    char *buffer = new char[size]; // I don't really care what data is put in here, just allocating the memory needed
+    bufferData(size, buffer, GL_DYNAMIC_DRAW);
+    delete[] buffer;
+}
+
 UniformBlock::UniformBlock(Material *material): GlBuffer() {
-    GLSL_Material buffer = {
+    GLSL_MATERIAL buffer = {
         .ambient = material->ambient,
         .diffuse = material->diffuse,
         .specular = material->specular,
@@ -17,7 +41,7 @@ UniformBlock::UniformBlock(Material *material): GlBuffer() {
 }
 
 UniformBlock::UniformBlock(const std::vector<Material*> &materials): GlBuffer() {
-    auto *buffer = new GLSL_Material[materials.size()];
+    auto *buffer = new GLSL_MATERIAL[materials.size()];
     for (uint32_t i = 0; i < materials.size(); i++) {
         buffer[i] = {
             .ambient = (materials)[i]->ambient,
@@ -29,7 +53,7 @@ UniformBlock::UniformBlock(const std::vector<Material*> &materials): GlBuffer() 
         // No additional padding needed since the struct is already a multiple of 16 bytes
     }
 
-    bufferData(sizeof(GLSL_Material) * materials.size(), buffer);
+    bufferData(sizeof(GLSL_MATERIAL) * materials.size(), buffer);
     delete[] buffer;
 }
 
@@ -53,6 +77,24 @@ UniformBlock::UniformBlock(const PerlinNoise &perlinNoise) : GlBuffer() {
     }
 
     bufferData(sizeof(buffer), &buffer);
+}
+
+void UniformBlock::loadLights(const std::vector<GameState::Light*> &lights, const glm::vec3 &ambientLight) {
+    GLSL_LIGHT buffer = {
+            .numLightSources = (uint32_t) lights.size(),
+            .ambientLightColor = ambientLight
+    };
+    if (buffer.numLightSources > MAX_LIGHTS) {
+        buffer.numLightSources = MAX_LIGHTS;
+    }
+    for (uint32_t i = 0; i < buffer.numLightSources; i++) {
+        buffer.lightSources[i] = {
+                .position = lights[i]->position,
+                .color = lights[i]->color
+        };
+    }
+
+    subData(sizeof(buffer), &buffer);
 }
 
 void UniformBlock::setBindingPoint(GLuint index) {

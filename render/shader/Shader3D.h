@@ -10,7 +10,6 @@
 #include "../Camera.h"
 #include "../model/Mesh.h"
 #include "../model/Model.h"
-#include "../Environment.h"
 #include "UniformBlock.h"
 
 class Shader3D: public ShaderProgram {
@@ -30,12 +29,10 @@ private:
     GLint uModelMatrix;
     GLint uNormalMatrix;
 
-    GLint uLightPosition;
-    GLint uLightColor;
-    GLint uAmbientLightColor;
     GLint uViewPosition;
 
     GLuint ubMaterial;
+    GLuint ubLight;
 public:
     static std::string GLSL_PHONG_SHADING;
     static GLenum DIFFUSE_TEX_UNIT;
@@ -47,7 +44,6 @@ public:
     void loadMesh(Mesh* mesh);
     void loadMaterial(Material* material);
     static void loadMaterialBlock(UniformBlock* matBlock);
-    void loadEnvironment(Environment* env);
 
     void drawModel(Model *model);
 

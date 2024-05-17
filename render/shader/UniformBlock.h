@@ -12,7 +12,9 @@
 
 class UniformBlock: public GlBuffer {
 private:
-    struct GLSL_Material {
+    static const uint32_t MAX_LIGHTS = 8;
+
+    struct GLSL_MATERIAL {
         glm::vec3 ambient;
         float padding1;
         glm::vec3 diffuse;
@@ -21,6 +23,19 @@ private:
         float padding3;
         glm::vec3 emissive;
         float opacity;
+    };
+
+    struct GLSL_LIGHT_SOURCE {
+        glm::vec3 position;
+        float padding1;
+        glm::vec3 color;
+        float padding2;
+    };
+
+    struct GLSL_LIGHT {
+        GLSL_LIGHT_SOURCE lightSources[MAX_LIGHTS];
+        uint32_t numLightSources;
+        glm::vec3 ambientLightColor;
     };
 
     struct GLSL_PLANET_PROPS {
@@ -38,9 +53,11 @@ private:
 public:
     enum BindingPoint {
         MATERIAL,
+        LIGHT,
         PLANET_PROPS,
         PERLIN_CONFIG
     };
+    explicit UniformBlock(BindingPoint type);
     explicit UniformBlock(Material* material);
     explicit UniformBlock(const std::vector<Material*> &materials);
 
@@ -48,6 +65,7 @@ public:
 
     explicit UniformBlock(const PerlinNoise &perlinNoise);
 
+    void loadLights(const std::vector<GameState::Light*> &lights, const glm::vec3 &ambientLight);
     void setBindingPoint(GLuint index);
 };
 

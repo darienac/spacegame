@@ -72,15 +72,24 @@ StateRenderCache::StateRenderCache(IPerlinRenderer *perlinRenderer): perlinRende
     blueOrb = new Model("blue_orb.obj");
     skybox = new Model("inverse_cube.obj");
     cameraCubemap = new Cubemap(256, true, GL_RGB, GL_RGB);
+
+    lightBlock = new UniformBlock(UniformBlock::LIGHT);
+    lightBlock->setBindingPoint(UniformBlock::LIGHT);
 }
 
 void StateRenderCache::syncToState(GameState *state) {
     syncPlanetsToState(state);
     syncStarsToState(state);
+    std::vector<GameState::Light*> lights;
+    for (auto &pair : state->lights) {
+        lights.push_back(pair.second);
+    }
+    lightBlock->loadLights(lights, state->ambientLight);
 }
 
 StateRenderCache::~StateRenderCache() {
     delete blueOrb;
     delete skybox;
     delete cameraCubemap;
+    delete lightBlock;
 }

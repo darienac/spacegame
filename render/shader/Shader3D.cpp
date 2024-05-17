@@ -32,12 +32,10 @@ void Shader3D::link() {
     uModelMatrix = uniform("uModelMatrix");
     uNormalMatrix = uniform("uNormalMatrix");
 
-    uLightPosition = uniform("uLightPosition");
-    uLightColor = uniform("uLightColor");
-    uAmbientLightColor = uniform("uAmbientLightColor");
     uViewPosition = uniform("uViewPosition");
 
     ubMaterial = uniformBlock("ubMaterial", UniformBlock::MATERIAL);
+    ubLight = uniformBlock("ubLight", UniformBlock::LIGHT);
 
     ShaderProgram::bind();
     glUniform1i(textureDiffuse, 0);
@@ -73,12 +71,6 @@ void Shader3D::loadMaterial(Material *material) {
 
 void Shader3D::loadMaterialBlock(UniformBlock *matBlock) {
     matBlock->setBindingPoint(UniformBlock::MATERIAL);
-}
-
-void Shader3D::loadEnvironment(Environment *env) {
-    glUniform3fv(uLightPosition, 1, &env->lightPos[0]);
-    glUniform3fv(uLightColor, 1, &env->lightColor[0]);
-    glUniform3fv(uAmbientLightColor, 1, &env->ambientLightColor[0]);
 }
 
 void Shader3D::drawModel(Model *model) {

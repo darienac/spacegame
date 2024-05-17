@@ -40,6 +40,7 @@ public:
 
     std::map<boost::uuids::uuid, PlanetData*> planetResources;
     std::map<boost::uuids::uuid, StarData*> starResources;
+    UniformBlock *lightBlock;
 
     Cubemap *cameraCubemap;
     Model *blueOrb;

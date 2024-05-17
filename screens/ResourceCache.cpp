@@ -25,12 +25,6 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
         spaceShader->validate();
     }
 
-    spaceEnv = {
-            .lightPos = {0.0f, 100.0f, 0.0f},
-            .lightColor = {3.0f, 3.0f, 3.0f},
-            .ambientLightColor = {0.068f, 0.04f, 0.088f}
-    };
-
     screenBuffer = new GlScreenBuffer(window->getWindow());
 
     stateRenderCache = new StateRenderCache(perlinShader);

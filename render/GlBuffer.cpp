@@ -39,9 +39,22 @@ void GlBuffer::bindToAttribute(GLint attribute, GLint size) {
     glVertexAttribPointer(attribute, size, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-void GlBuffer::bufferData(GLsizeiptr size, const void *data) {
+void GlBuffer::bufferData(GLsizeiptr size, const void *data, GLenum usage) {
     bind();
-    glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, size, data, usage);
+}
+
+void GlBuffer::bufferData(GLsizeiptr size, const void *data) {
+    bufferData(size, data, GL_STATIC_DRAW);
+}
+
+void GlBuffer::subData(GLintptr offset, GLsizeiptr size, const void *data) {
+    bind();
+    glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
+}
+
+void GlBuffer::subData(GLsizeiptr size, const void *data) {
+    subData(0, size, data);
 }
 
 GlBuffer::~GlBuffer() {

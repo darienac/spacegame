@@ -34,6 +34,12 @@ public:
         glm::vec3 position;
         float radius;
     };
+
+    struct Light {
+        boost::uuids::uuid id;
+        glm::vec3 position;
+        glm::vec3 color;
+    };
 private:
     Planet planet = {
             .id = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
@@ -77,6 +83,25 @@ private:
             .position = {0.0f, 100.0f, 0.0f},
             .radius = 1.0f
     };
+
+    Star star2 {
+            .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+            .color = {3.0, 0.0, 0.0},
+            .position = {-30.0f, 0.0f, 0.0f},
+            .radius = 0.5f
+    };
+
+    Light light {
+            .id = {0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            .position = {0.0f, 100.0f, 0.0f},
+            .color = {3.0f, 3.0f, 3.0f}
+    };
+
+    Light light2 {
+            .id = {0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            .position = {-30.0f, 0.0f, 0.0f},
+            .color = {3.0, 0.0, 0.0}
+    };
 public:
     CameraState camera = {
         .pos = {0.0f, 0.0f, 10.0f},
@@ -94,8 +119,11 @@ public:
             .frequencyMult = 2.0f
     };
 
+    glm::vec3 ambientLight = {0.068f, 0.04f, 0.088f};
+
     std::map<boost::uuids::uuid, Planet*> planets = {{planet.id, &planet}, {planet2.id, &planet2}};
-    std::map<boost::uuids::uuid, Star*> stars = {{star.id, &star}};
+    std::map<boost::uuids::uuid, Star*> stars = {{star.id, &star}, {star2.id, &star2}};
+    std::map<boost::uuids::uuid, Light*> lights = {{light.id, &light}, {light2.id, &light2}};
 };
 
 #endif //SPACEGAME_GAMESTATE_H

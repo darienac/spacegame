@@ -14,7 +14,6 @@ void GameRenderer::updateCamera() {
 void GameRenderer::drawPlanet(GameState::Planet &planet) {
     StateRenderCache::PlanetData *planetData = cache->stateRenderCache->planetResources[planet.id];
     cache->planetShader->bind();
-    cache->planetShader->loadEnvironment(&cache->spaceEnv);
     cache->planetShader->loadCamera(&camera, planetData->modelTransform);
     cache->planetShader->drawPlanet(planet, cache->stateRenderCache);
 }
@@ -22,7 +21,6 @@ void GameRenderer::drawPlanet(GameState::Planet &planet) {
 void GameRenderer::drawStar(GameState::Star &star) {
     StateRenderCache::StarData *starData = cache->stateRenderCache->starResources[star.id];
     cache->sceneShader->bind();
-    cache->sceneShader->loadEnvironment(&cache->spaceEnv);
     cache->sceneShader->loadCamera(&camera, starData->modelTransform);
     cache->sceneShader->loadMesh(cache->stateRenderCache->blueOrb->getMeshes()[0]);
     Shader3D::loadMaterialBlock(cache->stateRenderCache->starResources[star.id]->matBlock);
