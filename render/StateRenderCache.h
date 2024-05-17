@@ -29,6 +29,7 @@ public:
         Material *surfaceMat;
         Material *liquidMat;
         UniformBlock *matBlock;
+        UniformBlock *planetDataBlock;
         Cubemap *planetSurfaceMap;
     };
     struct StarData {

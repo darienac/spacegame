@@ -33,9 +33,11 @@ UniformBlock::UniformBlock(const std::vector<Material*> &materials): GlBuffer() 
     delete[] buffer;
 }
 
-void UniformBlock::setBindingPoint(GLuint index) {
-    bind(GL_UNIFORM_BUFFER);
-    glBindBufferBase(GL_UNIFORM_BUFFER, index, id);
+UniformBlock::UniformBlock(GameState::Planet &planet) {
+    GLSL_PLANET_PROPS buffer = {
+        .liquidHeight = planet.liquidHeight
+    };
+    bufferData(sizeof(buffer), &buffer);
 }
 
 UniformBlock::UniformBlock(const PerlinNoise &perlinNoise) : GlBuffer() {
@@ -51,4 +53,9 @@ UniformBlock::UniformBlock(const PerlinNoise &perlinNoise) : GlBuffer() {
     }
 
     bufferData(sizeof(buffer), &buffer);
+}
+
+void UniformBlock::setBindingPoint(GLuint index) {
+    bind(GL_UNIFORM_BUFFER);
+    glBindBufferBase(GL_UNIFORM_BUFFER, index, id);
 }

@@ -1,9 +1,17 @@
 // include shared/f3D_header.glsl
 // include shared/fPhong.glsl
 
+struct PlanetProps {
+    float liquidHeight;
+};
+
+layout (std140) uniform ubPlanetProps {
+    PlanetProps planetProps;
+};
+
 void main() {
     float height = texture(textureCubemap, vVertex).r;
-    float liquidHeight = 0.5;
+    float liquidHeight = planetProps.liquidHeight;
     float liquidTransition = 0.05;
     Material material1 = materials[0];
     Material material2 = materials[1];

@@ -23,6 +23,10 @@ private:
         float opacity;
     };
 
+    struct GLSL_PLANET_PROPS {
+        float liquidHeight;
+    };
+
     struct GLSL_PERLIN_CONFIG {
         int perm[256 * 4];
         int numOctaves;
@@ -39,6 +43,8 @@ public:
     };
     explicit UniformBlock(Material* material);
     explicit UniformBlock(const std::vector<Material*> &materials);
+
+    explicit UniformBlock(GameState::Planet &planet);
 
     explicit UniformBlock(const PerlinNoise &perlinNoise);
 

@@ -15,6 +15,8 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
             delete it->second->surfaceMat;
             delete it->second->liquidMat;
             delete it->second->matBlock;
+            delete it->second->planetDataBlock;
+            delete it->second->planetSurfaceMap;
             it = planetResources.erase(it);
         } else {
             it++;
@@ -31,6 +33,7 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
                 .surfaceMat = new Material({1.0f, 1.0f, 1.0f}, planet->surfaceColor, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 1.0f),
                 .liquidMat = new Material({1.0f, 1.0f, 1.0f}, planet->liquidColor, {0.2f, 0.2f, 0.2f}, {0.0f, 0.0f, 0.0f}, 1.0f),
                 .matBlock = nullptr,
+                .planetDataBlock = new UniformBlock(*planet),
                 .planetSurfaceMap = new Cubemap(256, false, GL_RED, GL_RED)
         };
         data->matBlock = new UniformBlock({data->surfaceMat, data->liquidMat});
