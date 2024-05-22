@@ -11,7 +11,7 @@ glm::mat4 StateRenderCache::getModelTransformMatrix(glm::vec3 pos, float scale) 
 
 void StateRenderCache::syncPlanetsToState(GameState *state) {
     for (auto it = planetResources.cbegin(); it != planetResources.cend();) {
-        if (!state->planets.contains(it->first)) {
+        if (!state->planets.contains(it->first) || state->planets[it->first]->lod != planetResources[it->first]->lod) {
             delete it->second->surfaceMat;
             delete it->second->liquidMat;
             delete it->second->matBlock;
@@ -44,7 +44,7 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
 
 void StateRenderCache::syncStarsToState(GameState *state) {
     for (auto it = starResources.cbegin(); it != starResources.cend();) {
-        if (!state->stars.contains(it->first)) {
+        if (!state->stars.contains(it->first) || state->stars[it->first]->lod != starResources[it->first]->lod) {
             delete it->second->material;
             delete it->second->matBlock;
             it = starResources.erase(it);

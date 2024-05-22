@@ -12,7 +12,7 @@ layout (std140) uniform ubPlanetProps {
 void main() {
     float height = texture(textureCubemap, vVertex).r;
     float liquidHeight = planetProps.liquidHeight;
-    float liquidTransition = 0.05;
+    float liquidTransition = 0.01;
     Material material1 = materials[0];
     Material material2 = materials[1];
     material1.diffuse *= 0.5 + 0.5 * height;

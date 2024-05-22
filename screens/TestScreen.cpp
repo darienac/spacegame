@@ -5,7 +5,7 @@
 #include <iostream>
 #include "TestScreen.h"
 
-TestScreen::TestScreen(ResourceCache *cache): renderer(&state, cache), engine(&state, cache->controls) {
+TestScreen::TestScreen(ResourceCache *cache): renderer(&state, cache), engine(&state, cache->controls.get()) {
     this->cache = cache;
 }
 

@@ -25,8 +25,10 @@ public:
     bool arrowRight = false;
     bool arrowUp = false;
     bool arrowDown = false;
-    bool lShiftDown = false;
-    bool spaceDown = false;
+    bool button1Down = false;
+    bool button2Down = false;
+    bool button3Down = false;
+    bool button4Down = false;
     bool fullscreenPressed = false;
 
     GLFWgamepadstate lastGamepadState;

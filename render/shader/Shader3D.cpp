@@ -18,6 +18,8 @@ Shader3D::Shader3D(std::vector<std::string> vertexShader, std::vector<std::strin
     Shader3D::link();
 }
 
+Shader3D::Shader3D(const std::string &vertexShader, const std::string &fragmentShader): Shader3D(std::vector<std::string>{vertexShader}, std::vector<std::string>{fragmentShader}) {}
+
 void Shader3D::link() {
     ShaderProgram::link();
 

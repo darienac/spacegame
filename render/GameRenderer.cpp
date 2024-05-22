@@ -15,7 +15,7 @@ void GameRenderer::drawPlanet(GameState::Planet &planet) {
     StateRenderCache::PlanetData *planetData = cache->stateRenderCache->planetResources[planet.id];
     cache->planetShader->bind();
     cache->planetShader->loadCamera(&camera, planetData->modelTransform);
-    cache->planetShader->drawPlanet(planet, cache->stateRenderCache);
+    cache->planetShader->drawPlanet(planet, cache->stateRenderCache.get());
 }
 
 void GameRenderer::drawStar(GameState::Star &star) {
@@ -27,7 +27,7 @@ void GameRenderer::drawStar(GameState::Star &star) {
     cache->stateRenderCache->blueOrb->getMeshes()[0]->draw();
 }
 
-GameRenderer::GameRenderer(GameState *state, ResourceCache* cache): state(state), shader3D(cache->sceneShader), shader2D(cache->shader2D), cache(cache), camera(cache->window) {
+GameRenderer::GameRenderer(GameState *state, ResourceCache* cache): state(state), shader3D(cache->sceneShader.get()), shader2D(cache->shader2D.get()), cache(cache), camera(cache->window) {
     cache->spaceShader->bind();
     cache->spaceShader->loadPerlinConfig(state->spaceNoise);
     cache->spaceShader->draw(cache->stateRenderCache->cameraCubemap);

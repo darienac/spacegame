@@ -25,6 +25,7 @@ private:
     void syncStarsToState(GameState *state);
 public:
     struct PlanetData {
+        GameState::Planet_LOD lod;
         glm::mat4 modelTransform;
         Material *surfaceMat;
         Material *liquidMat;
@@ -33,6 +34,7 @@ public:
         Cubemap *planetSurfaceMap;
     };
     struct StarData {
+        GameState::Planet_LOD lod;
         glm::mat4 modelTransform;
         Material *material;
         UniformBlock *matBlock;

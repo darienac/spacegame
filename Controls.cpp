@@ -40,15 +40,21 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             controlsRef->arrowDown = value;
             break;
         case GLFW_KEY_LEFT_SHIFT:
-            controlsRef->lShiftDown = value;
+            controlsRef->button2Down = value;
             break;
         case GLFW_KEY_SPACE:
-            controlsRef->spaceDown = value;
+            controlsRef->button1Down = value;
             break;
         case GLFW_KEY_F11:
             if (value) {
                 controlsRef->fullscreenPressed = true;
             }
+            break;
+        case GLFW_KEY_Q:
+            controlsRef->button3Down = value;
+            break;
+        case GLFW_KEY_E:
+            controlsRef->button4Down = value;
             break;
         default:
             break;
@@ -110,7 +116,16 @@ void Controls::pollGamepadInputs(int jid) {
         }
     }
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_A)) {
-
+        button1Down = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_A);
+    }
+    if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_B)) {
+        button2Down = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_B);
+    }
+    if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_X)) {
+        button3Down = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_X);
+    }
+    if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_Y)) {
+        button4Down = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_Y);
     }
 
     lastGamepadState = state;

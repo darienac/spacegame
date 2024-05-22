@@ -20,22 +20,20 @@
 
 class ResourceCache {
 public:
-    Shader3D *skyboxShader;
-    Shader3D *sceneShader;
-    ShaderPlanet *planetShader;
-    Shader2D *shader2D;
-    ShaderPerlin *perlinShader;
-    ShaderPerlin *spaceShader;
+    std::unique_ptr<Shader3D> skyboxShader;
+    std::unique_ptr<Shader3D> sceneShader;
+    std::unique_ptr<ShaderPlanet> planetShader;
+    std::unique_ptr<Shader2D> shader2D;
+    std::unique_ptr<ShaderPerlin> perlinShader;
+    std::unique_ptr<ShaderPerlin> spaceShader;
 
-    Controls *controls;
     GlWindow *window;
-    GlScreenBuffer *screenBuffer;
+    std::unique_ptr<Controls> controls;
+    std::unique_ptr<GlScreenBuffer> screenBuffer;
 
-    StateRenderCache *stateRenderCache;
+    std::unique_ptr<StateRenderCache> stateRenderCache;
 
     explicit ResourceCache(GlWindow* window);
-
-    ~ResourceCache();
 };
 
 
