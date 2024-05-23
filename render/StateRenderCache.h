@@ -27,32 +27,33 @@ public:
     struct PlanetData {
         GameState::Planet_LOD lod;
         glm::mat4 modelTransform;
-        Material *surfaceMat;
-        Material *liquidMat;
-        UniformBlock *matBlock;
-        UniformBlock *planetDataBlock;
-        Cubemap *planetSurfaceMap;
+        std::unique_ptr<Material> surfaceMat;
+        std::unique_ptr<Material> liquidMat;
+        std::unique_ptr<UniformBlock> matBlock;
+        std::unique_ptr<UniformBlock> planetDataBlock;
+        std::unique_ptr<Cubemap> planetSurfaceMap;
     };
     struct StarData {
         GameState::Planet_LOD lod;
         glm::mat4 modelTransform;
-        Material *material;
-        UniformBlock *matBlock;
+        std::unique_ptr<Material> material;
+        std::unique_ptr<UniformBlock> matBlock;
     };
 
-    std::map<boost::uuids::uuid, PlanetData*> planetResources;
-    std::map<boost::uuids::uuid, StarData*> starResources;
-    UniformBlock *lightBlock;
+    std::map<boost::uuids::uuid, std::unique_ptr<PlanetData>> planetResources;
+    std::map<boost::uuids::uuid, std::unique_ptr<StarData>> starResources;
+    std::unique_ptr<UniformBlock> lightBlock;
 
-    Cubemap *cameraCubemap;
-    Model *blueOrb;
-    Model *skybox;
+    std::unique_ptr<Cubemap> cameraCubemap;
+    std::unique_ptr<Model> orb_2;
+    std::unique_ptr<Model> orb_3;
+    std::unique_ptr<Model> orb_4;
+    std::unique_ptr<Model> orb_5;
+    std::unique_ptr<Model> skybox;
 
-    StateRenderCache(IPerlinRenderer *perlinRenderer);
+    explicit StateRenderCache(IPerlinRenderer *perlinRenderer);
 
     void syncToState(GameState *state);
-
-    ~StateRenderCache();
 };
 
 

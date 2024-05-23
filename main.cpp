@@ -22,8 +22,9 @@
 #include "GlWindow.h"
 #include "screens/ScreenManager.h"
 
-// TODO: add multiple planets / stars add lights
-// Change system for freeing Uniform Blocks (how can I tie to deleting a Material, etc?)
+// TODO: Change system for freeing Uniform Blocks (how can I tie to deleting a Material, etc?) (maybe std::weak_ptr?)
+// Add atmosphere rendering
+// approach planet steps: transition to ATMOSPHERE LOD, render clouds (for a certain region), render heightmap (planet still rendering behind)
 
 int main() {
     if (!glfwInit()) {
