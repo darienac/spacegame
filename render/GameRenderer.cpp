@@ -12,10 +12,20 @@ void GameRenderer::updateCamera() {
 }
 
 void GameRenderer::drawPlanet(GameState::Planet &planet) {
+    drawPlanetAtmosphere(planet);
     StateRenderCache::PlanetData *planetData = cache->stateRenderCache->planetResources[planet.id].get();
     cache->planetShader->bind();
     cache->planetShader->loadCamera(&camera, planetData->modelTransform);
     cache->planetShader->drawPlanet(planet, cache->stateRenderCache.get());
+}
+
+void GameRenderer::drawPlanetAtmosphere(GameState::Planet &planet) {
+    StateRenderCache::PlanetData *data = cache->stateRenderCache->planetResources[planet.id].get();
+    cache->atmosphereShader->bind();
+    cache->atmosphereShader->loadCamera(&camera, data->atmosphereModelTransform);
+    cache->atmosphereShader->loadMesh(data->mesh);
+    data->planetDataBlock->setBindingPoint(UniformBlock::PLANET_PROPS);
+    data->mesh->draw();
 }
 
 void GameRenderer::drawStar(GameState::Star &star) {

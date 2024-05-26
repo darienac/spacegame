@@ -11,8 +11,6 @@
 #include "../StateRenderCache.h"
 
 class ShaderPlanet: public Shader3D {
-private:
-    GLuint ubPlanetProps;
 public:
     ShaderPlanet(const std::vector<std::string> &vertexShader, const std::vector<std::string> &fragmentShader);
 

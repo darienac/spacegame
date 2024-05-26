@@ -7,6 +7,7 @@ uniform vec3 uLightPosition;
 uniform vec3 uLightColor;
 uniform vec3 uAmbientLightColor;
 uniform vec3 uViewPosition;
+uniform vec3 uModelPosition;
 
 struct Material {
     vec3 ambient;
@@ -36,6 +37,7 @@ layout (std140) uniform ubLight {
 };
 
 in vec3 vVertex;
+in vec3 vVertexRotated;
 in vec3 vPosition;
 in vec3 vNormal;
 in vec2 vTexCoord;

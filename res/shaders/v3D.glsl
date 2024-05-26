@@ -9,12 +9,14 @@ in vec3 aNormal;
 in vec2 aTexCoord;
 
 out vec3 vVertex;
+out vec3 vVertexRotated;
 out vec3 vPosition;
 out vec3 vNormal;
 out vec2 vTexCoord;
 
 void main() {
 	vVertex = aVertex;
+	vVertexRotated = (uNormalMatrix * vec4(aVertex, 1.0)).xyz;
 	vPosition = (uModelMatrix * vec4(aVertex, 1.0)).xyz;
 	vNormal = (uNormalMatrix * vec4(aNormal, 1.0)).xyz;
 	vTexCoord = aTexCoord;

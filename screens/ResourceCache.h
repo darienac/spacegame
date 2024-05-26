@@ -22,6 +22,7 @@ class ResourceCache {
 public:
     std::unique_ptr<Shader3D> skyboxShader;
     std::unique_ptr<Shader3D> sceneShader;
+    std::unique_ptr<Shader3D> atmosphereShader;
     std::unique_ptr<ShaderPlanet> planetShader;
     std::unique_ptr<Shader2D> shader2D;
     std::unique_ptr<ShaderPerlin> perlinShader;

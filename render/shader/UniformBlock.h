@@ -9,6 +9,7 @@
 #include "../GlBuffer.h"
 #include "../model/Material.h"
 #include "../../game/state/GameState.h"
+#include "glm/vec4.hpp"
 
 class UniformBlock: public GlBuffer {
 private:
@@ -40,6 +41,8 @@ private:
     };
 
     struct GLSL_PLANET_PROPS {
+        glm::vec4 atmosphereColor;
+        float atmosphereRadiusFilled;
         float liquidHeight;
     };
 

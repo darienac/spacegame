@@ -7,7 +7,7 @@
 Camera::Camera(GlWindow* window) {
     this->window = window;
     fovy = 45 * (M_PI / 180);
-    zNear = 0.001f;
+    zNear = 0.00001f;
     zFar = 10000.0f;
     pos = {0.0f, 0.0f, 10.0f};
     target = {0.0f, 0.0f, 0.0f};

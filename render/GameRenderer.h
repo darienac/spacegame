@@ -23,6 +23,7 @@ private:
     void updateCamera();
 
     void drawPlanet(GameState::Planet &planet);
+    void drawPlanetAtmosphere(GameState::Planet &planet);
     void drawStar(GameState::Star &star);
 public:
     GameRenderer(GameState* state, ResourceCache* cache);

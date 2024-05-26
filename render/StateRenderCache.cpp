@@ -41,11 +41,13 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
         planetResources[id] = std::make_unique<PlanetData>(PlanetData{
             .lod = planet->lod,
             .modelTransform = getModelTransformMatrix(planet->position, planet->radius),
+            .atmosphereModelTransform = getModelTransformMatrix(planet->position, -(planet->radius + planet->atmosphereHeight)),
             .surfaceMat = std::make_unique<Material>(glm::vec3{1.0f, 1.0f, 1.0f}, planet->surfaceColor, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, 1.0f),
             .liquidMat = std::make_unique<Material>(glm::vec3{1.0f, 1.0f, 1.0f}, planet->liquidColor, glm::vec3{0.2f, 0.2f, 0.2f}, glm::vec3{0.0f, 0.0f, 0.0f}, 1.0f),
             .matBlock = nullptr,
             .planetDataBlock = std::make_unique<UniformBlock>(*planet),
-            .planetSurfaceMap = std::make_unique<Cubemap>(cubemapWidth, false, GL_RED, GL_RED)
+            .planetSurfaceMap = std::make_unique<Cubemap>(cubemapWidth, false, GL_RED, GL_RED),
+            .mesh = getPlanetMesh(*planet)
         });
         PlanetData *data = planetResources[id].get();
         data->matBlock = std::make_unique<UniformBlock>(std::vector<Material*>{data->surfaceMat.get(), data->liquidMat.get()});
@@ -76,6 +78,25 @@ void StateRenderCache::syncStarsToState(GameState *state) {
         StarData *data = starResources[id].get();
         data->matBlock = std::make_unique<UniformBlock>(data->material.get());
     }
+}
+
+Mesh *StateRenderCache::getPlanetMesh(GameState::Planet &planet) {
+    Model *model;
+    switch (planet.lod) {
+        case GameState::BILLBOARD:
+            model = orb_2.get();
+            break;
+        case GameState::DISTANT:
+            model = orb_3.get();
+            break;
+        case GameState::NEAR:
+            model = orb_4.get();
+            break;
+        case GameState::ATMOSPHERE:
+            model = orb_5.get();
+            break;
+    }
+    return model->getMeshes()[0];
 }
 
 StateRenderCache::StateRenderCache(IPerlinRenderer *perlinRenderer): perlinRenderer(perlinRenderer) {

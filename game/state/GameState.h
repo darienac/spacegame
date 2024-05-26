@@ -9,6 +9,7 @@
 #include "boost/uuid/uuid.hpp"
 #include "glm/vec3.hpp"
 #include "PerlinNoise.h"
+#include "glm/vec4.hpp"
 
 class GameState {
 public:
@@ -29,6 +30,8 @@ public:
         boost::uuids::uuid id;
         Planet_LOD lod;
         glm::vec3 surfaceColor;
+        glm::vec4 atmosphereColor;
+        float atmosphereHeight;
         glm::vec3 liquidColor;
         float liquidHeight;
         PerlinNoise surfaceNoise;
@@ -52,8 +55,10 @@ public:
 private:
     Planet planet = {
             .id = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-            .lod = ATMOSPHERE,
+            .lod = DISTANT,
             .surfaceColor = {0.1f, 0.25f, 0.1f},
+            .atmosphereColor = {0.2f, 0.7f, 1.0f, 0.8f},
+            .atmosphereHeight = 0.015f,
             .liquidColor = {0.02f, 0.1f, 0.2f},
             .liquidHeight = 0.5f,
             .surfaceNoise = {
@@ -73,6 +78,8 @@ private:
             .id = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe},
             .lod = BILLBOARD,
             .surfaceColor = {0.3f, 0.15f, 0.1f},
+            .atmosphereColor = {1.0f, 0.8f, 0.7f, 0.9f},
+            .atmosphereHeight = 0.01f,
             .liquidColor = {0.3f, 0.25f, 0.2f},
             .liquidHeight = 0.3f,
             .surfaceNoise = {
@@ -84,7 +91,7 @@ private:
                     .amplitudeMult = 0.5f,
                     .frequencyMult = 2.0f
             },
-            .position = {10.0f, 0.0f, 0.0f},
+            .position = {10.0f, 100.0f, 0.0f},
             .radius = 2.0f
     };
 

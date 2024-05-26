@@ -31,10 +31,14 @@ private:
 
     GLint uViewPosition;
 
+    GLint uModelPosition;
+
     GLuint ubMaterial;
     GLuint ubLight;
+    GLuint ubPlanetProps;
 public:
     static std::string GLSL_PHONG_SHADING;
+    static std::string GLSL_PERLIN;
     static GLenum DIFFUSE_TEX_UNIT;
     static GLenum CUBEMAP_TEX_UNIT;
 

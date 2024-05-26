@@ -23,15 +23,19 @@ private:
 
     void syncPlanetsToState(GameState *state);
     void syncStarsToState(GameState *state);
+
+    Mesh* getPlanetMesh(GameState::Planet &planet);
 public:
     struct PlanetData {
         GameState::Planet_LOD lod;
         glm::mat4 modelTransform;
+        glm::mat4 atmosphereModelTransform;
         std::unique_ptr<Material> surfaceMat;
         std::unique_ptr<Material> liquidMat;
         std::unique_ptr<UniformBlock> matBlock;
         std::unique_ptr<UniformBlock> planetDataBlock;
         std::unique_ptr<Cubemap> planetSurfaceMap;
+        Mesh* mesh;
     };
     struct StarData {
         GameState::Planet_LOD lod;

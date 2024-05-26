@@ -11,10 +11,11 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
     Shader2D::initBuffers();
     skyboxShader = std::make_unique<Shader3D>("v3D.glsl", "fSkybox3D.glsl");
     sceneShader = std::make_unique<Shader3D>(std::vector<std::string>{"v3D.glsl"}, std::vector<std::string>{Shader3D::GLSL_PHONG_SHADING, "f3D.glsl"});
-    planetShader = std::make_unique<ShaderPlanet>(std::vector<std::string>{"v3D.glsl"}, std::vector<std::string>{Shader3D::GLSL_PHONG_SHADING, "fPlanet3D.glsl"});
+    atmosphereShader = std::make_unique<Shader3D>(std::vector<std::string>{"v3D.glsl"}, std::vector<std::string>{Shader3D::GLSL_PHONG_SHADING, "shared/planetUB.glsl", "fAtmosphere3D.glsl"});
+    planetShader = std::make_unique<ShaderPlanet>(std::vector<std::string>{"v3D.glsl"}, std::vector<std::string>{Shader3D::GLSL_PHONG_SHADING, "shared/planetUB.glsl", "fPlanet3D.glsl"});
     shader2D = std::make_unique<Shader2D>(std::vector<std::string>{"v2D.glsl"}, std::vector<std::string>{"f2D.glsl"});
-    perlinShader = std::make_unique<ShaderPerlin>(std::vector<std::string>{"v2D.glsl"}, std::vector<std::string>{"shared/perlin.glsl", "fPerlin.glsl"});
-    spaceShader = std::make_unique<ShaderPerlin>(std::vector<std::string>{"v2D.glsl"}, std::vector<std::string>{"shared/perlin.glsl", "fEmptySpace.glsl"});
+    perlinShader = std::make_unique<ShaderPerlin>(std::vector<std::string>{"v2D.glsl"}, std::vector<std::string>{Shader3D::GLSL_PERLIN, "fPerlin.glsl"});
+    spaceShader = std::make_unique<ShaderPerlin>(std::vector<std::string>{"v2D.glsl"}, std::vector<std::string>{Shader3D::GLSL_PERLIN, "fEmptySpace.glsl"});
 
     if (GlobalFlags::DEBUG) {
         skyboxShader->validate();

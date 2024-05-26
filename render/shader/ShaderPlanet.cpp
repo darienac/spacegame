@@ -5,30 +5,14 @@
 #include "ShaderPlanet.h"
 #include "UniformBlock.h"
 
-ShaderPlanet::ShaderPlanet(const std::vector<std::string> &vertexShader, const std::vector<std::string> &fragmentShader): Shader3D(vertexShader, fragmentShader) {
-    ubPlanetProps = uniformBlock("ubPlanetProps", UniformBlock::PLANET_PROPS);
-}
+ShaderPlanet::ShaderPlanet(const std::vector<std::string> &vertexShader, const std::vector<std::string> &fragmentShader): Shader3D(vertexShader, fragmentShader) {}
 
 void ShaderPlanet::drawPlanet(GameState::Planet &planet, StateRenderCache *cache) {
     bind();
-    Model *orb;
-    switch (planet.lod) {
-        case GameState::BILLBOARD:
-            orb = cache->orb_2.get();
-            break;
-        case GameState::DISTANT:
-            orb = cache->orb_3.get();
-            break;
-        case GameState::NEAR:
-            orb = cache->orb_4.get();
-            break;
-        case GameState::ATMOSPHERE:
-            orb = cache->orb_5.get();
-            break;
-    }
-    loadMesh(orb->getMeshes()[0]);
-    bindTexture(CUBEMAP_TEX_UNIT, *cache->planetResources[planet.id]->planetSurfaceMap->texture);
-    cache->planetResources[planet.id]->matBlock->setBindingPoint(UniformBlock::MATERIAL);
-    cache->planetResources[planet.id]->planetDataBlock->setBindingPoint(UniformBlock::PLANET_PROPS);
-    orb->getMeshes()[0]->draw();
+    StateRenderCache::PlanetData *data = cache->planetResources[planet.id].get();
+    loadMesh(data->mesh);
+    bindTexture(CUBEMAP_TEX_UNIT, *data->planetSurfaceMap->texture);
+    data->matBlock->setBindingPoint(UniformBlock::MATERIAL);
+    data->planetDataBlock->setBindingPoint(UniformBlock::PLANET_PROPS);
+    data->mesh->draw();
 }
