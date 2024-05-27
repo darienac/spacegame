@@ -2,21 +2,19 @@ Material mat = Material(vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), vec3(0.0, 0.0,
 
 void main() {
     vec3 viewDirection = normalize(vPosition - uViewPosition);
-    float centerDist;
-    bool inAtmosphere = dot(uViewPosition - uModelPosition, viewDirection) > 0.0;
-    if (inAtmosphere) {
-        centerDist = length(uViewPosition - uModelPosition) / 1.015;
-    } else {
-        vec3 p1 = normalize(vVertexRotated);
-        vec3 p2 = p1 - 2*dot(p1, viewDirection)* viewDirection;
-        centerDist = length((p2+p1)/2.0);
+    vec3 normal = normalize(uViewPosition - uModelPosition);
+    bool aboveHorizon = dot(viewDirection, normal) > 0.0;
+    if (aboveHorizon) {
+        viewDirection -= dot(viewDirection, normal) * normal;
     }
-    float opacity = clamp(1.0 - (centerDist - planetProps.atmosphereRadiusFilled) / (1.0 - planetProps.atmosphereRadiusFilled), 0.0, 1.0);
-//    if (opacity == 1.0 && !inAtmosphere) {
-//        opacity = 0.1;
-//    }
+    vec3 viewNormal = normalize(dot(viewDirection, uModelPosition - uViewPosition) * viewDirection - (uModelPosition - uViewPosition));
+    float distToCenter;
+    if (aboveHorizon) {
+        distToCenter = length(uViewPosition - uModelPosition) * planetProps.atmosphereRadiusFilled / planetProps.radius;
+    } else {
+        distToCenter = dot(viewNormal, vPosition - uModelPosition) * planetProps.atmosphereRadiusFilled / planetProps.radius;
+    }
+    float opacity = clamp(1.0 - (distToCenter - planetProps.atmosphereRadiusFilled) / (1.0 - planetProps.atmosphereRadiusFilled), 0.0, 1.0);
+
     fragColor = vec4(phongShading(mat, light).rgb * planetProps.atmosphereColor.rgb, planetProps.atmosphereColor.a * opacity);
-//    fragColor = planetProps.atmosphereColor * distTravelled/2.0;
-//    fragColor = vec4(1.0, 1.0, 1.0, 1.0) * distTravelled/2.0;
-//    fragColor = vec4(1.0, 1.0, 1.0, 0.2);
 }

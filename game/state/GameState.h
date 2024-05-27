@@ -55,7 +55,7 @@ public:
 private:
     Planet planet = {
             .id = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-            .lod = DISTANT,
+            .lod = ATMOSPHERE,
             .surfaceColor = {0.1f, 0.25f, 0.1f},
             .atmosphereColor = {0.2f, 0.7f, 1.0f, 0.8f},
             .atmosphereHeight = 0.015f,
@@ -76,7 +76,7 @@ private:
 
     Planet planet2 = {
             .id = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe},
-            .lod = BILLBOARD,
+            .lod = ATMOSPHERE,
             .surfaceColor = {0.3f, 0.15f, 0.1f},
             .atmosphereColor = {1.0f, 0.8f, 0.7f, 0.9f},
             .atmosphereHeight = 0.01f,
@@ -91,7 +91,7 @@ private:
                     .amplitudeMult = 0.5f,
                     .frequencyMult = 2.0f
             },
-            .position = {10.0f, 100.0f, 0.0f},
+            .position = {10.0f, 0.0f, 0.0f},
             .radius = 2.0f
     };
 

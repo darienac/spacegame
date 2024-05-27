@@ -42,6 +42,7 @@ private:
 
     struct GLSL_PLANET_PROPS {
         glm::vec4 atmosphereColor;
+        float radius;
         float atmosphereRadiusFilled;
         float liquidHeight;
     };
