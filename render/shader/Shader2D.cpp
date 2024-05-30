@@ -7,57 +7,57 @@
 std::string Shader2D::GLSL_HEADER = "shared/f2D_header.glsl";
 
 void Shader2D::initBuffers() {
-    VERTICES_BUFFER = new GlBuffer(std::vector<GLfloat>{
+    STANDARD_MESH = std::make_unique<Mesh2D>(
+        std::vector<GLfloat>{
             -1.0f, -1.0f,
             1.0f, -1.0f,
             -1.0f, 1.0f,
             1.0f, 1.0f
-    });
-    TEX_BUFFER = new GlBuffer(std::vector<GLfloat>{
+        }, std::vector<GLfloat>{
             0.0f, 0.0f, 0.0f,
             1.0f, 0.0f, 0.0f,
             0.0f, 1.0f, 0.0f,
             1.0f, 1.0f, 0.0f
-    });
-    TEX_POSX_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, -1.0f,
-            1.0f, -1.0f, 1.0f,
-            1.0f, -1.0f, -1.0f,
-    });
-    TEX_NEGX_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            -1.0f, 1.0f, -1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f, 1.0f,
-    });
-    TEX_POSY_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            -1.0f, 1.0f, -1.0f,
-            1.0f, 1.0f, -1.0f,
-            -1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-    });
-    TEX_NEGY_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            -1.0f, -1.0f, 1.0f,
-            1.0f, -1.0f, 1.0f,
-            -1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-    });
-    TEX_POSZ_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            -1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-            -1.0f, -1.0f, 1.0f,
-            1.0f, -1.0f, 1.0f,
-    });
-    TEX_NEGZ_BUFFER = new GlBuffer(std::vector<GLfloat>{
-            1.0f, 1.0f, -1.0f,
-            -1.0f, 1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f, -1.0f,
-    });
-    FACES_BUFFER = new GlBuffer(std::vector<GLint>{
+        }, std::vector<GLint>{
             0, 1, 2,
             2, 1, 3
+    });
+
+    TEX_POSX_BUFFER = std::make_unique<GlBuffer>(std::vector<GLfloat>{
+            1.0f, 1.0f, 1.0f,
+            1.0f, 1.0f, -1.0f,
+            1.0f, -1.0f, 1.0f,
+            1.0f, -1.0f, -1.0f,
+    });
+    TEX_NEGX_BUFFER = std::make_unique<GlBuffer>(std::vector<GLfloat>{
+            -1.0f, 1.0f, -1.0f,
+            -1.0f, 1.0f, 1.0f,
+            -1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f, 1.0f,
+    });
+    TEX_POSY_BUFFER = std::make_unique<GlBuffer>(std::vector<GLfloat>{
+            -1.0f, 1.0f, -1.0f,
+            1.0f, 1.0f, -1.0f,
+            -1.0f, 1.0f, 1.0f,
+            1.0f, 1.0f, 1.0f,
+    });
+    TEX_NEGY_BUFFER = std::make_unique<GlBuffer>(std::vector<GLfloat>{
+            -1.0f, -1.0f, 1.0f,
+            1.0f, -1.0f, 1.0f,
+            -1.0f, -1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+    });
+    TEX_POSZ_BUFFER = std::make_unique<GlBuffer>(std::vector<GLfloat>{
+            -1.0f, 1.0f, 1.0f,
+            1.0f, 1.0f, 1.0f,
+            -1.0f, -1.0f, 1.0f,
+            1.0f, -1.0f, 1.0f,
+    });
+    TEX_NEGZ_BUFFER = std::make_unique<GlBuffer>(std::vector<GLfloat>{
+            1.0f, 1.0f, -1.0f,
+            -1.0f, 1.0f, -1.0f,
+            1.0f, -1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f,
     });
 }
 
@@ -84,19 +84,20 @@ void Shader2D::link() {
 void Shader2D::draw() {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    FACES_BUFFER->bind(GL_ELEMENT_ARRAY_BUFFER);
+    STANDARD_MESH->facesBuffer->bind(GL_ELEMENT_ARRAY_BUFFER);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr); // 6 for a quad
 }
 
 void Shader2D::bind(GlBuffer *texCoords) {
     ShaderProgram::bind();
 
-    VERTICES_BUFFER->bindToAttribute(aVertex, 2);
+    STANDARD_MESH->verticesBuffer->bindToAttribute(aVertex, 2);
     texCoords->bindToAttribute(aTexCoord, 3);
 }
 
 void Shader2D::bind() {
-    bind(TEX_BUFFER);
+    bind(STANDARD_MESH->texCoordBuffer.get());
+
 }
 
 void Shader2D::loadTexture(Texture *texture) {
@@ -104,17 +105,19 @@ void Shader2D::loadTexture(Texture *texture) {
     glBindTexture(GL_TEXTURE_2D, texture->getTextureId());
 }
 
-Shader2D::~Shader2D() {
-//    delete VERTICES_BUFFER;
-//    delete TEX_BUFFER;
-//    delete FACES_BUFFER;
-}
-
 void Shader2D::draw(Cubemap *cubemap) {
-    GlBuffer *buffers[] = {TEX_POSX_BUFFER, TEX_NEGX_BUFFER, TEX_POSY_BUFFER, TEX_NEGY_BUFFER, TEX_POSZ_BUFFER, TEX_NEGZ_BUFFER};
+    GlBuffer *buffers[] = {TEX_POSX_BUFFER.get(), TEX_NEGX_BUFFER.get(), TEX_POSY_BUFFER.get(), TEX_NEGY_BUFFER.get(), TEX_POSZ_BUFFER.get(), TEX_NEGZ_BUFFER.get()};
     for (uint8_t i = 0; i < 6; i++) {
         cubemap->fbs[i]->bind();
         bind(buffers[i]);
         draw();
     }
+}
+
+void Shader2D::draw(Mesh2D *mesh) {
+    bind(mesh->texCoordBuffer.get());
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    mesh->facesBuffer->bind(GL_ELEMENT_ARRAY_BUFFER);
+    glDrawElements(GL_TRIANGLES, mesh->numFaceElements, GL_UNSIGNED_INT, nullptr); // 6 for a quad
 }

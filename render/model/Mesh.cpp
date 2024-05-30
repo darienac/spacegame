@@ -4,6 +4,27 @@
 
 #include "Mesh.h"
 
+Mesh::Mesh(std::vector<glm::vec3> vertices, std::vector<glm::vec3> texCoords, std::vector<glm::vec3> normals,
+           std::vector<glm::ivec3> faces) {
+    glGenBuffers(1, &verticesBuffer);
+    glGenBuffers(1, &texCoordBuffer);
+    glGenBuffers(1, &normalBuffer);
+    glGenBuffers(1, &facesBuffer);
+
+    glBindBuffer(GL_ARRAY_BUFFER, verticesBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, texCoordBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * texCoords.size(), texCoords.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * normals.size(), normals.data(), GL_STATIC_DRAW);
+
+    facesSize = sizeof(glm::ivec3) * faces.size();
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, facesBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, facesSize, faces.data(), GL_STATIC_DRAW);
+}
+
 Mesh::Mesh(const GLfloat *vertices, GLsizeiptr verticesSize, const GLint *faces, GLsizeiptr facesSize): facesSize(facesSize) {
     glGenBuffers(1, &verticesBuffer);
     glGenBuffers(1, &facesBuffer);
@@ -12,7 +33,6 @@ Mesh::Mesh(const GLfloat *vertices, GLsizeiptr verticesSize, const GLint *faces,
     glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, facesBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, facesSize, faces, GL_STATIC_DRAW);
-    material = nullptr;
 }
 
 void Mesh::bind(GLint aVertex, GLint aTexCoord, GLint aNormal) {
@@ -32,7 +52,7 @@ void Mesh::bind(GLint aVertex, GLint aTexCoord, GLint aNormal) {
 
 void Mesh::draw() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, facesBuffer);
-    glDrawElements(GL_TRIANGLES, facesSize / sizeof(GLfloat), GL_UNSIGNED_INT, nullptr); // 6 for a quad
+    glDrawElements(GL_TRIANGLES, facesSize / sizeof(GLint), GL_UNSIGNED_INT, nullptr); // 6 for a quad
 }
 
 Mesh::Mesh(aiMesh *mesh, Material* material): material(material) {
@@ -66,7 +86,7 @@ Mesh::Mesh(aiMesh *mesh, Material* material): material(material) {
         facesArray[i*3+1] = face.mIndices[1];
         facesArray[i*3+2] = face.mIndices[2];
     }
-    facesSize = elementCount * sizeof(GLfloat);
+    facesSize = elementCount * sizeof(GLint);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, facesBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, facesSize, facesArray, GL_STATIC_DRAW);
 }

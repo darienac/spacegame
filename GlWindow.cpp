@@ -74,6 +74,7 @@ GlWindow::GlWindow(const std::string& name, int width, int height) {
     glEnable(GL_MULTISAMPLE);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
+    glEnable(GL_ALPHA_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     if (GlobalFlags::DEBUG) {
         glEnable(GL_DEBUG_OUTPUT);

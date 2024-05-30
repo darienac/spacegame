@@ -23,7 +23,7 @@
 #include "screens/ScreenManager.h"
 
 // TODO: Change system for freeing Uniform Blocks (how can I tie to deleting a Material, etc?) (maybe std::weak_ptr?)
-// Add atmosphere rendering
+// Add render priorities for transparent / non transparent render tasks
 // approach planet steps: transition to ATMOSPHERE LOD, render clouds (for a certain region), render heightmap (planet still rendering behind)
 
 int main() {

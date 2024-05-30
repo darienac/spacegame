@@ -8,17 +8,16 @@
 
 #include "Shader2D.h"
 #include "../../game/state/GameState.h"
-#include "../StateRenderCache.h"
-#include "IPerlinRenderer.h"
 
-class ShaderPerlin: public Shader2D, public IPerlinRenderer {
+class ShaderPerlin: public Shader2D {
 private:
     GLuint ubPerlinConfig;
 public:
     ShaderPerlin(const std::vector<std::string> &vertexShader, const std::vector<std::string> &fragmentShader);
 
     void loadPerlinConfig(const PerlinNoise &config);
-    void drawToCubemap(PerlinNoise *noise, Cubemap *cubemap) override;
+    void drawToCubemap(PerlinNoise *noise, Cubemap *cubemap);
+    void drawToMesh(PerlinNoise *noise, Mesh2D *mesh);
 };
 
 

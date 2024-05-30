@@ -9,14 +9,12 @@
 #include "ShaderProgram.h"
 #include "../GlBuffer.h"
 #include "../model/Cubemap.h"
+#include "../model/Mesh2D.h"
 
 class Shader2D: public ShaderProgram {
 private:
     static std::string GLSL_HEADER;
-
-    static inline GlBuffer *VERTICES_BUFFER;
-    static inline GlBuffer *TEX_BUFFER;
-    static inline GlBuffer *FACES_BUFFER;
+    static inline std::unique_ptr<Mesh2D> STANDARD_MESH;
 
     // attributes
     GLint aVertex;
@@ -25,12 +23,12 @@ private:
     // uniforms
     GLint uTexture;
 public:
-    static inline GlBuffer *TEX_POSX_BUFFER;
-    static inline GlBuffer *TEX_NEGX_BUFFER;
-    static inline GlBuffer *TEX_POSY_BUFFER;
-    static inline GlBuffer *TEX_NEGY_BUFFER;
-    static inline GlBuffer *TEX_POSZ_BUFFER;
-    static inline GlBuffer *TEX_NEGZ_BUFFER;
+    static inline std::unique_ptr<GlBuffer> TEX_POSX_BUFFER;
+    static inline std::unique_ptr<GlBuffer> TEX_NEGX_BUFFER;
+    static inline std::unique_ptr<GlBuffer> TEX_POSY_BUFFER;
+    static inline std::unique_ptr<GlBuffer> TEX_NEGY_BUFFER;
+    static inline std::unique_ptr<GlBuffer> TEX_POSZ_BUFFER;
+    static inline std::unique_ptr<GlBuffer> TEX_NEGZ_BUFFER;
 
     static void initBuffers();
 
@@ -40,12 +38,11 @@ public:
 
     void draw();
     void draw(Cubemap *cubemap);
+    void draw(Mesh2D *mesh);
 
     void bind(GlBuffer* texCoords);
     void bind() override;
     void link() override;
-
-    ~Shader2D() override;
 };
 
 

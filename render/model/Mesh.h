@@ -19,8 +19,10 @@ private:
 
     GLsizeiptr facesSize;
 
-    Material* material;
+    Material* material = nullptr;
 public:
+    Mesh(std::vector<glm::vec3> vertices, std::vector<glm::vec3> texCoords, std::vector<glm::vec3> normals,
+         std::vector<glm::ivec3> faces);
     Mesh(const GLfloat *vertices, GLsizeiptr verticesSize, const GLint *faces, GLsizeiptr facesSize);
     Mesh(aiMesh* mesh, Material* material);
 

@@ -13,11 +13,14 @@
 #include "../game/state/GameState.h"
 #include "model/Model.h"
 #include "model/Cubemap.h"
-#include "shader/IPerlinRenderer.h"
+#include "shader/ShaderPerlin.h"
+#include "model/Heightmap.h"
 
 class StateRenderCache {
 private:
-    IPerlinRenderer *perlinRenderer;
+    static inline const float HMAP_UPDATE_THRESHOLD = 0.999f;
+
+    ShaderPerlin *perlinShader;
 
     static glm::mat4 getModelTransformMatrix(glm::vec3 pos, float scale);
 
@@ -30,11 +33,13 @@ public:
         GameState::Planet_LOD lod;
         glm::mat4 modelTransform;
         glm::mat4 atmosphereModelTransform;
+        glm::mat4 heightmapModelTransform;
         std::unique_ptr<Material> surfaceMat;
         std::unique_ptr<Material> liquidMat;
         std::unique_ptr<UniformBlock> matBlock;
         std::unique_ptr<UniformBlock> planetDataBlock;
         std::unique_ptr<Cubemap> planetSurfaceMap;
+        std::unique_ptr<Heightmap> planetHeightmap;
         Mesh* mesh;
     };
     struct StarData {
@@ -55,7 +60,7 @@ public:
     std::unique_ptr<Model> orb_5;
     std::unique_ptr<Model> skybox;
 
-    explicit StateRenderCache(IPerlinRenderer *perlinRenderer);
+    explicit StateRenderCache(ShaderPerlin *perlinShader);
 
     void syncToState(GameState *state);
 };

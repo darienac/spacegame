@@ -62,9 +62,12 @@ add_executable(spacegame main.cpp
         render/shader/ShaderPlanet.h
         render/StateRenderCache.cpp
         render/StateRenderCache.h
-        render/shader/IPerlinRenderer.h
         game/state/PerlinNoise.cpp
-        game/state/PerlinNoise.h)
+        game/state/PerlinNoise.h
+        render/model/Heightmap.cpp
+        render/model/Heightmap.h
+        render/model/Mesh2D.cpp
+        render/model/Mesh2D.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE glm::glm)

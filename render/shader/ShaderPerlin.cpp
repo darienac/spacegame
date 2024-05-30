@@ -19,3 +19,8 @@ void ShaderPerlin::drawToCubemap(PerlinNoise *noise, Cubemap *cubemap) {
     loadPerlinConfig(*noise);
     draw(cubemap);
 }
+
+void ShaderPerlin::drawToMesh(PerlinNoise *noise, Mesh2D *mesh) {
+    loadPerlinConfig(*noise);
+    draw(mesh);
+}

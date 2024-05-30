@@ -70,13 +70,13 @@ private:
                     .amplitudeMult = 0.5f,
                     .frequencyMult = 2.0f
             },
-            .position = {0.0f, 0.0f, 0.0f},
+            .position = {-10.0f, 0.0f, 0.0f},
             .radius = 1.0f
     };
 
     Planet planet2 = {
             .id = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xfe},
-            .lod = ATMOSPHERE,
+            .lod = NEAR,
             .surfaceColor = {0.3f, 0.15f, 0.1f},
             .atmosphereColor = {1.0f, 0.8f, 0.7f, 0.9f},
             .atmosphereHeight = 0.01f,
@@ -97,8 +97,8 @@ private:
 
     Star star {
             .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            .color = {3.0, 3.0, 3.0},
-            .position = {0.0f, 100.0f, 0.0f},
+            .color = {1.0, 1.0, 1.0},
+            .position = {0.0f, 10.0f, 0.0f},
             .radius = 1.0f
     };
 
