@@ -88,19 +88,22 @@ void Shader2D::draw() {
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr); // 6 for a quad
 }
 
-void Shader2D::bind(GlBuffer *texCoords) {
+void Shader2D::bind(GlBuffer *vertices, GlBuffer *texCoords) {
     ShaderProgram::bind();
 
-    STANDARD_MESH->verticesBuffer->bindToAttribute(aVertex, 2);
+    vertices->bindToAttribute(aVertex, 2);
     texCoords->bindToAttribute(aTexCoord, 3);
+}
+
+void Shader2D::bind(GlBuffer *texCoords) {
+    bind(STANDARD_MESH->verticesBuffer.get(), texCoords);
 }
 
 void Shader2D::bind() {
     bind(STANDARD_MESH->texCoordBuffer.get());
-
 }
 
-void Shader2D::loadTexture(Texture *texture) {
+void Shader2D::loadTexture(const Texture *texture) {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture->getTextureId());
 }
@@ -115,9 +118,15 @@ void Shader2D::draw(Cubemap *cubemap) {
 }
 
 void Shader2D::draw(Mesh2D *mesh) {
-    bind(mesh->texCoordBuffer.get());
-    glClearColor(0.0, 0.0, 0.0, 1.0);
+    bind(mesh->verticesBuffer.get(), mesh->texCoordBuffer.get());
+    glClearColor(0.0, 1.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     mesh->facesBuffer->bind(GL_ELEMENT_ARRAY_BUFFER);
-    glDrawElements(GL_TRIANGLES, mesh->numFaceElements, GL_UNSIGNED_INT, nullptr); // 6 for a quad
+    glDrawElements(GL_TRIANGLES, mesh->numFaceElements, GL_UNSIGNED_INT, nullptr);
+}
+
+void Shader2D::draw(const Texture &texture) {
+    bind();
+    loadTexture(&texture);
+    draw();
 }

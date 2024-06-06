@@ -19,6 +19,9 @@ void TestScreen::disable() {
 
 void TestScreen::renderFrame() {
     renderer.drawScene();
+//    GameState::Planet *planet = &state.planet;
+//    cache->stateRenderCache->syncToState(&state);
+//    renderer.debugViewTexture(*cache->stateRenderCache->planetResources[planet->id]->planetHeightmap->getNoiseTexture());
 }
 
 void TestScreen::tick() {

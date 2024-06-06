@@ -6,14 +6,16 @@
 #include "UniformBlock.h"
 #include "UniformBlockCache.h"
 
-std::string Shader3D::GLSL_HEADER = "shared/f3D_header.glsl";
+std::string Shader3D::FRAGMENT_HEADER = "shared/f3D_header.glsl";
+std::string Shader3D::VERTEX_HEADER = "shared/v3D_header.glsl";
 std::string Shader3D::GLSL_PHONG_SHADING = "shared/fPhong.glsl";
 std::string Shader3D::GLSL_PERLIN = "shared/perlin.glsl";
 GLenum Shader3D::DIFFUSE_TEX_UNIT = GL_TEXTURE0;
 GLenum Shader3D::CUBEMAP_TEX_UNIT = GL_TEXTURE1;
 
 Shader3D::Shader3D(std::vector<std::string> vertexShader, std::vector<std::string> fragmentShader): ShaderProgram() {
-    fragmentShader.insert(fragmentShader.begin(), GLSL_HEADER);
+    fragmentShader.insert(fragmentShader.begin(), FRAGMENT_HEADER);
+    vertexShader.insert(vertexShader.begin(), VERTEX_HEADER);
     createShaderFromPaths(vertexShader, GL_VERTEX_SHADER);
     createShaderFromPaths(fragmentShader, GL_FRAGMENT_SHADER);
     Shader3D::link();
@@ -69,11 +71,15 @@ void Shader3D::loadMesh(Mesh *mesh) {
     }
 }
 
+void Shader3D::bindDiffuseTexture(const Texture &texture) {
+    bindTexture(DIFFUSE_TEX_UNIT, texture);
+}
+
 void Shader3D::loadMaterial(Material *material) {
     // Setup uniform values
     loadMaterialBlock(UniformBlockCache::getMaterialBlock(material));
 
-    bindTexture(DIFFUSE_TEX_UNIT, *material->texture);
+    bindDiffuseTexture(*material->texture);
 }
 
 void Shader3D::loadMaterialBlock(UniformBlock *matBlock) {

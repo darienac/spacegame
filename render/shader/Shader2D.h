@@ -34,12 +34,14 @@ public:
 
     Shader2D(const std::vector<std::string> &vertexShader, std::vector<std::string> fragmentShader);
 
-    void loadTexture(Texture* texture);
+    void loadTexture(const Texture* texture);
 
     void draw();
     void draw(Cubemap *cubemap);
     void draw(Mesh2D *mesh);
+    void draw(const Texture &texture);
 
+    void bind(GlBuffer* vertices, GlBuffer* texCoords);
     void bind(GlBuffer* texCoords);
     void bind() override;
     void link() override;

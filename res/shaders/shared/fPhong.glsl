@@ -6,7 +6,7 @@ const float emissiveStrength = 1.0;
 const float shininess = 30.0;
 
 vec4 phongShading(Material material, Light light, vec3 modelPos, vec3 viewPos, vec3 modelNorm) {
-    vec4 texColor = vec4(material.diffuse, 1.0) * texture(textureDiffuse, vTexCoord);
+    vec4 texColor = vec4(material.diffuse, 1.0);
 
     vec3 normal = normalize(modelNorm);
     vec3 viewDirection = normalize(viewPos - modelPos);

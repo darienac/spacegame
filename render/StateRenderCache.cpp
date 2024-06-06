@@ -23,7 +23,7 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
         if (planetResources.contains(id)) {
             PlanetData *data = planetResources[id].get();
             if (data->planetHeightmap && glm::dot(glm::normalize(state->camera.pos - planet->position), *data->planetHeightmap->getLastPos()) < HMAP_UPDATE_THRESHOLD) {
-                data->planetHeightmap->updateToPosition(state->camera.pos - planet->position);
+                data->planetHeightmap->updateToPosition(state->camera.pos - planet->position, planet->surfaceNoise);
             }
             continue;
         }
@@ -58,8 +58,8 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
         data->matBlock = std::make_unique<UniformBlock>(std::vector<Material*>{data->surfaceMat.get(), data->liquidMat.get()});
         perlinShader->drawToCubemap(&planet->surfaceNoise, data->planetSurfaceMap.get());
         if (planet->lod >= GameState::ATMOSPHERE) {
-            data->planetHeightmap = std::make_unique<Heightmap>(*perlinShader, 20, 0.01, 5, 0.04, *planet);
-            data->planetHeightmap->updateToPosition(state->camera.pos - planet->position);
+            data->planetHeightmap = std::make_unique<Heightmap>(*perlinShader, 400, 0.01f, 0, 0.0f, *planet); // could do 5 cells, 0.04 width
+            data->planetHeightmap->updateToPosition(state->camera.pos - planet->position, planet->surfaceNoise);
         }
     }
 }

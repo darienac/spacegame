@@ -20,7 +20,7 @@ Mesh *Heightmap::createMesh(uint32_t numCells, float cellWidth, uint32_t numExte
     float width = (float) numCells * cellWidth * (2.0f * (float) numExtendCells * extendCellWidth);
     float innerWidth = (float) numCells * cellWidth;
     float xInnerMin = innerWidth * -0.5f;
-    float texInnerWidth = (float) numCells / (numExtendCells * 2);
+    float texInnerWidth = (float) numCells / (numCells + numExtendCells * 2);
     float texInnerMin = (1.0f - texInnerWidth) * 0.5f;
     for (std::size_t i = 0; i <= numCells; i++) {
         for (std::size_t j = 0; j <= numCells; j++) {
@@ -55,15 +55,14 @@ Mesh *Heightmap::createMesh(uint32_t numCells, float cellWidth, uint32_t numExte
 Mesh2D *Heightmap::createNoiseSampleMesh(uint32_t numCells, float cellWidth, uint32_t numExtendCells, float extendCellWidth, float lowerRadius) {
     GLfloat innerDist = numCells * cellWidth * 0.5f;
     GLfloat outerDist = innerDist + numExtendCells * extendCellWidth;
-    uint32_t totalCells = numCells + numExtendCells * 2;
-    GLfloat innerTexPos = (totalCells - numCells) * 0.5f;
-    GLfloat innerTexPos2 = 1.0f - innerTexPos;
+    GLfloat innerTexPos = -(innerDist / outerDist);
+    GLfloat innerTexPos2 = -innerTexPos;
 
     return new Mesh2D(
         std::vector<GLfloat>{
-            0.0f, 0.0f,
-            1.0f, 0.0f,
-            0.0f, 1.0f,
+            -1.0f, -1.0f,
+            1.0f, -1.0f,
+            -1.0f, 1.0f,
             1.0f, 1.0f,
             innerTexPos, innerTexPos,
             innerTexPos2, innerTexPos,
@@ -100,6 +99,7 @@ Heightmap::Heightmap(ShaderPerlin &perlinShader, uint32_t numCells, float cellWi
     uint32_t width = numCells + 1 + numExtendCells * 2;
     noiseTexture = std::make_unique<Texture>(width, width, GL_RED, GL_RED, GL_TEXTURE_2D);
     noiseFB = std::make_unique<GlFramebuffer>(std::vector<Texture*>{noiseTexture.get()}, false);
+    planetId = planet.id;
 }
 
 Mesh *Heightmap::getMesh() {
@@ -110,8 +110,11 @@ Mesh2D *Heightmap::getNoiseSampleMesh() {
     return noiseSampleMesh.get();
 }
 
-void Heightmap::updateToPosition(const glm::vec3 &pos) {
-    // TODO: implement this, store the orientation for the last render, probably use glm::lookAt
+Texture *Heightmap::getNoiseTexture() {
+    return noiseTexture.get();
+}
+
+void Heightmap::updateToPosition(const glm::vec3 &pos, const PerlinNoise &noise) {
     lastPos = glm::normalize(pos);
     glm::vec3 up;
     if (lastPos.x < lastPos.y && lastPos.x < lastPos.z) {
@@ -125,8 +128,10 @@ void Heightmap::updateToPosition(const glm::vec3 &pos) {
     rotation = glm::inverse(glm::lookAt({0.0f, 0.0f, 0.0f}, lastPos, up)) * glm::lookAt(glm::vec3{0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f});
 
     noiseFB->bind();
-    // TODO: Render the perlin noise
-    perlinShader->draw(noiseSampleMesh.get());
+    // Render the perlin noise
+    perlinShader->drawToMesh(&noise, rotation, noiseSampleMesh.get());
+//    perlinShader->bind();
+//    perlinShader->draw();
 
     std::cout << "Pos updated" << std::endl;
 }

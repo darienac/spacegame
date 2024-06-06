@@ -24,16 +24,18 @@ private:
     ShaderPerlin *perlinShader;
     glm::mat4 rotation = glm::mat4(1.0f);
     glm::vec3 lastPos = {0.0f, 0.0f, 0.0f};
+    boost::uuids::uuid planetId;
 
     static Mesh *createMesh(uint32_t numCells, float cellWidth, uint32_t numExtendCells, float extendCellWidth, float lowerRadius);
     static Mesh2D *createNoiseSampleMesh(uint32_t numCells, float cellWidth, uint32_t numExtendCells, float extendCellWidth, float lowerRadius);
 public:
     Heightmap(ShaderPerlin &perlinShader, uint32_t numCells, float cellWidth, uint32_t numExtendCells, float extendCellWidth, const GameState::Planet &planet);
 
-    void updateToPosition(const glm::vec3 &pos);
+    void updateToPosition(const glm::vec3 &pos, const PerlinNoise &noise);
 
     [[nodiscard]] Mesh *getMesh();
     [[nodiscard]] Mesh2D *getNoiseSampleMesh();
+    [[nodiscard]] Texture *getNoiseTexture();
     [[nodiscard]] glm::mat4 *getRotation();
     [[nodiscard]] glm::vec3 *getLastPos();
 };

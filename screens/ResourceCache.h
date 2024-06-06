@@ -19,14 +19,19 @@
 #include "../render/StateRenderCache.h"
 
 class ResourceCache {
+private:
+    typedef std::vector<std::string> srcs;
 public:
     std::unique_ptr<Shader3D> skyboxShader;
     std::unique_ptr<Shader3D> sceneShader;
     std::unique_ptr<Shader3D> atmosphereShader;
+    std::unique_ptr<Shader3D> heightmapShader;
     std::unique_ptr<ShaderPlanet> planetShader;
     std::unique_ptr<Shader2D> shader2D;
     std::unique_ptr<ShaderPerlin> perlinShader;
     std::unique_ptr<ShaderPerlin> spaceShader;
+
+    std::unique_ptr<Texture> testTexture;
 
     GlWindow *window;
     std::unique_ptr<Controls> controls;

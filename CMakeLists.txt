@@ -62,7 +62,6 @@ add_executable(spacegame main.cpp
         render/shader/ShaderPlanet.h
         render/StateRenderCache.cpp
         render/StateRenderCache.h
-        game/state/PerlinNoise.cpp
         game/state/PerlinNoise.h
         render/model/Heightmap.cpp
         render/model/Heightmap.h

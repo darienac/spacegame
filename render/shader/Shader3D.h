@@ -14,7 +14,8 @@
 
 class Shader3D: public ShaderProgram {
 private:
-    static std::string GLSL_HEADER;
+    static std::string FRAGMENT_HEADER;
+    static std::string VERTEX_HEADER;
 
     // attributes
     GLint aVertex;
@@ -45,10 +46,11 @@ public:
     Shader3D(std::vector<std::string> vertexShader, std::vector<std::string> fragmentShader);
     Shader3D(const std::string &vertexShader, const std::string &fragmentShader);
 
-    void loadCamera(Camera* camera, const glm::mat4& modelMatrix) const;
-    void loadMesh(Mesh* mesh);
-    void loadMaterial(Material* material);
-    static void loadMaterialBlock(UniformBlock* matBlock);
+    void loadCamera(Camera *camera, const glm::mat4 &modelMatrix) const;
+    void loadMesh(Mesh *mesh);
+    void bindDiffuseTexture(const Texture &texture);
+    void loadMaterial(Material *material);
+    static void loadMaterialBlock(UniformBlock *matBlock);
 
     void drawModel(Model *model);
 

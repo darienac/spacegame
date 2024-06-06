@@ -49,6 +49,7 @@ public:
     GameRenderer(GameState* state, ResourceCache* cache);
 
     void drawScene();
+    void debugViewTexture(const Texture &texture);
 };
 
 

@@ -29,10 +29,12 @@ void GameRenderer::drawPlanetAtmosphere(GameState::Planet &planet) {
 
 void GameRenderer::drawPlanetHeightmap(GameState::Planet &planet) {
     StateRenderCache::PlanetData *data = cache->stateRenderCache->planetResources[planet.id].get();
-    cache->sceneShader->bind();
-    cache->sceneShader->loadCamera(&camera, data->heightmapModelTransform * *data->planetHeightmap->getRotation());
-    cache->sceneShader->loadMesh(data->planetHeightmap->getMesh());
+    cache->heightmapShader->bind();
+    cache->heightmapShader->loadCamera(&camera, data->heightmapModelTransform * *data->planetHeightmap->getRotation());
+    cache->heightmapShader->loadMesh(data->planetHeightmap->getMesh());
+    cache->heightmapShader->bindDiffuseTexture(*data->planetHeightmap->getNoiseTexture());
     data->matBlock->setBindingPoint(UniformBlock::MATERIAL);
+    data->planetDataBlock->setBindingPoint(UniformBlock::PLANET_PROPS);
     glDepthFunc(GL_LEQUAL);
     data->planetHeightmap->getMesh()->draw();
     glDepthFunc(GL_LESS);
@@ -104,7 +106,7 @@ void GameRenderer::runRenderTask(GameRenderer::RenderTask &task) {
 
 GameRenderer::GameRenderer(GameState *state, ResourceCache* cache): state(state), cache(cache), camera(cache->window) {
     cache->spaceShader->bind();
-    cache->spaceShader->loadPerlinConfig(state->spaceNoise);
+    cache->spaceShader->loadPerlinConfig(state->spaceNoise, glm::mat4(1.0f));
     cache->spaceShader->draw(cache->stateRenderCache->cameraCubemap.get());
 }
 
@@ -112,8 +114,8 @@ void GameRenderer::drawScene() {
     if (cache->window->getWidth() == 0 || cache->window->getHeight() == 0) {
         return;
     }
-    cache->stateRenderCache->syncToState(state);
     updateCamera();
+    cache->stateRenderCache->syncToState(state);
 
     cache->screenBuffer->bind();
 
@@ -159,4 +161,13 @@ void GameRenderer::drawScene() {
     }
 
     doRenderTasks();
+}
+
+void GameRenderer::debugViewTexture(const Texture &texture) {
+    cache->screenBuffer->bind();
+    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    glDisable(GL_CULL_FACE);
+    updateCamera();
+    cache->stateRenderCache->syncToState(state);
+    cache->shader2D->draw(texture);
 }
