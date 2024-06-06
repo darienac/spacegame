@@ -8,8 +8,8 @@
 ShaderPlanet::ShaderPlanet(const std::vector<std::string> &vertexShader, const std::vector<std::string> &fragmentShader): Shader3D(vertexShader, fragmentShader) {}
 
 void ShaderPlanet::drawPlanet(GameState::Planet &planet, StateRenderCache *cache) {
-    bind();
     StateRenderCache::PlanetData *data = cache->planetResources[planet.id].get();
+    bind();
     loadMesh(data->mesh);
     bindTexture(CUBEMAP_TEX_UNIT, *data->planetSurfaceMap->texture);
     data->matBlock->setBindingPoint(UniformBlock::MATERIAL);

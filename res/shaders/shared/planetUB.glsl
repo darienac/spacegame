@@ -3,6 +3,7 @@ struct PlanetProps {
     float radius;
     float atmosphereRadiusFilled;
     float liquidHeight;
+    float maxLandHeight;
 };
 
 layout (std140) uniform ubPlanetProps {

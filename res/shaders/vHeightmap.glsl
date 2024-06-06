@@ -7,6 +7,6 @@ void main() {
     vNormal = (uNormalMatrix * vec4(aNormal, 1.0)).xyz;
     vTexCoord = aTexCoord;
 
-    float height = texture(textureDiffuse, vTexCoord).r * 0.1;
+    float height = max(texture(textureDiffuse, vTexCoord).r * planetProps.maxLandHeight, planetProps.liquidHeight);
     gl_Position = uViewProjectionMatrix * vec4(aVertex * (height + 1.0), 1.0);
 }

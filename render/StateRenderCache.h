@@ -17,10 +17,7 @@
 #include "model/Heightmap.h"
 
 class StateRenderCache {
-private:
-    static inline const float HMAP_UPDATE_THRESHOLD = 0.999f;
-
-    ShaderPerlin *perlinShader;
+private:ShaderPerlin *perlinShader;
 
     static glm::mat4 getModelTransformMatrix(glm::vec3 pos, float scale);
 

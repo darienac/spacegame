@@ -62,7 +62,8 @@ UniformBlock::UniformBlock(GameState::Planet &planet) {
         .atmosphereColor = planet.atmosphereColor,
         .radius = planet.radius,
         .atmosphereRadiusFilled = planet.radius / (planet.atmosphereHeight + planet.radius),
-        .liquidHeight = planet.liquidHeight
+        .liquidHeight = planet.liquidHeight,
+        .maxLandHeight = planet.maxLandHeight
     };
     bufferData(sizeof(buffer), &buffer);
 }

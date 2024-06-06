@@ -45,6 +45,7 @@ private:
         float radius;
         float atmosphereRadiusFilled;
         float liquidHeight;
+        float maxLandHeight;
     };
 
     struct GLSL_PERLIN_CONFIG {

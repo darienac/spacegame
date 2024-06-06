@@ -12,6 +12,9 @@ void GameRenderer::updateCamera() {
 }
 
 void GameRenderer::drawPlanet(GameState::Planet &planet) {
+    if (planet.lod >= GameState::GROUND) {
+        return;
+    }
     StateRenderCache::PlanetData *planetData = cache->stateRenderCache->planetResources[planet.id].get();
     cache->planetShader->bind();
     cache->planetShader->loadCamera(&camera, planetData->modelTransform);
