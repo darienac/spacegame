@@ -72,7 +72,11 @@ GlWindow::GlWindow(const std::string& name, int width, int height) {
     // Setup OpenGL
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
-    glEnable(GL_MULTISAMPLE);
+    if (GlobalFlags::USE_MULTISAMPLING) {
+        glEnable(GL_MULTISAMPLE);
+    } else {
+        glDisable(GL_MULTISAMPLE);
+    }
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glEnable(GL_ALPHA_TEST);

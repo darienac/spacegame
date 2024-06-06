@@ -25,6 +25,8 @@ private:
 
     GameState *state;
     Controls *controls;
+
+    static void updatePlanetLOD(GameState &state, GameState::Planet &planet);
 public:
     FreeFlyGameEngine(GameState* state, Controls* controls);
 

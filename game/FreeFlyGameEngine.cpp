@@ -2,7 +2,9 @@
 // Created by dacma on 5/1/2024.
 //
 
+#include <iostream>
 #include "FreeFlyGameEngine.h"
+#include "../GlobalFlags.h"
 
 void FreeFlyGameEngine::tick() {
     // logic for a free flying camera, no game logic happening otherwise
@@ -32,9 +34,43 @@ void FreeFlyGameEngine::tick() {
     if (ORIENT_TO_PLANET) {
         state->camera.up = glm::normalize(state->camera.pos - SCALE_POS);
     }
+
+//    for (auto &pair : state->planets) {
+//        updatePlanetLOD(*state, *pair.second);
+//    }
+    updatePlanetLOD(*state, state->planet);
 }
 
 FreeFlyGameEngine::FreeFlyGameEngine(GameState *state, Controls *controls): state(state), controls(controls) {
     camSpeed = 0.01f;
     camRotSpeed = 0.002f;
+}
+
+void FreeFlyGameEngine::updatePlanetLOD(GameState &state, GameState::Planet &planet) {
+    float radius = planet.radius;
+    float closeness = glm::distance(state.camera.pos, planet.position) / radius;
+    if (GlobalFlags::DEBUG && GlobalFlags::TRACK_LOD) {
+        std::cout << "LOD: " << planet.lod << " CLOSENESS: " << closeness << std::endl;
+    }
+    if (closeness > 50.0f) {
+        planet.lod = GameState::BILLBOARD;
+        return;
+    }
+    if (closeness > 10.0f) {
+        planet.lod = GameState::DISTANT;
+        return;
+    }
+    if (closeness > 3.0f) {
+        planet.lod = GameState::NEAR;
+        return;
+    }
+    if (closeness > 1.14f) {
+        planet.lod = GameState::ATMOSPHERE;
+        return;
+    }
+    if (closeness > 1.015f) {
+        planet.lod = GameState::GROUND;
+        return;
+    }
+    planet.lod = GameState::GROUND2;
 }

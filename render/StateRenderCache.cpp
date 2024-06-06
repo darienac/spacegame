@@ -50,10 +50,10 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
                 cubemapWidth = 32;
                 break;
             case GameState::DISTANT:
-                cubemapWidth = 64;
+                cubemapWidth = 256;
                 break;
             case GameState::NEAR:
-                cubemapWidth = 256;
+                cubemapWidth = 1024;
                 break;
             case GameState::ATMOSPHERE:
                 cubemapWidth = 1024;
@@ -81,7 +81,7 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
         if (planet->lod >= GameState::ATMOSPHERE) {
             switch (planet->lod) {
                 case GameState::ATMOSPHERE:
-                    data->planetHeightmap = std::make_unique<Heightmap>(*perlinShader, 100, 0.02f * planet->radius, 0, 0.0f, *planet);
+                    data->planetHeightmap = std::make_unique<Heightmap>(*perlinShader, 500, 0.004f * planet->radius, 0, 0.0f, *planet);
                     break;
                 case GameState::GROUND:
                     data->planetHeightmap = std::make_unique<Heightmap>(*perlinShader, 500, 0.002f * planet->radius, 0, 0.0f, *planet);
@@ -132,8 +132,6 @@ Mesh *StateRenderCache::getPlanetMesh(GameState::Planet &planet) {
             model = orb_3.get();
             break;
         case GameState::NEAR:
-            model = orb_4.get();
-            break;
         case GameState::ATMOSPHERE:
         case GameState::GROUND:
         case GameState::GROUND2:

@@ -131,7 +131,7 @@ void GlFramebuffer::copyToFramebuffer(GlFramebuffer *fbCopy) {
 }
 
 GlFramebuffer::~GlFramebuffer() {
-    if (GlobalFlags::DEBUG) {
+    if (GlobalFlags::DEBUG && GlobalFlags::SHOW_RES_ALLOC) {
         std::cout << "Framebuffer destroyed" << std::endl;
     }
 

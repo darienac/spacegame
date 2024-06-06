@@ -4,6 +4,7 @@
 
 #include <stb_image.h>
 #include "Texture.h"
+#include "../../GlobalFlags.h"
 
 Texture::Texture(const std::string &fileName) {
     textureId = -1;
@@ -15,7 +16,7 @@ Texture::Texture(const std::string &fileName) {
 Texture::Texture(int width, int height, GLint internalformat, GLenum format, GLenum textureType): internalformat(internalformat), format(format), textureType(textureType) {
     glGenTextures(1, &textureId);
     if ((int) textureId < 0) {
-        throw "Unable to create texture";
+        throw std::runtime_error("Unable to create texture");
     }
 
     resize(width, height);
@@ -24,7 +25,9 @@ Texture::Texture(int width, int height, GLint internalformat, GLenum format, GLe
 Texture::Texture(int width, int height): Texture(width, height, GL_RGBA, GL_RGBA, GL_TEXTURE_2D) {}
 
 void Texture::resize(int width, int height) {
-    std::cout << "Texture resize" << std::endl;
+    if (GlobalFlags::DEBUG && GlobalFlags::SHOW_RES_ALLOC) {
+        std::cout << "Texture resize" << std::endl;
+    }
     this->width = width;
     this->height = height;
 
@@ -62,7 +65,7 @@ void Texture::resize(int width, int height) {
 
 void Texture::load(const std::string &fileName) { // only works for GL_TEXTURE_2D
     if (textureId != (GLuint) -1) {
-        throw "Texture already loaded";
+        throw std::runtime_error("Texture already loaded");
     }
 
     stbi_set_flip_vertically_on_load(true);
@@ -72,7 +75,7 @@ void Texture::load(const std::string &fileName) { // only works for GL_TEXTURE_2
 
     glGenTextures(1, &textureId);
     if (textureId < 0) {
-        throw "Unable to create texture";
+        throw std::runtime_error("Unable to create texture");
     }
 
     bind();
@@ -108,9 +111,13 @@ GLenum Texture::getTextureType() const {
 
 Texture::~Texture() {
     if (getTextureId() == (GLuint) -1) {
-        std::printf("Fake texture %d deleted\n", getTextureId());
+        if (GlobalFlags::DEBUG && GlobalFlags::SHOW_RES_ALLOC) {
+            std::printf("Fake texture %d deleted\n", getTextureId());
+        }
         return;
     }
-    std::printf("Texture %d deleted\n", getTextureId());
+    if (GlobalFlags::DEBUG && GlobalFlags::SHOW_RES_ALLOC) {
+        std::printf("Texture %d deleted\n", getTextureId());
+    }
     glDeleteTextures(1, &textureId);
 }

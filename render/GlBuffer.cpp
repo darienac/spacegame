@@ -4,10 +4,13 @@
 
 #include <iostream>
 #include "GlBuffer.h"
+#include "../GlobalFlags.h"
 
 GlBuffer::GlBuffer() {
     glGenBuffers(1, &id);
-    std::cout << "Buffer Created" << std::endl;
+    if (GlobalFlags::DEBUG && GlobalFlags::SHOW_RES_ALLOC) {
+        std::cout << "Buffer Created" << std::endl;
+    }
 }
 
 GlBuffer::GlBuffer(GLsizeiptr size, const GLfloat *data): GlBuffer() {
