@@ -58,8 +58,6 @@ add_executable(spacegame main.cpp
         render/shader/UniformBlock.h
         render/shader/UniformBlockCache.cpp
         render/shader/UniformBlockCache.h
-        render/shader/ShaderPlanet.cpp
-        render/shader/ShaderPlanet.h
         render/StateRenderCache.cpp
         render/StateRenderCache.h
         game/state/PerlinNoise.h

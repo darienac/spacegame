@@ -12,7 +12,6 @@
 #include "../render/shader/Shader2D.h"
 #include "../render/shader/ShaderPerlin.h"
 #include "../render/GlScreenBuffer.h"
-#include "../render/shader/ShaderPlanet.h"
 #include "boost/uuid/uuid.hpp"
 #include "../game/state/GameState.h"
 #include "../render/shader/UniformBlock.h"
@@ -26,7 +25,7 @@ public:
     std::unique_ptr<Shader3D> sceneShader;
     std::unique_ptr<Shader3D> atmosphereShader;
     std::unique_ptr<Shader3D> heightmapShader;
-    std::unique_ptr<ShaderPlanet> planetShader;
+    std::unique_ptr<Shader3D> planetShader;
     std::unique_ptr<Shader2D> shader2D;
     std::unique_ptr<ShaderPerlin> perlinShader;
     std::unique_ptr<ShaderPerlin> spaceShader;

@@ -18,7 +18,11 @@ void GameRenderer::drawPlanet(GameState::Planet &planet) {
     StateRenderCache::PlanetData *planetData = cache->stateRenderCache->planetResources[planet.id].get();
     cache->planetShader->bind();
     cache->planetShader->loadCamera(&camera, planetData->modelTransform);
-    cache->planetShader->drawPlanet(planet, cache->stateRenderCache.get());
+    cache->planetShader->loadMesh(planetData->mesh);
+    cache->planetShader->bindTexture(Shader3D::CUBEMAP_TEX_UNIT, *planetData->planetSurfaceMap->texture);
+    planetData->matBlock->setBindingPoint(UniformBlock::MATERIAL);
+    planetData->planetDataBlock->setBindingPoint(UniformBlock::PLANET_PROPS);
+    planetData->mesh->draw();
 }
 
 void GameRenderer::drawPlanetAtmosphere(GameState::Planet &planet) {

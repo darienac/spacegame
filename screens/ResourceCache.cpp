@@ -13,7 +13,7 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
     sceneShader = std::make_unique<Shader3D>(srcs{"v3D.glsl"}, srcs{Shader3D::GLSL_PHONG_SHADING, "f3D.glsl"});
     atmosphereShader = std::make_unique<Shader3D>(srcs{"v3D.glsl"}, srcs{Shader3D::GLSL_PHONG_SHADING, "shared/planetUB.glsl", "fAtmosphere3D.glsl"});
     heightmapShader = std::make_unique<Shader3D>(srcs{"shared/planetUB.glsl", "vHeightmap.glsl"}, srcs{Shader3D::GLSL_PHONG_SHADING, "shared/planetUB.glsl", "shared/planetHelper.glsl", "fHeightmap.glsl"});
-    planetShader = std::make_unique<ShaderPlanet>(srcs{"v3D.glsl"}, srcs{Shader3D::GLSL_PHONG_SHADING, "shared/planetUB.glsl", "shared/planetHelper.glsl", "fPlanet3D.glsl"});
+    planetShader = std::make_unique<Shader3D>(srcs{"v3D.glsl"}, srcs{Shader3D::GLSL_PHONG_SHADING, "shared/planetUB.glsl", "shared/planetHelper.glsl", "fPlanet3D.glsl"});
     shader2D = std::make_unique<Shader2D>(srcs{"v2D.glsl"}, srcs{"f2D.glsl"});
     perlinShader = std::make_unique<ShaderPerlin>(srcs{"vPerlin.glsl"}, srcs{Shader3D::GLSL_PERLIN, "fPerlin.glsl"});
     spaceShader = std::make_unique<ShaderPerlin>(srcs{"v2D.glsl"}, srcs{Shader3D::GLSL_PERLIN, "fEmptySpace.glsl"});
