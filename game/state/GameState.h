@@ -14,7 +14,7 @@
 class GameState {
 public:
     enum Planet_LOD {
-        BILLBOARD,
+        DISTANT2,
         DISTANT,
         NEAR,
         ATMOSPHERE,

@@ -21,6 +21,7 @@ private:ShaderPerlin *perlinShader;
 
     static glm::mat4 getModelTransformMatrix(glm::vec3 pos, float scale);
 
+    void updatePlanetToLOD(GameState *state, GameState::Planet *planet);
     void syncPlanetsToState(GameState *state);
     void syncStarsToState(GameState *state);
 
@@ -36,7 +37,10 @@ public:
         std::unique_ptr<UniformBlock> matBlock;
         std::unique_ptr<UniformBlock> planetDataBlock;
         std::unique_ptr<Cubemap> planetSurfaceMap;
-        std::unique_ptr<Heightmap> planetHeightmap;
+        Heightmap *planetHeightmap;
+        std::unique_ptr<Heightmap> heightmapAtmosphere;
+        std::unique_ptr<Heightmap> heightmapGround;
+        std::unique_ptr<Heightmap> heightmapGround2;
         Mesh* mesh;
     };
     struct StarData {

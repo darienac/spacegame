@@ -9,9 +9,29 @@ glm::mat4 StateRenderCache::getModelTransformMatrix(glm::vec3 pos, float scale) 
     return glm::translate(glm::mat4(1.0f), pos) * glm::scale(glm::mat4(1.0f), {scale, scale, scale});
 }
 
+void StateRenderCache::updatePlanetToLOD(GameState *state, GameState::Planet *planet) {
+    PlanetData *data = planetResources[planet->id].get();
+    if (planet->lod >= GameState::ATMOSPHERE) {
+        switch (planet->lod) {
+            case GameState::ATMOSPHERE:
+                data->planetHeightmap = data->heightmapAtmosphere.get();
+                break;
+            case GameState::GROUND:
+                data->planetHeightmap = data->heightmapGround.get();
+                break;
+            case GameState::GROUND2:
+                data->planetHeightmap = data->heightmapGround2.get();
+                break;
+            default:
+                break;
+        }
+        data->planetHeightmap->updateToPosition(state->camera.pos - planet->position, planet->surfaceNoise);
+    }
+}
+
 void StateRenderCache::syncPlanetsToState(GameState *state) {
     for (auto it = planetResources.cbegin(); it != planetResources.cend();) {
-        if (!state->planets.contains(it->first) || state->planets[it->first]->lod != planetResources[it->first]->lod) {
+        if (!state->planets.contains(it->first)) {
             it = planetResources.erase(it);
         } else {
             it++;
@@ -22,6 +42,10 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
         boost::uuids::uuid id = pair.first;
         if (planetResources.contains(id)) {
             PlanetData *data = planetResources[id].get();
+            if (data->lod != planet->lod) {
+                data->lod = planet->lod;
+                updatePlanetToLOD(state, planet);
+            }
             if (data->planetHeightmap) {
                 float posOffset = glm::dot(glm::normalize(state->camera.pos - planet->position), *data->planetHeightmap->getLastPos());
                 float threshold;
@@ -44,25 +68,6 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
             }
             continue;
         }
-        int cubemapWidth;
-        switch (planet->lod) {
-            case GameState::BILLBOARD:
-                cubemapWidth = 32;
-                break;
-            case GameState::DISTANT:
-                cubemapWidth = 256;
-                break;
-            case GameState::NEAR:
-                cubemapWidth = 1024;
-                break;
-            case GameState::ATMOSPHERE:
-                cubemapWidth = 1024;
-                break;
-            case GameState::GROUND:
-            case GameState::GROUND2:
-                cubemapWidth = 1;
-                break;
-        }
         planetResources[id] = std::make_unique<PlanetData>(PlanetData{
             .lod = planet->lod,
             .modelTransform = getModelTransformMatrix(planet->position, planet->radius),
@@ -72,28 +77,17 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
             .liquidMat = std::make_unique<Material>(glm::vec3{1.0f, 1.0f, 1.0f}, planet->liquidColor, glm::vec3{0.2f, 0.2f, 0.2f}, glm::vec3{0.0f, 0.0f, 0.0f}, 1.0f),
             .matBlock = nullptr,
             .planetDataBlock = std::make_unique<UniformBlock>(*planet),
-            .planetSurfaceMap = std::make_unique<Cubemap>(cubemapWidth, false, GL_RED, GL_RED),
+            .planetSurfaceMap = std::make_unique<Cubemap>(1024, false, GL_RED, GL_RED),
+            .planetHeightmap = nullptr,
+            .heightmapAtmosphere = std::make_unique<Heightmap>(*perlinShader, 500, 0.004f * planet->radius, 0, 0.0f, *planet),
+            .heightmapGround = std::make_unique<Heightmap>(*perlinShader, 500, 0.002f * planet->radius, 0, 0.0f, *planet),
+            .heightmapGround2 = std::make_unique<Heightmap>(*perlinShader, 500, 0.0006f * planet->radius, 0, 0.0f, *planet),
             .mesh = getPlanetMesh(*planet),
         });
         PlanetData *data = planetResources[id].get();
         data->matBlock = std::make_unique<UniformBlock>(std::vector<Material*>{data->surfaceMat.get(), data->liquidMat.get()});
         perlinShader->drawToCubemap(&planet->surfaceNoise, data->planetSurfaceMap.get());
-        if (planet->lod >= GameState::ATMOSPHERE) {
-            switch (planet->lod) {
-                case GameState::ATMOSPHERE:
-                    data->planetHeightmap = std::make_unique<Heightmap>(*perlinShader, 500, 0.004f * planet->radius, 0, 0.0f, *planet);
-                    break;
-                case GameState::GROUND:
-                    data->planetHeightmap = std::make_unique<Heightmap>(*perlinShader, 500, 0.002f * planet->radius, 0, 0.0f, *planet);
-                    break;
-                case GameState::GROUND2:
-                    data->planetHeightmap = std::make_unique<Heightmap>(*perlinShader, 500, 0.0006f * planet->radius, 0, 0.0f, *planet);
-                    break;
-                default:
-                    break;
-            }
-            data->planetHeightmap->updateToPosition(state->camera.pos - planet->position, planet->surfaceNoise);
-        }
+        updatePlanetToLOD(state, planet);
     }
 }
 
@@ -125,7 +119,7 @@ void StateRenderCache::syncStarsToState(GameState *state) {
 Mesh *StateRenderCache::getPlanetMesh(GameState::Planet &planet) {
     Model *model;
     switch (planet.lod) {
-        case GameState::BILLBOARD:
+        case GameState::DISTANT2:
             model = orb_2.get();
             break;
         case GameState::DISTANT:
