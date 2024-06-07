@@ -47,9 +47,9 @@ void GameRenderer::drawStar(GameState::Star &star) {
     StateRenderCache::StarData *starData = cache->stateRenderCache->starResources[star.id].get();
     cache->sceneShader->bind();
     cache->sceneShader->loadCamera(&camera, starData->modelTransform);
-    cache->sceneShader->loadMesh(cache->stateRenderCache->orb_2->getMeshes()[0]);
+    cache->sceneShader->loadMesh(starData->mesh);
     Shader3D::loadMaterialBlock(cache->stateRenderCache->starResources[star.id]->matBlock.get());
-    cache->stateRenderCache->orb_2->getMeshes()[0]->draw();
+    starData->mesh->draw();
 }
 
 void GameRenderer::doRenderTasks() {

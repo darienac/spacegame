@@ -22,10 +22,11 @@ private:ShaderPerlin *perlinShader;
     static glm::mat4 getModelTransformMatrix(glm::vec3 pos, float scale);
 
     void updatePlanetToLOD(GameState *state, GameState::Planet *planet);
+    void updateStarToLOD(GameState *state, GameState::Star *star);
     void syncPlanetsToState(GameState *state);
     void syncStarsToState(GameState *state);
 
-    Mesh* getPlanetMesh(GameState::Planet &planet);
+    Mesh* getPlanetLODMesh(GameState::Planet_LOD lod);
 public:
     struct PlanetData {
         GameState::Planet_LOD lod;
@@ -48,6 +49,7 @@ public:
         glm::mat4 modelTransform;
         std::unique_ptr<Material> material;
         std::unique_ptr<UniformBlock> matBlock;
+        Mesh* mesh;
     };
 
     std::map<boost::uuids::uuid, std::unique_ptr<PlanetData>> planetResources;

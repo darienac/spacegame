@@ -27,6 +27,14 @@ void StateRenderCache::updatePlanetToLOD(GameState *state, GameState::Planet *pl
         }
         data->planetHeightmap->updateToPosition(state->camera.pos - planet->position, planet->surfaceNoise);
     }
+    data->lod = planet->lod;
+    data->mesh = getPlanetLODMesh(planet->lod);
+}
+
+void StateRenderCache::updateStarToLOD(GameState *state, GameState::Star *star) {
+    StarData *data = starResources[star->id].get();
+    data->lod = star->lod;
+    data->mesh = getPlanetLODMesh(star->lod);
 }
 
 void StateRenderCache::syncPlanetsToState(GameState *state) {
@@ -43,7 +51,6 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
         if (planetResources.contains(id)) {
             PlanetData *data = planetResources[id].get();
             if (data->lod != planet->lod) {
-                data->lod = planet->lod;
                 updatePlanetToLOD(state, planet);
             }
             if (data->planetHeightmap) {
@@ -69,7 +76,6 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
             continue;
         }
         planetResources[id] = std::make_unique<PlanetData>(PlanetData{
-            .lod = planet->lod,
             .modelTransform = getModelTransformMatrix(planet->position, planet->radius),
             .atmosphereModelTransform = getModelTransformMatrix(planet->position, -(planet->radius + planet->atmosphereHeight)),
             .heightmapModelTransform = getModelTransformMatrix(planet->position, 1.0f),
@@ -81,8 +87,7 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
             .planetHeightmap = nullptr,
             .heightmapAtmosphere = std::make_unique<Heightmap>(*perlinShader, 500, 0.004f * planet->radius, 0, 0.0f, *planet),
             .heightmapGround = std::make_unique<Heightmap>(*perlinShader, 500, 0.002f * planet->radius, 0, 0.0f, *planet),
-            .heightmapGround2 = std::make_unique<Heightmap>(*perlinShader, 500, 0.0006f * planet->radius, 0, 0.0f, *planet),
-            .mesh = getPlanetMesh(*planet),
+            .heightmapGround2 = std::make_unique<Heightmap>(*perlinShader, 500, 0.0006f * planet->radius, 0, 0.0f, *planet)
         });
         PlanetData *data = planetResources[id].get();
         data->matBlock = std::make_unique<UniformBlock>(std::vector<Material*>{data->surfaceMat.get(), data->liquidMat.get()});
@@ -93,7 +98,7 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
 
 void StateRenderCache::syncStarsToState(GameState *state) {
     for (auto it = starResources.cbegin(); it != starResources.cend();) {
-        if (!state->stars.contains(it->first) || state->stars[it->first]->lod != starResources[it->first]->lod) {
+        if (!state->stars.contains(it->first)) {
             it = starResources.erase(it);
         } else {
             it++;
@@ -103,22 +108,25 @@ void StateRenderCache::syncStarsToState(GameState *state) {
         GameState::Star *star = pair.second;
         boost::uuids::uuid id = pair.first;
         if (starResources.contains(id)) {
+            StarData *data = starResources[id].get();
+            if (data->lod != star->lod) {
+                updateStarToLOD(state, star);
+            }
             continue;
         }
         starResources[id] = std::make_unique<StarData>(StarData{
-            .lod = star->lod,
             .modelTransform = getModelTransformMatrix(star->position, star->radius),
-            .material = std::make_unique<Material>(glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, star->color, 1.0f),
-            .matBlock = nullptr
+            .material = std::make_unique<Material>(glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, star->color, 1.0f)
         });
         StarData *data = starResources[id].get();
         data->matBlock = std::make_unique<UniformBlock>(data->material.get());
+        updateStarToLOD(state, star);
     }
 }
 
-Mesh *StateRenderCache::getPlanetMesh(GameState::Planet &planet) {
+Mesh *StateRenderCache::getPlanetLODMesh(GameState::Planet_LOD lod) {
     Model *model;
-    switch (planet.lod) {
+    switch (lod) {
         case GameState::DISTANT2:
             model = orb_2.get();
             break;

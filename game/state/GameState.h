@@ -104,6 +104,7 @@ private:
 
     Star star {
             .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            .lod = DISTANT2,
             .color = {1.0, 1.0, 1.0},
             .position = {0.0f, 10.0f, 0.0f},
             .radius = 1.0f
@@ -111,6 +112,7 @@ private:
 
     Star star2 {
             .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+            .lod = DISTANT,
             .color = {3.0, 0.0, 0.0},
             .position = {-30.0f, 0.0f, 0.0f},
             .radius = 0.5f

@@ -38,6 +38,9 @@ void FreeFlyGameEngine::tick() {
     for (auto &pair : state->planets) {
         updatePlanetLOD(*state, *pair.second);
     }
+    for (auto &pair : state->stars) {
+        updateStarLOD(*state, *pair.second);
+    }
 }
 
 FreeFlyGameEngine::FreeFlyGameEngine(GameState *state, Controls *controls): state(state), controls(controls) {
@@ -72,4 +75,18 @@ void FreeFlyGameEngine::updatePlanetLOD(GameState &state, GameState::Planet &pla
         return;
     }
     planet.lod = GameState::GROUND2;
+}
+
+void FreeFlyGameEngine::updateStarLOD(GameState &state, GameState::Star &star) {
+    float radius = star.radius;
+    float closeness = glm::distance(state.camera.pos, star.position) / radius;
+    if (closeness > 50.0f) {
+        star.lod = GameState::DISTANT2;
+        return;
+    }
+    if (closeness > 10.0f) {
+        star.lod = GameState::DISTANT;
+        return;
+    }
+    star.lod = GameState::NEAR;
 }
