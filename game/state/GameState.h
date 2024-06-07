@@ -92,8 +92,8 @@ public:
                     .amplitudeMult = 0.5f,
                     .frequencyMult = 2.0f
             },
-            .position = {-10.0f, 0.0f, 0.0f},
-            .radius = 1.0f
+            .position = {-10000.0f, 0.0f, 0.0f},
+            .radius = 1000.0f
     };
 
     Planet planet2 = {
@@ -114,8 +114,8 @@ public:
                     .amplitudeMult = 0.5f,
                     .frequencyMult = 2.0f
             },
-            .position = {10.0f, 0.0f, 0.0f},
-            .radius = 2.0f
+            .position = {10000.0f, 0.0f, 0.0f},
+            .radius = 2000.0f
     };
 
 private:
@@ -124,27 +124,27 @@ private:
             .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             .lod = DISTANT2,
             .color = {1.0, 1.0, 1.0},
-            .position = {0.0f, 10.0f, 0.0f},
-            .radius = 1.0f
+            .position = {0.0f, 10000.0f, 0.0f},
+            .radius = 1000.0f
     };
 
     Star star2 {
             .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
             .lod = DISTANT,
             .color = {3.0, 0.0, 0.0},
-            .position = {-30.0f, 0.0f, 0.0f},
-            .radius = 0.5f
+            .position = {-30000.0f, 0.0f, 0.0f},
+            .radius = 500.0f
     };
 
     Light light {
             .id = {0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            .position = {0.0f, 100.0f, 0.0f},
+            .position = {0.0f, 10000.0f, 0.0f},
             .color = {3.0f, 3.0f, 3.0f}
     };
 
     Light light2 {
             .id = {0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            .position = {-30.0f, 0.0f, 0.0f},
+            .position = {-30000.0f, 0.0f, 0.0f},
             .color = {3.0, 0.0, 0.0}
     };
 public:

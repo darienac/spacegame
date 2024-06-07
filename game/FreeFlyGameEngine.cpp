@@ -44,7 +44,7 @@ void FreeFlyGameEngine::tick() {
 }
 
 FreeFlyGameEngine::FreeFlyGameEngine(GameState *state, Controls *controls): state(state), controls(controls) {
-    camSpeed = 0.01f;
+    camSpeed = 10.0f;
     camRotSpeed = 0.002f;
 }
 
