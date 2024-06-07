@@ -28,6 +28,24 @@ public:
         glm::vec3 up;
     };
 
+    struct ModelState {
+        glm::vec3 pos;
+        glm::vec3 dir;
+        glm::vec3 up;
+        float scale;
+    };
+
+    enum ShipBoosterState {
+        BOOSTER_OFF,
+        BOOSTER_ON,
+        BOOSTER_TURBO
+    };
+
+    struct ShipState {
+        ModelState modelState;
+        ShipBoosterState boosterState;
+    };
+
     struct Planet {
         boost::uuids::uuid id;
         Planet_LOD lod;
@@ -130,6 +148,16 @@ private:
             .color = {3.0, 0.0, 0.0}
     };
 public:
+    ShipState ship = {
+        .modelState = {
+            .pos = {0.0f, 0.0f, 0.0f},
+            .dir = {0.0f, 0.0f, -1.0f},
+            .up = {0.0f, 1.0f, 0.0f},
+            .scale = 1.0f
+        },
+        .boosterState = BOOSTER_OFF
+    };
+
     CameraState camera = {
         .pos = {0.0f, 0.0f, 10.0f},
         .dir = {0.0f, 0.0f, -1.0f},

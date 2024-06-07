@@ -56,6 +56,14 @@ void GameRenderer::drawStar(GameState::Star &star) {
     starData->mesh->draw();
 }
 
+void GameRenderer::drawModel(GameRenderer::ModelRenderData &renderData) {
+    glm::mat4 modelTransform = glm::translate(glm::mat4(1.0f), renderData.modelState->pos) * glm::inverse(glm::lookAt({0.0f, 0.0f, 0.0f}, renderData.modelState->dir, renderData.modelState->up)) * glm::scale(glm::mat4(1.0f), {renderData.modelState->scale, renderData.modelState->scale, renderData.modelState->scale});
+
+    cache->sceneShader->bind();
+    cache->sceneShader->loadCamera(&camera, modelTransform);
+    cache->sceneShader->drawModel(renderData.model);
+}
+
 void GameRenderer::doRenderTasks() {
     std::size_t numTransparent = 0;
     std::size_t numOpaque = 0;
@@ -108,6 +116,9 @@ void GameRenderer::runRenderTask(GameRenderer::RenderTask &task) {
         case PLANET_HEIGHTMAP:
             drawPlanetHeightmap(*task.planet);
             break;
+        case BASIC_MODEL:
+            drawModel(task.modelRenderData);
+            break;
     }
 }
 
@@ -136,6 +147,15 @@ void GameRenderer::drawScene() {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
+    renderTasks.emplace_back(RenderTask{
+        .type = BASIC_MODEL,
+        .usesTransparency = false,
+        .pos = state->ship.modelState.pos,
+        .modelRenderData = {
+            .modelState = &state->ship.modelState,
+            .model = cache->shipModel.get()
+        }
+    });
     for (auto &pair : state->planets) {
         renderTasks.emplace_back(RenderTask{
             .type = PLANET,

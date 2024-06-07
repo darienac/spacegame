@@ -29,6 +29,8 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
         spaceShader->validate();
     }
 
+    shipModel = std::make_unique<Model>("spaceship.obj");
+
     testTexture = std::make_unique<Texture>("my_character_texturemap.png");
     screenBuffer = std::make_unique<GlScreenBuffer>(window->getWindow());
     stateRenderCache = std::make_unique<StateRenderCache>(perlinShader.get());

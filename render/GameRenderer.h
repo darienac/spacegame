@@ -18,7 +18,13 @@ private:
         STAR,
         PLANET,
         PLANET_ATMOSPHERE,
-        PLANET_HEIGHTMAP
+        PLANET_HEIGHTMAP,
+        BASIC_MODEL
+    };
+
+    struct ModelRenderData {
+        GameState::ModelState *modelState;
+        Model *model;
     };
 
     struct RenderTask {
@@ -28,6 +34,7 @@ private:
         union {
             GameState::Planet *planet;
             GameState::Star *star;
+            ModelRenderData modelRenderData;
         };
     };
 
@@ -42,6 +49,7 @@ private:
     void drawPlanetAtmosphere(GameState::Planet &planet);
     void drawPlanetHeightmap(GameState::Planet &planet);
     void drawStar(GameState::Star &star);
+    void drawModel(ModelRenderData &renderData);
 
     void doRenderTasks();
     void runRenderTask(RenderTask &task);

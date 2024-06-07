@@ -30,6 +30,8 @@ public:
     std::unique_ptr<ShaderPerlin> perlinShader;
     std::unique_ptr<ShaderPerlin> spaceShader;
 
+    std::unique_ptr<Model> shipModel;
+
     std::unique_ptr<Texture> testTexture;
 
     GlWindow *window;
