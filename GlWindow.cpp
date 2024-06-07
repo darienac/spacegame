@@ -62,8 +62,10 @@ GlWindow::GlWindow(const std::string& name, int width, int height) {
     if (err != GLEW_OK) {
         std::cout << "Error: %s\n" << glewGetErrorString(err);
     }
-    std::cout << "Status: Using GLEW " << glewGetString(GLEW_VERSION) << "\n";
-    std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+    if (GlobalFlags::DEBUG) {
+        std::cout << "Status: Using GLEW " << glewGetString(GLEW_VERSION) << "\n";
+        std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+    }
 
     if (!glewIsSupported("GL_ARB_shader_objects") || !glewIsSupported("GL_ARB_vertex_shader") || !glewIsSupported("GL_ARB_fragment_shader")) {
         std::cerr << "Missing necessary OpenGL extensions";

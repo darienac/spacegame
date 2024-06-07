@@ -130,10 +130,6 @@ void Heightmap::updateToPosition(const glm::vec3 &pos, const PerlinNoise &noise)
     noiseFB->bind();
     // Render the perlin noise
     perlinShader->drawToMesh(&noise, rotation, noiseSampleMesh.get());
-//    perlinShader->bind();
-//    perlinShader->draw();
-
-    std::cout << "Pos updated" << std::endl;
 }
 
 glm::mat4 *Heightmap::getRotation() {
