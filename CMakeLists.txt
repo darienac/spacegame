@@ -64,7 +64,11 @@ add_executable(spacegame main.cpp
         render/model/Heightmap.cpp
         render/model/Heightmap.h
         render/model/Mesh2D.cpp
-        render/model/Mesh2D.h)
+        render/model/Mesh2D.h
+        game/BasicGameEngine.cpp
+        game/BasicGameEngine.h
+        game/MainGameEngine.cpp
+        game/MainGameEngine.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE glm::glm)

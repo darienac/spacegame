@@ -40,10 +40,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             controlsRef->arrowDown = value;
             break;
         case GLFW_KEY_LEFT_SHIFT:
-            controlsRef->button2Down = value;
+            controlsRef->debugFallButtonDown = value;
             break;
         case GLFW_KEY_SPACE:
-            controlsRef->button1Down = value;
+            controlsRef->debugRiseButtonDown = value;
             break;
         case GLFW_KEY_F11:
             if (value) {
@@ -51,21 +51,21 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             }
             break;
         case GLFW_KEY_Q:
-            controlsRef->button3Down = value;
+            controlsRef->debugApproachButtonDown = value;
             break;
         case GLFW_KEY_E:
-            controlsRef->button4Down = value;
+            controlsRef->debugDivergeButtonDown = value;
             break;
         default:
             break;
     }
-    controlsRef->lStick = {controlsRef->right - controlsRef->left, controlsRef->up - controlsRef->down};
-    controlsRef->rStick = {controlsRef->arrowRight - controlsRef->arrowLeft, controlsRef->arrowUp - controlsRef->arrowDown};
-    if (glm::length(controlsRef->lStick) > 1.0f) {
-        controlsRef->lStick = glm::normalize(controlsRef->lStick);
+    controlsRef->debugFlyXZDir = {controlsRef->right - controlsRef->left, controlsRef->up - controlsRef->down};
+    controlsRef->debugPanCameraDir = {controlsRef->arrowRight - controlsRef->arrowLeft, controlsRef->arrowUp - controlsRef->arrowDown};
+    if (glm::length(controlsRef->debugFlyXZDir) > 1.0f) {
+        controlsRef->debugFlyXZDir = glm::normalize(controlsRef->debugFlyXZDir);
     }
-    if (glm::length(controlsRef->rStick) > 1.0f) {
-        controlsRef->rStick = glm::normalize(controlsRef->rStick);
+    if (glm::length(controlsRef->debugPanCameraDir) > 1.0f) {
+        controlsRef->debugPanCameraDir = glm::normalize(controlsRef->debugPanCameraDir);
     }
 }
 
@@ -95,37 +95,37 @@ void Controls::pollGamepadInputs(int jid) {
 
     if (isGamepadAxisUpdated(state, GLFW_GAMEPAD_AXIS_LEFT_X) || isGamepadAxisUpdated(state, GLFW_GAMEPAD_AXIS_LEFT_Y)) {
         glm::vec2 stickPos = {state.axes[GLFW_GAMEPAD_AXIS_LEFT_X], -state.axes[GLFW_GAMEPAD_AXIS_LEFT_Y]};
-        if (!(glm::length(stickPos) < STICK_DEADZONE && glm::length(lStick) < STICK_DEADZONE)) {
-            lStick = stickPos;
-            if (glm::length(lStick) > 1.0f) {
-                lStick = glm::normalize(lStick);
-            } else if (glm::length(lStick) < STICK_DEADZONE) {
-                lStick = {0.0f, 0.0f};
+        if (!(glm::length(stickPos) < STICK_DEADZONE && glm::length(debugFlyXZDir) < STICK_DEADZONE)) {
+            debugFlyXZDir = stickPos;
+            if (glm::length(debugFlyXZDir) > 1.0f) {
+                debugFlyXZDir = glm::normalize(debugFlyXZDir);
+            } else if (glm::length(debugFlyXZDir) < STICK_DEADZONE) {
+                debugFlyXZDir = {0.0f, 0.0f};
             }
         }
     }
     if (isGamepadAxisUpdated(state, GLFW_GAMEPAD_AXIS_RIGHT_X) || isGamepadAxisUpdated(state, GLFW_GAMEPAD_AXIS_RIGHT_Y)) {
         glm::vec2 stickPos = {state.axes[GLFW_GAMEPAD_AXIS_RIGHT_X], -state.axes[GLFW_GAMEPAD_AXIS_RIGHT_Y]};
-        if (!(glm::length(stickPos) < STICK_DEADZONE && glm::length(rStick) < STICK_DEADZONE)) {
-            rStick = stickPos;
-            if (glm::length(rStick) > 1.0f) {
-                rStick = glm::normalize(rStick);
-            } else if (glm::length(rStick) < STICK_DEADZONE) {
-                rStick = {0.0f, 0.0f};
+        if (!(glm::length(stickPos) < STICK_DEADZONE && glm::length(debugPanCameraDir) < STICK_DEADZONE)) {
+            debugPanCameraDir = stickPos;
+            if (glm::length(debugPanCameraDir) > 1.0f) {
+                debugPanCameraDir = glm::normalize(debugPanCameraDir);
+            } else if (glm::length(debugPanCameraDir) < STICK_DEADZONE) {
+                debugPanCameraDir = {0.0f, 0.0f};
             }
         }
     }
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_A)) {
-        button1Down = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_A);
+        debugRiseButtonDown = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_A);
     }
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_B)) {
-        button2Down = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_B);
+        debugFallButtonDown = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_B);
     }
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_X)) {
-        button3Down = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_X);
+        debugApproachButtonDown = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_X);
     }
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_Y)) {
-        button4Down = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_Y);
+        debugDivergeButtonDown = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_Y);
     }
 
     lastGamepadState = state;

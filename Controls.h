@@ -17,6 +17,7 @@ private:
     bool isGamepadButtonPressed(const GLFWgamepadstate& state, int button);
     bool isGamepadAxisUpdated(const GLFWgamepadstate& state, int axis);
 public:
+    // Generic
     bool left = false;
     bool right = false;
     bool up = false;
@@ -25,15 +26,19 @@ public:
     bool arrowRight = false;
     bool arrowUp = false;
     bool arrowDown = false;
-    bool button1Down = false;
-    bool button2Down = false;
-    bool button3Down = false;
-    bool button4Down = false;
+
+    // Debug Engine
+    bool debugRiseButtonDown = false;
+    bool debugFallButtonDown = false;
+    bool debugApproachButtonDown = false;
+    bool debugDivergeButtonDown = false;
     bool fullscreenPressed = false;
 
+    // Main Engine
+
     GLFWgamepadstate lastGamepadState;
-    glm::vec2 lStick = {0.0f, 0.0f};
-    glm::vec2 rStick = {0.0f, 0.0f};
+    glm::vec2 debugFlyXZDir = {0.0f, 0.0f};
+    glm::vec2 debugPanCameraDir = {0.0f, 0.0f};
 
     Controls(GlWindow* window);
 

@@ -6,14 +6,14 @@
 #define SPACEGAME_FREEFLYGAMEENGINE_H
 
 
-#include "IGameEngine.h"
 #include "state/GameState.h"
 #include "../Controls.h"
+#include "BasicGameEngine.h"
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class FreeFlyGameEngine: public IGameEngine {
+class FreeFlyGameEngine: public BasicGameEngine {
 private:
     static const inline float SCALE_MULT = 1.001;
     static const inline glm::vec3 SCALE_POS = {-10000.0f, 0.0f, 0.0f};
@@ -25,9 +25,6 @@ private:
 
     GameState *state;
     Controls *controls;
-
-    static void updatePlanetLOD(GameState &state, GameState::Planet &planet);
-    static void updateStarLOD(GameState &state, GameState::Star &star);
 public:
     FreeFlyGameEngine(GameState* state, Controls* controls);
 

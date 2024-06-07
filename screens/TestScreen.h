@@ -11,6 +11,7 @@
 #include "../render/GameRenderer.h"
 #include "../game/FreeFlyGameEngine.h"
 #include "ResourceCache.h"
+#include "../game/MainGameEngine.h"
 
 class TestScreen : public IScreen {
 private:
@@ -18,7 +19,8 @@ private:
     ResourceCache *cache;
     GameState state;
     GameRenderer renderer;
-    FreeFlyGameEngine engine;
+    FreeFlyGameEngine debugEngine;
+    MainGameEngine mainEngine;
 public:
     TestScreen(ResourceCache* cache);
 

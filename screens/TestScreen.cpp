@@ -5,7 +5,7 @@
 #include <iostream>
 #include "TestScreen.h"
 
-TestScreen::TestScreen(ResourceCache *cache): renderer(&state, cache), engine(&state, cache->controls.get()) {
+TestScreen::TestScreen(ResourceCache *cache): renderer(&state, cache), debugEngine(&state, cache->controls.get()), mainEngine(&state, cache->controls.get()) {
     this->cache = cache;
 }
 
@@ -25,7 +25,7 @@ void TestScreen::renderFrame() {
 }
 
 void TestScreen::tick() {
-    engine.tick();
+    debugEngine.tick();
 }
 
 bool TestScreen::shouldClose() {
