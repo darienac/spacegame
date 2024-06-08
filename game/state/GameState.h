@@ -84,7 +84,7 @@ public:
             .lod = GROUND2,
             .surfaceColor = {0.1f, 0.25f, 0.1f},
             .atmosphereColor = {0.2f, 0.7f, 1.0f, 0.8f},
-            .atmosphereHeight = 0.025f,
+            .atmosphereHeight = 25.0f,
             .liquidColor = {0.02f, 0.1f, 0.2f},
             .liquidHeight = 0.005f,
             .maxLandHeight = 0.01f,
@@ -106,7 +106,7 @@ public:
             .lod = ATMOSPHERE,
             .surfaceColor = {0.3f, 0.15f, 0.1f},
             .atmosphereColor = {1.0f, 0.8f, 0.7f, 0.9f},
-            .atmosphereHeight = 0.01f,
+            .atmosphereHeight = 40.0f,
             .liquidColor = {0.3f, 0.25f, 0.2f},
             .liquidHeight = 0.003f,
             .maxLandHeight = 0.01f,
@@ -187,7 +187,7 @@ public:
 
     std::map<boost::uuids::uuid, Planet*> planets = {{planet.id, &planet}, {planet2.id, &planet2}};
     std::map<boost::uuids::uuid, Star*> stars = {{star.id, &star}, {star2.id, &star2}};
-    std::map<boost::uuids::uuid, Light*> lights = {{light.id, &light}, {light2.id, &light2}};
+    std::map<boost::uuids::uuid, Light*> lights = {{light.id, &light}};
 };
 
 #endif //SPACEGAME_GAMESTATE_H
