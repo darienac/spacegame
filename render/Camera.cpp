@@ -8,7 +8,7 @@ Camera::Camera(GlWindow* window) {
     this->window = window;
     fovy = 45 * (M_PI / 180);
     zNear = 0.1;
-    zFar = 10000.0;
+    zFar = 100000.0;
     pos = {0.0, 0.0, 10.0};
     target = {0.0, 0.0, 0.0};
     up = {0.0, 1.0, 0.0};
@@ -19,7 +19,7 @@ glm::dvec3 Camera::getPos() {
 }
 
 glm::dmat4 Camera::getViewProjectionMatrix(double aspect) {
-    glm::dmat4 project = glm::infinitePerspective<double>(fovy, aspect, zNear);
+    glm::dmat4 project = glm::perspective<double>(fovy, aspect, zNear, zFar);
     glm::dmat4 view = glm::lookAt<double>(pos, target, up);
 
     return project * view;
