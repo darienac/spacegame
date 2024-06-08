@@ -21,7 +21,6 @@ public:
     glm::vec3 diffuse;
     glm::vec3 specular;
     glm::vec3 emissive;
-//    float reflectance;
     float opacity;
     Texture* texture;
 

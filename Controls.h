@@ -42,6 +42,7 @@ public:
     // Main Engine
     glm::vec2 shipTurnDir = {0.0f, 0.0f};
     glm::vec2 cameraPanDir = {0.0f, 0.0f};
+    bool reverseCamera = false;
     bool engageTurbo = false;
     bool engageRoll = false;
     float boosterPower = 0.0f;

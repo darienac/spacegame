@@ -23,8 +23,6 @@
 #include "screens/ScreenManager.h"
 
 // TODO: Change system for freeing Uniform Blocks (how can I tie to deleting a Material, etc?) (maybe std::weak_ptr?)
-// Get rid of the ShaderPlanet class, replace method with code in GameRenderer and make it a basic Shader3D
-// approach planet steps: transition to ATMOSPHERE LOD, render clouds (for a certain region), render heightmap (planet still rendering behind)
 // uViewPosition is still 32 bit and uModelPosition as well, may need another uniform to replace need for 64 bit
 
 int main() {

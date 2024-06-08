@@ -65,6 +65,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             controlsRef->backBoosterPower = value ? 1.0f : 0.0f;
         case GLFW_KEY_GRAVE_ACCENT:
             controlsRef->enableDebugEngine = value ^ controlsRef->enableDebugEngine;
+        case GLFW_KEY_RIGHT_SHIFT:
+            controlsRef->reverseCamera = value;
+            break;
         default:
             break;
     }
@@ -150,6 +153,9 @@ void Controls::pollGamepadInputs(int jid) {
     }
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_LEFT_BUMPER)) {
         engageRoll = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_LEFT_BUMPER);
+    }
+    if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_RIGHT_THUMB)) {
+        reverseCamera = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_RIGHT_THUMB);
     }
 
     lastGamepadState = state;

@@ -24,6 +24,9 @@ void MainGameEngine::fixCamera(GameState::CameraState &camera, Controls &control
     desiredDir = glm::rotate(glm::dmat4(1.0), controls.cameraPanDir.x * (pi * 0.5), ship.modelState.up) * glm::dvec4(desiredDir, 0.0);
     glm::dvec3 right = glm::normalize(glm::cross(desiredDir, camera.up));
     desiredDir = glm::rotate(glm::dmat4(1.0), controls.cameraPanDir.y * (pi * -0.25f), right) * glm::dvec4(desiredDir, 0.0);
+    if (controls.reverseCamera) {
+        desiredDir *= -1.0;
+    }
 
     camera.dir = glm::normalize(glm::normalize(desiredDir) * 0.02 + camera.dir);
     camera.pos = ship.modelState.pos + ship.modelState.up * 1.5 - 8.0 * camera.dir;
