@@ -15,6 +15,7 @@ private:
     Controls *controls;
 
     static void fixCamera(GameState::CameraState &camera, Controls &controls, GameState::ShipState &ship);
+    static void updateShip(Controls &controls, GameState::ShipState &ship);
 public:
     MainGameEngine(GameState* state, Controls* controls);
 

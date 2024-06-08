@@ -71,6 +71,7 @@ public:
 
     explicit UniformBlock(const PerlinNoise &perlinNoise);
 
+    void loadMaterial(Material *material);
     void loadLights(const std::vector<GameState::Light*> &lights, const glm::vec3 &ambientLight);
     void setBindingPoint(GLuint index);
 };

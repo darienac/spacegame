@@ -19,6 +19,7 @@ public:
     static UniformBlock *getMaterialBlock(Material *material);
     static UniformBlock *getMaterialBlock(std::vector<Material *> *materialList);
     static UniformBlock *getPerlinNoiseBlock(const PerlinNoise &perlinNoise);
+    static void updateMaterialBlock(Material *material);
     static void freeMaterialBlock(Material *material);
     static void freeMaterialBlock(std::vector<Material *> *materials);
     static void freePerlinNoiseBlock(const PerlinNoise &perlinNoise);

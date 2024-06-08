@@ -31,3 +31,22 @@ Material::Material(const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm
                    const glm::vec3 &emissive, float opacity): ambient(ambient), diffuse(diffuse),
                    specular(specular), emissive(emissive), opacity(opacity),
                    texture(TextureCache::getTexture("")) {}
+
+void Material::load(const Material &material) {
+    ambient = material.ambient;
+    diffuse = material.diffuse;
+    specular = material.specular;
+    emissive = material.emissive;
+    opacity = material.opacity;
+    texture = material.texture;
+}
+
+Material Material::blend(Material &mat1, Material &mat2, float bias) {
+    float bias2 = (1.0f - bias);
+    glm::vec3 ambient = mat1.ambient * bias + mat2.ambient * bias2;
+    glm::vec3 diffuse = mat1.diffuse * bias + mat2.diffuse * bias2;
+    glm::vec3 specular = mat1.specular * bias + mat2.specular * bias2;
+    glm::vec3 emissive = mat1.emissive * bias + mat2.emissive * bias2;
+    float opacity = mat1.opacity * bias + mat2.opacity * bias2;
+    return {ambient, diffuse, specular, emissive, opacity};
+}

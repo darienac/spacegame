@@ -4,6 +4,7 @@
 
 #include "GameRenderer.h"
 #include "../GlobalFlags.h"
+#include "shader/UniformBlockCache.h"
 
 void GameRenderer::updateCamera() {
     camera.setPos(state->camera.pos);
@@ -147,6 +148,16 @@ void GameRenderer::drawScene() {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
+    // Setup Ship Render
+    Material *boosterMat = cache->shipModel->getMaterials()[3];
+    if (state->ship.boosterState == GameState::BOOSTER_OFF) {
+        boosterMat->load(cache->shipMaterials[0]);
+    } else {
+        Material *baseMat = &cache->shipMaterials[0];
+        Material *blendMat = &cache->shipMaterials[state->ship.boosterState];
+        boosterMat->load(Material::blend(*blendMat, *baseMat, state->ship.boosterStrength));
+    }
+    UniformBlockCache::updateMaterialBlock(boosterMat);
     renderTasks.emplace_back(RenderTask{
         .type = BASIC_MODEL,
         .usesTransparency = false,
@@ -156,6 +167,7 @@ void GameRenderer::drawScene() {
             .model = cache->shipModel.get()
         }
     });
+
     for (auto &pair : state->planets) {
         renderTasks.emplace_back(RenderTask{
             .type = PLANET,

@@ -40,7 +40,12 @@ public:
     glm::vec2 debugPanCameraDir = {0.0f, 0.0f};
 
     // Main Engine
+    glm::vec2 shipTurnDir = {0.0f, 0.0f};
     glm::vec2 cameraPanDir = {0.0f, 0.0f};
+    bool engageTurbo = false;
+    bool engageRoll = false;
+    float boosterPower = 0.0f;
+    float backBoosterPower = 0.0f;
 
     GLFWgamepadstate lastGamepadState;
 

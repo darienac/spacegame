@@ -37,7 +37,7 @@ UniformBlock::UniformBlock(Material *material): GlBuffer() {
         .opacity = material->opacity
     };
 
-    bufferData(sizeof(buffer), &buffer);
+    bufferData(sizeof(buffer), &buffer, GL_DYNAMIC_DRAW);
 }
 
 UniformBlock::UniformBlock(const std::vector<Material*> &materials): GlBuffer() {
@@ -81,6 +81,18 @@ UniformBlock::UniformBlock(const PerlinNoise &perlinNoise) : GlBuffer() {
     }
 
     bufferData(sizeof(buffer), &buffer);
+}
+
+void UniformBlock::loadMaterial(Material *material) {
+    GLSL_MATERIAL buffer = {
+            .ambient = material->ambient,
+            .diffuse = material->diffuse,
+            .specular = material->specular,
+            .emissive = material->emissive,
+            .opacity = material->opacity
+    };
+
+    subData(sizeof(buffer), &buffer);
 }
 
 void UniformBlock::loadLights(const std::vector<GameState::Light*> &lights, const glm::vec3 &ambientLight) {

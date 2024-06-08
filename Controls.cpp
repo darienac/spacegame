@@ -41,9 +41,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             break;
         case GLFW_KEY_LEFT_SHIFT:
             controlsRef->debugFallButtonDown = value;
+            controlsRef->engageTurbo = value;
             break;
         case GLFW_KEY_SPACE:
             controlsRef->debugRiseButtonDown = value;
+            controlsRef->boosterPower = value ? 1.0f : 0.0f;
             break;
         case GLFW_KEY_F11:
             if (value) {
@@ -56,6 +58,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         case GLFW_KEY_E:
             controlsRef->debugDivergeButtonDown = value;
             break;
+        case GLFW_KEY_R:
+            controlsRef->engageRoll = value;
+            break;
+        case GLFW_KEY_LEFT_CONTROL:
+            controlsRef->backBoosterPower = value ? 1.0f : 0.0f;
         case GLFW_KEY_GRAVE_ACCENT:
             controlsRef->enableDebugEngine = value ^ controlsRef->enableDebugEngine;
         default:
@@ -118,7 +125,14 @@ void Controls::pollGamepadInputs(int jid) {
             }
         }
     }
+    if (isGamepadAxisUpdated(state, GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER)) {
+        boosterPower = (state.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] + 1.0f) * 0.5f;
+    }
+    if (isGamepadAxisUpdated(state, GLFW_GAMEPAD_AXIS_LEFT_TRIGGER)) {
+        backBoosterPower = (state.axes[GLFW_GAMEPAD_AXIS_LEFT_TRIGGER] + 1.0f) * 0.5f;
+    }
     cameraPanDir = debugPanCameraDir;
+    shipTurnDir = debugFlyXZDir;
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_A)) {
         debugRiseButtonDown = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_A);
     }
@@ -130,6 +144,12 @@ void Controls::pollGamepadInputs(int jid) {
     }
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_Y)) {
         debugDivergeButtonDown = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_Y);
+    }
+    if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER)) {
+        engageTurbo = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER);
+    }
+    if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_LEFT_BUMPER)) {
+        engageRoll = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_LEFT_BUMPER);
     }
 
     lastGamepadState = state;

@@ -25,6 +25,11 @@ UniformBlock *UniformBlockCache::getPerlinNoiseBlock(const PerlinNoise &perlinNo
     return perlinNoises[perlinNoise.id];
 }
 
+void UniformBlockCache::updateMaterialBlock(Material *material) {
+    UniformBlock *block = getMaterialBlock(material);
+    block->loadMaterial(material);
+}
+
 void UniformBlockCache::freeMaterialBlock(Material *material) {
     if (materials.count(material)) {
         delete materials[material];

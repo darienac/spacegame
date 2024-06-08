@@ -12,6 +12,8 @@
 
 class Material {
 public:
+    static Material blend(Material &mat1, Material &mat2, float bias);
+
     Material(aiMaterial* material);
     Material(const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm::vec3 &specular, const glm::vec3 &emissive, float opacity);
 
@@ -22,6 +24,8 @@ public:
 //    float reflectance;
     float opacity;
     Texture* texture;
+
+    void load(const Material &material);
 };
 
 

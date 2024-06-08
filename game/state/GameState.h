@@ -10,6 +10,7 @@
 #include "glm/vec3.hpp"
 #include "PerlinNoise.h"
 #include "glm/vec4.hpp"
+#include "glm/vec2.hpp"
 
 class GameState {
 public:
@@ -43,6 +44,9 @@ public:
 
     struct ShipState {
         ModelState modelState;
+        glm::vec3 vel;
+        float rollVel;
+        glm::vec2 turnVel;
         ShipBoosterState boosterState;
         float boosterStrength;
     };
@@ -156,6 +160,9 @@ public:
             .up = {0.0f, 1.0f, 0.0f},
             .scale = 1.0f
         },
+        .vel = {0.0f, 0.0f, 0.0f},
+        .rollVel = 0.0f,
+        .turnVel = {0.0f, 0.0f},
         .boosterState = BOOSTER_OFF,
         .boosterStrength = 0.0f
     };
