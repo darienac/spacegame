@@ -11,13 +11,11 @@
 
 class Cubemap {
 public:
-    Texture *texture;
-    GlFramebuffer *fbs[6];
+    std::unique_ptr<Texture> texture;
+    std::unique_ptr<GlFramebuffer> fbs[6];
 
     Cubemap(int width, bool useDepthBuffer, GLint internalformat, GLenum format);
     Cubemap(int width, bool useDepthBuffer);
-
-    ~Cubemap();
 };
 
 
