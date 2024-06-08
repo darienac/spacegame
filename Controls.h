@@ -27,18 +27,22 @@ public:
     bool arrowUp = false;
     bool arrowDown = false;
 
+    bool fullscreenPressed = false;
+    bool enableDebugEngine = false;
+
     // Debug Engine
     bool debugRiseButtonDown = false;
     bool debugFallButtonDown = false;
     bool debugApproachButtonDown = false;
     bool debugDivergeButtonDown = false;
-    bool fullscreenPressed = false;
 
-    // Main Engine
-
-    GLFWgamepadstate lastGamepadState;
     glm::vec2 debugFlyXZDir = {0.0f, 0.0f};
     glm::vec2 debugPanCameraDir = {0.0f, 0.0f};
+
+    // Main Engine
+    glm::vec2 cameraPanDir = {0.0f, 0.0f};
+
+    GLFWgamepadstate lastGamepadState;
 
     Controls(GlWindow* window);
 

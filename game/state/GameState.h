@@ -44,6 +44,7 @@ public:
     struct ShipState {
         ModelState modelState;
         ShipBoosterState boosterState;
+        float boosterStrength;
     };
 
     struct Planet {
@@ -155,7 +156,8 @@ public:
             .up = {0.0f, 1.0f, 0.0f},
             .scale = 1.0f
         },
-        .boosterState = BOOSTER_OFF
+        .boosterState = BOOSTER_OFF,
+        .boosterStrength = 0.0f
     };
 
     CameraState camera = {

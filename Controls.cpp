@@ -56,6 +56,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         case GLFW_KEY_E:
             controlsRef->debugDivergeButtonDown = value;
             break;
+        case GLFW_KEY_GRAVE_ACCENT:
+            controlsRef->enableDebugEngine = value ^ controlsRef->enableDebugEngine;
         default:
             break;
     }
@@ -67,6 +69,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     if (glm::length(controlsRef->debugPanCameraDir) > 1.0f) {
         controlsRef->debugPanCameraDir = glm::normalize(controlsRef->debugPanCameraDir);
     }
+    controlsRef->cameraPanDir = controlsRef->debugPanCameraDir;
 }
 
 bool Controls::isGamepadButtonUpdated(const GLFWgamepadstate &state, int button) {
@@ -115,6 +118,7 @@ void Controls::pollGamepadInputs(int jid) {
             }
         }
     }
+    cameraPanDir = debugPanCameraDir;
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_A)) {
         debugRiseButtonDown = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_A);
     }

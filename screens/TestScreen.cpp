@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "TestScreen.h"
+#include "../GlobalFlags.h"
 
 TestScreen::TestScreen(ResourceCache *cache): renderer(&state, cache), debugEngine(&state, cache->controls.get()), mainEngine(&state, cache->controls.get()) {
     this->cache = cache;
@@ -25,7 +26,11 @@ void TestScreen::renderFrame() {
 }
 
 void TestScreen::tick() {
-    debugEngine.tick();
+    if (GlobalFlags::DEBUG && cache->controls->enableDebugEngine) {
+        debugEngine.tick();
+    } else {
+        mainEngine.tick();
+    }
 }
 
 bool TestScreen::shouldClose() {

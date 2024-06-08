@@ -13,6 +13,8 @@ class MainGameEngine: public BasicGameEngine {
 private:
     GameState *state;
     Controls *controls;
+
+    static void fixCamera(GameState::CameraState &camera, Controls &controls, GameState::ShipState &ship);
 public:
     MainGameEngine(GameState* state, Controls* controls);
 
