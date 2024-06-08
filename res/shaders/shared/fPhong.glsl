@@ -3,7 +3,6 @@ const float diffuseStrength = 1.0;
 const float specularStrength = 1.0;
 const float reflectStrength = 0.0;
 const float emissiveStrength = 1.0;
-const float shininess = 30.0;
 
 vec4 phongShading(Material material, Light light, vec3 modelPos, vec3 viewPos, vec3 modelNorm) {
     vec4 texColor = vec4(material.diffuse, 1.0);
@@ -21,7 +20,7 @@ vec4 phongShading(Material material, Light light, vec3 modelPos, vec3 viewPos, v
         vec3 reflectLightDirection = reflect(-lightDirection, normal);
 
         diffuseColor += diffuseStrength * max(0.0, dot(normal, lightDirection)) * texColor.rgb * light.lightSources[i].color;
-        specularColor += specularStrength * pow(max(dot(viewDirection, reflectLightDirection), 0.0), shininess) * material.specular * light.lightSources[i].color;
+        specularColor += specularStrength * pow(max(dot(viewDirection, reflectLightDirection), 0.0), material.glossiness) * material.specular * light.lightSources[i].color;
     }
     // vec3 emissiveColor = vec3(0.0, 0.0, 0.0);
     // vec3 reflectColor = reflectStrength * texture(textureReflect, reflectViewDirection.xy).rgb;

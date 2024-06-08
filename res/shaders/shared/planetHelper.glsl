@@ -15,7 +15,8 @@ vec4 getPlanetSurfaceColor(in float noiseVal, in PlanetProps planetProps) {
             material1.diffuse * bias1 + material2.diffuse * bias2,
             material1.specular * bias1 + material2.specular * bias2,
             material1.emissive * bias1 + material2.emissive * bias2,
-            1.0
+            1.0,
+            material1.glossiness * bias1 + material2.glossiness * bias2
         );
         return phongShading(material, light);
     } else {

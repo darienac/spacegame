@@ -34,7 +34,8 @@ UniformBlock::UniformBlock(Material *material): GlBuffer() {
         .diffuse = material->diffuse,
         .specular = material->specular,
         .emissive = material->emissive,
-        .opacity = material->opacity
+        .opacity = material->opacity,
+        .glossiness = material->glossiness
     };
 
     bufferData(sizeof(buffer), &buffer, GL_DYNAMIC_DRAW);
@@ -44,11 +45,12 @@ UniformBlock::UniformBlock(const std::vector<Material*> &materials): GlBuffer() 
     auto *buffer = new GLSL_MATERIAL[materials.size()];
     for (uint32_t i = 0; i < materials.size(); i++) {
         buffer[i] = {
-            .ambient = (materials)[i]->ambient,
-            .diffuse = (materials)[i]->diffuse,
-            .specular = (materials)[i]->specular,
-            .emissive = (materials)[i]->emissive,
-            .opacity = (materials)[i]->opacity
+            .ambient = materials[i]->ambient,
+            .diffuse = materials[i]->diffuse,
+            .specular = materials[i]->specular,
+            .emissive = materials[i]->emissive,
+            .opacity = materials[i]->opacity,
+            .glossiness = materials[i]->glossiness
         };
         // No additional padding needed since the struct is already a multiple of 16 bytes
     }
@@ -90,7 +92,8 @@ void UniformBlock::loadMaterial(Material *material) {
             .diffuse = material->diffuse,
             .specular = material->specular,
             .emissive = material->emissive,
-            .opacity = material->opacity
+            .opacity = material->opacity,
+            .glossiness = material->glossiness
     };
 
     subData(sizeof(buffer), &buffer);

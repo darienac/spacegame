@@ -79,8 +79,8 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
             .modelTransform = getModelTransformMatrix(planet->position, planet->radius),
             .atmosphereModelTransform = getModelTransformMatrix(planet->position, -(planet->radius + planet->atmosphereHeight)),
             .heightmapModelTransform = getModelTransformMatrix(planet->position, 1.0f),
-            .surfaceMat = std::make_unique<Material>(glm::vec3{1.0f, 1.0f, 1.0f}, planet->surfaceColor, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, 1.0f),
-            .liquidMat = std::make_unique<Material>(glm::vec3{1.0f, 1.0f, 1.0f}, planet->liquidColor, glm::vec3{0.2f, 0.2f, 0.2f}, glm::vec3{0.0f, 0.0f, 0.0f}, 1.0f),
+            .surfaceMat = std::make_unique<Material>(glm::vec3{1.0f, 1.0f, 1.0f}, planet->surfaceColor, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, 1.0f, 1.0f),
+            .liquidMat = std::make_unique<Material>(glm::vec3{1.0f, 1.0f, 1.0f}, planet->liquidColor, glm::vec3{0.2f, 0.2f, 0.2f}, glm::vec3{0.0f, 0.0f, 0.0f}, 1.0f, 30.0f),
             .matBlock = nullptr,
             .planetDataBlock = std::make_unique<UniformBlock>(*planet),
             .planetSurfaceMap = std::make_unique<Cubemap>(1024, false, GL_RED, GL_RED),
@@ -116,7 +116,7 @@ void StateRenderCache::syncStarsToState(GameState *state) {
         }
         starResources[id] = std::make_unique<StarData>(StarData{
             .modelTransform = getModelTransformMatrix(star->position, star->radius),
-            .material = std::make_unique<Material>(glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, star->color, 1.0f)
+            .material = std::make_unique<Material>(glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, star->color, 1.0f, 0.0f)
         });
         StarData *data = starResources[id].get();
         data->matBlock = std::make_unique<UniformBlock>(data->material.get());

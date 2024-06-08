@@ -15,6 +15,7 @@ struct Material {
     vec3 specular;
     vec3 emissive;
     float opacity;
+    float glossiness;
 };
 
 layout (std140) uniform ubMaterial {

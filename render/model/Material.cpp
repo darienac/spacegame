@@ -25,11 +25,14 @@ Material::Material(aiMaterial *material) {
     material->Get(AI_MATKEY_COLOR_EMISSIVE, color);
     emissive = {color.r, color.g, color.b};
     material->Get(AI_MATKEY_OPACITY, opacity);
+    if (material->Get(AI_MATKEY_GLOSSINESS_FACTOR, glossiness) != AI_SUCCESS) {
+        glossiness = 30.0f;
+    }
 }
 
 Material::Material(const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm::vec3 &specular,
-                   const glm::vec3 &emissive, float opacity): ambient(ambient), diffuse(diffuse),
-                   specular(specular), emissive(emissive), opacity(opacity),
+                   const glm::vec3 &emissive, float opacity, float glossiness): ambient(ambient), diffuse(diffuse),
+                   specular(specular), emissive(emissive), opacity(opacity), glossiness(glossiness),
                    texture(TextureCache::getTexture("")) {}
 
 void Material::load(const Material &material) {
@@ -38,6 +41,7 @@ void Material::load(const Material &material) {
     specular = material.specular;
     emissive = material.emissive;
     opacity = material.opacity;
+    glossiness = material.glossiness;
     texture = material.texture;
 }
 
@@ -48,5 +52,6 @@ Material Material::blend(Material &mat1, Material &mat2, float bias) {
     glm::vec3 specular = mat1.specular * bias + mat2.specular * bias2;
     glm::vec3 emissive = mat1.emissive * bias + mat2.emissive * bias2;
     float opacity = mat1.opacity * bias + mat2.opacity * bias2;
-    return {ambient, diffuse, specular, emissive, opacity};
+    float glossiness = mat1.glossiness * bias + mat2.glossiness * bias2;
+    return {ambient, diffuse, specular, emissive, opacity, glossiness};
 }

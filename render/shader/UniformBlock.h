@@ -24,6 +24,8 @@ private:
         float padding3;
         glm::vec3 emissive;
         float opacity;
+        float glossiness;
+        float padding4[3];
     };
 
     struct GLSL_LIGHT_SOURCE {
