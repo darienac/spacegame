@@ -8,8 +8,8 @@
 #include "../GlobalFlags.h"
 
 void BasicGameEngine::updatePlanetLOD(GameState &state, GameState::Planet &planet) {
-    float radius = planet.radius;
-    float closeness = glm::distance(state.camera.pos, planet.position) / radius;
+    double radius = planet.radius;
+    double closeness = glm::distance(state.camera.pos, planet.position) / radius;
     if (GlobalFlags::DEBUG && GlobalFlags::TRACK_LOD && &planet == &state.planet) {
         std::cout << "LOD: " << planet.lod << " CLOSENESS: " << closeness << std::endl;
     }

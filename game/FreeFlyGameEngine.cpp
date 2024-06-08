@@ -8,9 +8,9 @@
 
 void FreeFlyGameEngine::tick() {
     // logic for a free flying camera, no game logic happening otherwise
-    glm::vec3 camZ = -state->camera.dir;
-    glm::vec3 camX = glm::normalize(glm::cross(state->camera.up, camZ));
-    glm::vec3 camY = glm::cross(camZ, camX);
+    glm::dvec3 camZ = -state->camera.dir;
+    glm::dvec3 camX = glm::normalize(glm::cross(state->camera.up, camZ));
+    glm::dvec3 camY = glm::cross(camZ, camX);
     state->camera.pos += camSpeed * controls->debugFlyXZDir.x * camX;
     state->camera.pos -= camSpeed * controls->debugFlyXZDir.y * camZ;
     if (controls->debugRiseButtonDown) {
@@ -20,17 +20,17 @@ void FreeFlyGameEngine::tick() {
         state->camera.pos -= camSpeed * state->camera.up;
     }
     if (controls->debugApproachButtonDown) {
-        float adjustedCenterDist = (glm::length(state->camera.pos - SCALE_POS) - SCALE_BORDER_RADIUS) / SCALE_MULT + SCALE_BORDER_RADIUS;
+        double adjustedCenterDist = (glm::length(state->camera.pos - SCALE_POS) - SCALE_BORDER_RADIUS) / SCALE_MULT + SCALE_BORDER_RADIUS;
         state->camera.pos = glm::normalize(state->camera.pos - SCALE_POS) * adjustedCenterDist + SCALE_POS;
         camSpeed /= SCALE_MULT;
     }
     if (controls->debugDivergeButtonDown) {
-        float adjustedCenterDist = (glm::length(state->camera.pos - SCALE_POS) - SCALE_BORDER_RADIUS) * SCALE_MULT + SCALE_BORDER_RADIUS;
+        double adjustedCenterDist = (glm::length(state->camera.pos - SCALE_POS) - SCALE_BORDER_RADIUS) * SCALE_MULT + SCALE_BORDER_RADIUS;
         state->camera.pos = glm::normalize(state->camera.pos - SCALE_POS) * adjustedCenterDist + SCALE_POS;
         camSpeed *= SCALE_MULT;
     }
-    state->camera.dir = glm::rotate(glm::mat4(1.0f), -camRotSpeed * controls->debugPanCameraDir.x, camY) * glm::vec4(state->camera.dir, 0.0f);
-    state->camera.dir = glm::rotate(glm::mat4(1.0f), camRotSpeed * controls->debugPanCameraDir.y, camX) * glm::vec4(state->camera.dir, 0.0f);
+    state->camera.dir = glm::rotate(glm::dmat4(1.0), -camRotSpeed * controls->debugPanCameraDir.x, camY) * glm::dvec4(state->camera.dir, 0.0);
+    state->camera.dir = glm::rotate(glm::dmat4(1.0), camRotSpeed * controls->debugPanCameraDir.y, camX) * glm::dvec4(state->camera.dir, 0.0);
     if (ORIENT_TO_PLANET) {
         state->camera.up = glm::normalize(state->camera.pos - SCALE_POS);
     }
@@ -39,6 +39,6 @@ void FreeFlyGameEngine::tick() {
 }
 
 FreeFlyGameEngine::FreeFlyGameEngine(GameState *state, Controls *controls): state(state), controls(controls) {
-    camSpeed = 0.01f;
-    camRotSpeed = 0.002f;
+    camSpeed = 0.01;
+    camRotSpeed = 0.002;
 }

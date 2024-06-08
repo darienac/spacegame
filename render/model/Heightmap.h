@@ -23,7 +23,7 @@ private:
     std::unique_ptr<GlFramebuffer> noiseFB;
     ShaderPerlin *perlinShader;
     glm::mat4 rotation = glm::mat4(1.0f);
-    glm::vec3 lastPos = {0.0f, 0.0f, 0.0f};
+    glm::vec3 lastPos = {0.0, 0.0, 0.0};
     boost::uuids::uuid planetId;
 
     static Mesh *createMesh(uint32_t numCells, float cellWidth, uint32_t numExtendCells, float extendCellWidth, float lowerRadius);

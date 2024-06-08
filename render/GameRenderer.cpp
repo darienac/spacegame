@@ -58,7 +58,7 @@ void GameRenderer::drawStar(GameState::Star &star) {
 }
 
 void GameRenderer::drawModel(GameRenderer::ModelRenderData &renderData) {
-    glm::mat4 modelTransform = glm::translate(glm::mat4(1.0f), renderData.modelState->pos) * glm::inverse(glm::lookAt({0.0f, 0.0f, 0.0f}, renderData.modelState->dir, renderData.modelState->up)) * glm::scale(glm::mat4(1.0f), {renderData.modelState->scale, renderData.modelState->scale, renderData.modelState->scale});
+    glm::dmat4 modelTransform = glm::translate(glm::dmat4(1.0), renderData.modelState->pos) * glm::inverse(glm::lookAt({0.0, 0.0, 0.0}, renderData.modelState->dir, renderData.modelState->up)) * glm::scale(glm::dmat4(1.0), {renderData.modelState->scale, renderData.modelState->scale, renderData.modelState->scale});
 
     cache->sceneShader->bind();
     cache->sceneShader->loadCamera(&camera, modelTransform);

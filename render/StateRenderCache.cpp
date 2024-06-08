@@ -54,7 +54,7 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
                 updatePlanetToLOD(state, planet);
             }
             if (data->planetHeightmap) {
-                float posOffset = glm::dot(glm::normalize(state->camera.pos - planet->position), *data->planetHeightmap->getLastPos());
+                float posOffset = glm::dot(glm::normalize(glm::vec3(state->camera.pos - planet->position)), *data->planetHeightmap->getLastPos());
                 float threshold;
                 switch (planet->lod) {
                     case GameState::ATMOSPHERE:

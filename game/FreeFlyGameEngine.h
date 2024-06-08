@@ -15,13 +15,13 @@
 
 class FreeFlyGameEngine: public BasicGameEngine {
 private:
-    static const inline float SCALE_MULT = 1.001;
-    static const inline glm::vec3 SCALE_POS = {-10000.0f, 0.0f, 0.0f};
-    static const inline float SCALE_BORDER_RADIUS = 1000.0f;
+    static const inline double SCALE_MULT = 1.001;
+    static const inline glm::dvec3 SCALE_POS = {-10000.0, 0.0, 0.0};
+    static const inline double SCALE_BORDER_RADIUS = 1000.0;
     static const inline bool ORIENT_TO_PLANET = false;
 
-    float camSpeed;
-    float camRotSpeed;
+    double camSpeed;
+    double camRotSpeed;
 
     GameState *state;
     Controls *controls;

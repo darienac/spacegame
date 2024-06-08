@@ -18,22 +18,22 @@ void MainGameEngine::tick() {
 }
 
 void MainGameEngine::fixCamera(GameState::CameraState &camera, Controls &controls, GameState::ShipState &ship) {
-    auto pi = glm::pi<float>();
+    auto pi = glm::pi<double>();
 
-    glm::vec3 desiredDir = ship.modelState.dir;
-    desiredDir = glm::rotate(glm::mat4(1.0f), controls.cameraPanDir.x * (pi * 0.5f), ship.modelState.up) * glm::vec4(desiredDir, 0.0f);
-    glm::vec3 right = glm::normalize(glm::cross(desiredDir, camera.up));
-    desiredDir = glm::rotate(glm::mat4(1.0f), controls.cameraPanDir.y * (pi * -0.25f), right) * glm::vec4(desiredDir, 0.0f);
+    glm::dvec3 desiredDir = ship.modelState.dir;
+    desiredDir = glm::rotate(glm::dmat4(1.0), controls.cameraPanDir.x * (pi * 0.5), ship.modelState.up) * glm::dvec4(desiredDir, 0.0);
+    glm::dvec3 right = glm::normalize(glm::cross(desiredDir, camera.up));
+    desiredDir = glm::rotate(glm::dmat4(1.0), controls.cameraPanDir.y * (pi * -0.25f), right) * glm::dvec4(desiredDir, 0.0);
 
-    camera.dir = glm::normalize(glm::normalize(desiredDir) * 0.02f + camera.dir);
-    camera.pos = ship.modelState.pos + ship.modelState.up * 1.5f - 8.0f * camera.dir;
+    camera.dir = glm::normalize(glm::normalize(desiredDir) * 0.02 + camera.dir);
+    camera.pos = ship.modelState.pos + ship.modelState.up * 1.5 - 8.0 * camera.dir;
     camera.up = ship.modelState.up;
 }
 
 void MainGameEngine::updateShip(Controls &controls, GameState::ShipState &ship) {
     // Dampen Rotate Velocities
-    ship.turnVel *= 0.95f;
-    ship.rollVel *= 0.99f;
+    ship.turnVel *= 0.95;
+    ship.rollVel *= 0.99;
 
     // Update direction
     if (controls.engageRoll) {
@@ -42,15 +42,15 @@ void MainGameEngine::updateShip(Controls &controls, GameState::ShipState &ship) 
         ship.turnVel += controls.shipTurnDir * 0.00015f;
     }
     // Roll
-    glm::vec3 newUp = ship.modelState.up;
-    newUp = glm::rotate(glm::mat4(1.0f), ship.rollVel, ship.modelState.dir) * glm::vec4(newUp, 0.0f);
+    glm::dvec3 newUp = ship.modelState.up;
+    newUp = glm::rotate(glm::dmat4(1.0), ship.rollVel, ship.modelState.dir) * glm::dvec4(newUp, 0.0);
     ship.modelState.up = newUp;
 
     // Turn
-    glm::vec3 newDir = ship.modelState.dir;
-    newDir = glm::rotate(glm::mat4(1.0f), -ship.turnVel.x, ship.modelState.up) * glm::vec4(newDir, 0.0f);
-    glm::vec3 right = glm::normalize(glm::cross(newDir, ship.modelState.up));
-    newDir = glm::rotate(glm::mat4(1.0f), ship.turnVel.y, right) * glm::vec4(newDir, 0.0f);
+    glm::dvec3 newDir = ship.modelState.dir;
+    newDir = glm::rotate(glm::dmat4(1.0), -ship.turnVel.x, ship.modelState.up) * glm::dvec4(newDir, 0.0);
+    glm::dvec3 right = glm::normalize(glm::cross(newDir, ship.modelState.up));
+    newDir = glm::rotate(glm::dmat4(1.0), ship.turnVel.y, right) * glm::dvec4(newDir, 0.0);
     ship.modelState.dir = glm::normalize(newDir);
     ship.modelState.up = glm::normalize(glm::cross(right, newDir));
 
@@ -61,14 +61,14 @@ void MainGameEngine::updateShip(Controls &controls, GameState::ShipState &ship) 
         ship.boosterStrength = controls.boosterPower;
     } else {
         ship.boosterState = GameState::BOOSTER_OFF;
-        ship.boosterStrength = 0.0f;
+        ship.boosterStrength = 0.0;
     }
     if (ship.boosterState != GameState::BOOSTER_OFF) {
-        float moveSpeed = ship.boosterStrength * ((ship.boosterState == GameState::BOOSTER_TURBO) ? 0.01f : 0.0001f);
+        double moveSpeed = ship.boosterStrength * ((ship.boosterState == GameState::BOOSTER_TURBO) ? 0.01 : 0.0001);
         ship.vel += ship.modelState.dir * moveSpeed;
     }
     if (controls.backBoosterPower > 0.0f) {
-        ship.vel *= 1.0f - controls.backBoosterPower * 0.005f;
+        ship.vel *= 1.0 - controls.backBoosterPower * 0.005f;
     }
     ship.modelState.pos += ship.vel;
 }

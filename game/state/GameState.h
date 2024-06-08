@@ -24,16 +24,16 @@ public:
     };
 
     struct CameraState {
-        glm::vec3 pos;
-        glm::vec3 dir;
-        glm::vec3 up;
+        glm::dvec3 pos;
+        glm::dvec3 dir;
+        glm::dvec3 up;
     };
 
     struct ModelState {
-        glm::vec3 pos;
-        glm::vec3 dir;
-        glm::vec3 up;
-        float scale;
+        glm::dvec3 pos;
+        glm::dvec3 dir;
+        glm::dvec3 up;
+        double scale;
     };
 
     enum ShipBoosterState {
@@ -44,11 +44,11 @@ public:
 
     struct ShipState {
         ModelState modelState;
-        glm::vec3 vel;
-        float rollVel;
-        glm::vec2 turnVel;
+        glm::dvec3 vel;
+        double rollVel;
+        glm::dvec2 turnVel;
         ShipBoosterState boosterState;
-        float boosterStrength;
+        double boosterStrength;
     };
 
     struct Planet {
@@ -61,21 +61,21 @@ public:
         float liquidHeight;
         float maxLandHeight;
         PerlinNoise surfaceNoise;
-        glm::vec3 position;
-        float radius;
+        glm::dvec3 position;
+        double radius;
     };
 
     struct Star {
         boost::uuids::uuid id;
         Planet_LOD lod;
         glm::vec3 color;
-        glm::vec3 position;
-        float radius;
+        glm::dvec3 position;
+        double radius;
     };
 
     struct Light {
         boost::uuids::uuid id;
-        glm::vec3 position;
+        glm::dvec3 position;
         glm::vec3 color;
     };
 
@@ -97,8 +97,8 @@ public:
                     .amplitudeMult = 0.5f,
                     .frequencyMult = 2.0f
             },
-            .position = {-10000.0f, 0.0f, 0.0f},
-            .radius = 1000.0f
+            .position = {-10000.0, 0.0, 0.0},
+            .radius = 1000.0
     };
 
     Planet planet2 = {
@@ -119,8 +119,8 @@ public:
                     .amplitudeMult = 0.5f,
                     .frequencyMult = 2.0f
             },
-            .position = {10000.0f, 0.0f, 0.0f},
-            .radius = 2000.0f
+            .position = {10000.0, 0.0, 0.0},
+            .radius = 2000.0
     };
 
 private:
@@ -129,55 +129,55 @@ private:
             .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             .lod = DISTANT2,
             .color = {1.0, 1.0, 1.0},
-            .position = {0.0f, 10000.0f, 0.0f},
-            .radius = 1000.0f
+            .position = {0.0, 10000.0, 0.0},
+            .radius = 1000.0
     };
 
     Star star2 {
             .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
             .lod = DISTANT,
             .color = {3.0, 0.0, 0.0},
-            .position = {-30000.0f, 0.0f, 0.0f},
-            .radius = 500.0f
+            .position = {-30000.0, 0.0, 0.0},
+            .radius = 500.0
     };
 
     Light light {
             .id = {0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            .position = {0.0f, 10000.0f, 0.0f},
+            .position = {0.0, 10000.0, 0.0},
             .color = {3.0f, 3.0f, 3.0f}
     };
 
     Light light2 {
             .id = {0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-            .position = {-30000.0f, 0.0f, 0.0f},
+            .position = {-30000.0, 0.0, 0.0},
             .color = {3.0, 0.0, 0.0}
     };
 public:
     ShipState ship = {
         .modelState = {
-            .pos = {0.0f, 0.0f, 0.0f},
-            .dir = {0.0f, 0.0f, -1.0f},
-            .up = {0.0f, 1.0f, 0.0f},
-            .scale = 1.0f
+            .pos = {0.0, 0.0, 0.0},
+            .dir = {0.0, 0.0, -1.0},
+            .up = {0.0, 1.0, 0.0},
+            .scale = 1.0
         },
-        .vel = {0.0f, 0.0f, 0.0f},
-        .rollVel = 0.0f,
-        .turnVel = {0.0f, 0.0f},
+        .vel = {0.0, 0.0, 0.0},
+        .rollVel = 0.0,
+        .turnVel = {0.0, 0.0},
         .boosterState = BOOSTER_OFF,
-        .boosterStrength = 0.0f
+        .boosterStrength = 0.0
     };
 
     ModelState island {
-        .pos = {0.0f, 0.0f, 0.0f},
-        .dir = {0.0f, 0.0f, -1.0f},
-        .up = {0.0f, 1.0f, 0.0f},
-        .scale = 1.0f
+        .pos = {0.0, 0.0, 0.0},
+        .dir = {0.0f, 0.0f, -1.0},
+        .up = {0.0, 1.0, 0.0},
+        .scale = 1.0
     };
 
     CameraState camera = {
-        .pos = {0.0f, 0.0f, 10.0f},
-        .dir = {0.0f, 0.0f, -1.0f},
-        .up = {0.0f, 1.0f, 0.0f}
+        .pos = {0.0, 0.0, 10.0},
+        .dir = {0.0, 0.0, -1.0},
+        .up = {0.0, 1.0, 0.0}
     };
 
     PerlinNoise spaceNoise {

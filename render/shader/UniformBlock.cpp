@@ -58,10 +58,11 @@ UniformBlock::UniformBlock(const std::vector<Material*> &materials): GlBuffer() 
 }
 
 UniformBlock::UniformBlock(GameState::Planet &planet) {
+    float radiusFilled = planet.radius / (planet.atmosphereHeight + planet.radius);
     GLSL_PLANET_PROPS buffer = {
         .atmosphereColor = planet.atmosphereColor,
-        .radius = planet.radius,
-        .atmosphereRadiusFilled = planet.radius / (planet.atmosphereHeight + planet.radius),
+        .radius = (float) planet.radius,
+        .atmosphereRadiusFilled = radiusFilled,
         .liquidHeight = planet.liquidHeight,
         .maxLandHeight = planet.maxLandHeight
     };

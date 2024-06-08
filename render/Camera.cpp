@@ -19,8 +19,8 @@ glm::dvec3 Camera::getPos() {
 }
 
 glm::dmat4 Camera::getViewProjectionMatrix(double aspect) {
-    glm::dmat4 project = glm::perspective<double>(fovy, aspect, zNear, zFar);
-    glm::dmat4 view = glm::lookAt<double>(pos, target, up);
+    glm::dmat4 project = glm::infinitePerspective(fovy, aspect, zNear);
+    glm::dmat4 view = glm::lookAt(pos, target, up);
 
     return project * view;
 }
