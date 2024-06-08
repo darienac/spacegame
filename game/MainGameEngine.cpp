@@ -64,7 +64,7 @@ void MainGameEngine::updateShip(Controls &controls, GameState::ShipState &ship) 
         ship.boosterStrength = 0.0;
     }
     if (ship.boosterState != GameState::BOOSTER_OFF) {
-        double moveSpeed = ship.boosterStrength * ((ship.boosterState == GameState::BOOSTER_TURBO) ? 0.01 : 0.0001);
+        double moveSpeed = ship.boosterStrength * ((ship.boosterState == GameState::BOOSTER_TURBO) ? 0.01 : 0.001);
         ship.vel += ship.modelState.dir * moveSpeed;
     }
     if (controls.backBoosterPower > 0.0f) {
