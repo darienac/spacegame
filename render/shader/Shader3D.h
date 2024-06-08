@@ -46,7 +46,7 @@ public:
     Shader3D(std::vector<std::string> vertexShader, std::vector<std::string> fragmentShader);
     Shader3D(const std::string &vertexShader, const std::string &fragmentShader);
 
-    void loadCamera(Camera *camera, const glm::mat4 &modelMatrix) const;
+    void loadCamera(Camera *camera, const glm::dmat4 &modelMatrix) const;
     void loadMesh(Mesh *mesh);
     void bindDiffuseTexture(const Texture &texture);
     void loadMaterial(Material *material);

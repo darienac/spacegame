@@ -140,7 +140,7 @@ void GameRenderer::drawScene() {
 
     cache->skyboxShader->bind();
     cache->skyboxShader->bindTexture(Shader3D::CUBEMAP_TEX_UNIT, *cache->stateRenderCache->cameraCubemap->texture);
-    cache->skyboxShader->loadCamera(&camera, glm::translate(glm::mat4(1.0f), camera.getPos()));
+    cache->skyboxShader->loadCamera(&camera, glm::translate<double>(glm::dmat4(1.0), camera.getPos()));
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
     glDisable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);

@@ -54,13 +54,13 @@ void Shader3D::bind() {
     ShaderProgram::bind();
 }
 
-void Shader3D::loadCamera(Camera* camera, const glm::mat4& modelMatrix) const {
+void Shader3D::loadCamera(Camera* camera, const glm::dmat4& modelMatrix) const {
     glm::mat4 viewProjectionMatrix = camera->getViewProjectionMatrix() * modelMatrix;
     glm::mat4 normalMatrix = glm::transpose(glm::inverse(modelMatrix));
     glUniformMatrix4fv(uViewProjectionMatrix, 1, GL_FALSE, &viewProjectionMatrix[0][0]);
-    glUniformMatrix4fv(uModelMatrix, 1, GL_FALSE, &modelMatrix[0][0]);
-    glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, &normalMatrix[0][0]);
-    glUniform3fv(uViewPosition, 1, &camera->getPos()[0]);
+    glUniformMatrix4fv(uModelMatrix, 1, GL_FALSE, &glm::mat4(modelMatrix)[0][0]);
+    glUniformMatrix4fv(uNormalMatrix, 1, GL_FALSE, &glm::mat4(normalMatrix)[0][0]);
+    glUniform3fv(uViewPosition, 1, &glm::vec3(camera->getPos())[0]);
     glUniform3fv(uModelPosition, 1, &glm::vec3(modelMatrix[3][0], modelMatrix[3][1], modelMatrix[3][2])[0]);
 }
 

@@ -30,7 +30,7 @@ private:
     struct RenderTask {
         RenderTaskType type;
         bool usesTransparency;
-        glm::vec3 pos;
+        glm::dvec3 pos;
         union {
             GameState::Planet *planet;
             GameState::Star *star;

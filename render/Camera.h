@@ -14,24 +14,23 @@
 
 class Camera {
 private:
-    float fovy;
-    float zNear;
-    float zFar;
-    glm::vec3 pos;
-    glm::vec3 target;
-    glm::vec3 up;
+    double fovy;
+    double zNear;
+    double zFar;
+    glm::dvec3 pos;
+    glm::dvec3 target;
+    glm::dvec3 up;
     GlWindow* window;
 public:
     explicit Camera(GlWindow* window);
-    void shiftPos(glm::vec3 value);
 
-    glm::vec3 getPos();
-    glm::mat4 getViewProjectionMatrix();
-    glm::mat4 getViewProjectionMatrix(float aspect);
+    glm::dvec3 getPos();
+    glm::dmat4 getViewProjectionMatrix();
+    glm::dmat4 getViewProjectionMatrix(double aspect);
 
-    void setPos(glm::vec3 value);
-    void setTarget(glm::vec3 value);
-    void setUp(glm::vec3 value);
+    void setPos(glm::dvec3 value);
+    void setTarget(glm::dvec3 value);
+    void setUp(glm::dvec3 value);
 };
 
 
