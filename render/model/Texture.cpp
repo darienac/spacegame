@@ -15,6 +15,7 @@ Texture::Texture(const std::string &fileName) {
 
 Texture::Texture(int width, int height, GLint internalformat, GLenum format, GLenum textureType): internalformat(internalformat), format(format), textureType(textureType) {
     glGenTextures(1, &textureId);
+    std::cout << "Texture Created" << std::endl;
     if ((int) textureId < 0) {
         throw std::runtime_error("Unable to create texture");
     }

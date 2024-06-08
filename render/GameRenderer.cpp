@@ -168,6 +168,16 @@ void GameRenderer::drawScene() {
         }
     });
 
+    renderTasks.emplace_back(RenderTask{
+            .type = BASIC_MODEL,
+            .usesTransparency = true,
+            .pos = {0.0f, 0.0f, 0.0f},
+            .modelRenderData = {
+                    .modelState = &state->island,
+                    .model = cache->islandModel.get()
+            }
+    });
+
     for (auto &pair : state->planets) {
         renderTasks.emplace_back(RenderTask{
             .type = PLANET,

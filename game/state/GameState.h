@@ -167,6 +167,13 @@ public:
         .boosterStrength = 0.0f
     };
 
+    ModelState island {
+        .pos = {0.0f, 0.0f, 0.0f},
+        .dir = {0.0f, 0.0f, -1.0f},
+        .up = {0.0f, 1.0f, 0.0f},
+        .scale = 1.0f
+    };
+
     CameraState camera = {
         .pos = {0.0f, 0.0f, 10.0f},
         .dir = {0.0f, 0.0f, -1.0f},
@@ -187,7 +194,7 @@ public:
 
     std::map<boost::uuids::uuid, Planet*> planets = {{planet.id, &planet}, {planet2.id, &planet2}};
     std::map<boost::uuids::uuid, Star*> stars = {{star.id, &star}, {star2.id, &star2}};
-    std::map<boost::uuids::uuid, Light*> lights = {{light.id, &light}};
+    std::map<boost::uuids::uuid, Light*> lights = {{light.id, &light}, {light2.id, &light2}};
 };
 
 #endif //SPACEGAME_GAMESTATE_H

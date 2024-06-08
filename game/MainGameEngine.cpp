@@ -39,7 +39,7 @@ void MainGameEngine::updateShip(Controls &controls, GameState::ShipState &ship) 
     if (controls.engageRoll) {
         ship.rollVel += controls.shipTurnDir.x * 0.0001f;
     } else {
-        ship.turnVel += controls.shipTurnDir * -0.00015f;
+        ship.turnVel += controls.shipTurnDir * 0.00015f;
     }
     // Roll
     glm::vec3 newUp = ship.modelState.up;

@@ -31,6 +31,7 @@ public:
     std::unique_ptr<ShaderPerlin> spaceShader;
 
     std::unique_ptr<Model> shipModel;
+    std::unique_ptr<Model> islandModel;
     Material shipMaterials[3] = {
         {{1.0f, 1.0f, 1.0f}, {0.03f, 0.03f, 0.03f}, {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, 1.0f}, // BOOSTER_OFF
         {{1.0f, 1.0f, 1.0f}, {0.03f, 0.03f, 0.03f}, {0.0f, 0.0f, 0.0f}, {0.5f, 0.5f, 1.0f}, 1.0f}, // BOOSTER_ON

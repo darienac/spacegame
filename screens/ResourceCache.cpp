@@ -30,6 +30,7 @@ ResourceCache::ResourceCache(GlWindow *window): window(window) {
     }
 
     shipModel = std::make_unique<Model>("spaceship.obj");
+    islandModel = std::make_unique<Model>("wuhu.obj");
 
     testTexture = std::make_unique<Texture>("my_character_texturemap.png");
     screenBuffer = std::make_unique<GlScreenBuffer>(window->getWindow());
