@@ -27,6 +27,7 @@ public:
         glm::dvec3 pos;
         glm::dvec3 dir;
         glm::dvec3 up;
+        bool viewInverted;
     };
 
     struct ModelState {
@@ -144,7 +145,7 @@ private:
     Light light {
             .id = {0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             .position = {0.0, 10000.0, 0.0},
-            .color = {3.0f, 3.0f, 3.0f}
+            .color = {1.5f, 1.5f, 1.5f}
     };
 
     Light light2 {
@@ -177,7 +178,8 @@ public:
     CameraState camera = {
         .pos = {0.0, 0.0, 10.0},
         .dir = {0.0, 0.0, -1.0},
-        .up = {0.0, 1.0, 0.0}
+        .up = {0.0, 1.0, 0.0},
+        .viewInverted = false
     };
 
     PerlinNoise spaceNoise {
