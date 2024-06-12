@@ -57,6 +57,8 @@ public:
     std::unique_ptr<UniformBlock> lightBlock;
 
     std::unique_ptr<Cubemap> cameraCubemap;
+    std::unique_ptr<Cubemap> blackCubemap;
+    std::unique_ptr<Cubemap> shipReflectionMap;
     std::unique_ptr<Model> orb_2;
     std::unique_ptr<Model> orb_3;
     std::unique_ptr<Model> orb_4;

@@ -19,22 +19,26 @@ private:
         PLANET,
         PLANET_ATMOSPHERE,
         PLANET_HEIGHTMAP,
-        BASIC_MODEL
+        BASIC_MODEL,
+        SKYBOX
     };
 
     struct ModelRenderData {
         GameState::ModelState *modelState;
         Model *model;
+        Cubemap *cubemap = nullptr;
     };
 
     struct RenderTask {
+        bool enabled = true;
         RenderTaskType type;
-        bool usesTransparency;
-        glm::dvec3 pos;
+        bool usesTransparency = true;
+        glm::dvec3 pos = {0.0, 0.0, 0.0};
         union {
             GameState::Planet *planet;
             GameState::Star *star;
             ModelRenderData modelRenderData;
+            Cubemap *skybox;
         };
     };
 
@@ -45,14 +49,16 @@ private:
 
     void updateCamera();
 
-    void drawPlanet(GameState::Planet &planet);
-    void drawPlanetAtmosphere(GameState::Planet &planet);
-    void drawPlanetHeightmap(GameState::Planet &planet);
-    void drawStar(GameState::Star &star);
-    void drawModel(ModelRenderData &renderData);
+    void drawPlanet(GameState::Planet &planet, Camera &renderCamera);
+    void drawPlanetAtmosphere(GameState::Planet &planet, Camera &renderCamera);
+    void drawPlanetHeightmap(GameState::Planet &planet, Camera &renderCamera);
+    void drawStar(GameState::Star &star, Camera &renderCamera);
+    void drawModel(ModelRenderData &renderData, Camera &renderCamera);
+    void drawSkybox(Cubemap &cubemap, Camera &renderCamera);
 
-    void doRenderTasks();
-    void runRenderTask(RenderTask &task);
+    void runRenderTasks(Camera &renderCamera);
+    void runRenderTask(RenderTask &task, Camera &renderCamera);
+    void runRenderTasksOnCubemap(Cubemap &cubemap, glm::dvec3 &pos);
 public:
     GameRenderer(GameState* state, ResourceCache* cache);
 

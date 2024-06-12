@@ -11,6 +11,7 @@
 #include "../model/Mesh.h"
 #include "../model/Model.h"
 #include "UniformBlock.h"
+#include "../model/Cubemap.h"
 
 class Shader3D: public ShaderProgram {
 private:
@@ -49,6 +50,7 @@ public:
     void loadCamera(Camera *camera, const glm::dmat4 &modelMatrix) const;
     void loadMesh(Mesh *mesh);
     void bindDiffuseTexture(const Texture &texture);
+    void bindCubemap(const Cubemap &cubemap);
     void loadMaterial(Material *material);
     static void loadMaterialBlock(UniformBlock *matBlock);
 

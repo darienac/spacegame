@@ -152,6 +152,10 @@ int GlWindow::getHeight() const {
     return height;
 }
 
+double GlWindow::getAspectRatio() const {
+    return (double) getWidth() / getHeight();
+}
+
 bool GlWindow::isResized() const {
     return resized;
 }

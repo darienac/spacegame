@@ -171,7 +171,7 @@ public:
         .pos = {0.0, 0.0, 0.0},
         .dir = {0.0f, 0.0f, -1.0},
         .up = {0.0, 1.0, 0.0},
-        .scale = 1.0
+        .scale = 0.001
     };
 
     CameraState camera = {
@@ -194,7 +194,7 @@ public:
 
     std::map<boost::uuids::uuid, Planet*> planets = {{planet.id, &planet}, {planet2.id, &planet2}};
     std::map<boost::uuids::uuid, Star*> stars = {{star.id, &star}, {star2.id, &star2}};
-    std::map<boost::uuids::uuid, Light*> lights = {{light.id, &light}, {light2.id, &light2}};
+    std::map<boost::uuids::uuid, Light*> lights = {{light.id, &light}};
 };
 
 #endif //SPACEGAME_GAMESTATE_H

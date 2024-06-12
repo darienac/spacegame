@@ -150,6 +150,8 @@ StateRenderCache::StateRenderCache(ShaderPerlin *perlinShader): perlinShader(per
     orb_5 = std::make_unique<Model>("orb_5.obj");
     skybox = std::make_unique<Model>("inverse_cube.obj");
     cameraCubemap = std::make_unique<Cubemap>(256, true, GL_RGB, GL_RGB);
+    blackCubemap = std::make_unique<Cubemap>(1, false, GL_RED, GL_RED);
+    shipReflectionMap = std::make_unique<Cubemap>(128, true, GL_RGB, GL_RGB);
 
     lightBlock = std::make_unique<UniformBlock>(UniformBlock::LIGHT);
     lightBlock->setBindingPoint(UniformBlock::LIGHT);

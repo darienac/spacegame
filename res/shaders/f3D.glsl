@@ -4,7 +4,7 @@
 void main() {
     Material material = materials[0];
     material.diffuse *= texture(textureDiffuse, vTexCoord);
-    fragColor = phongShading(material, light);
+    fragColor = phongShading(material, light) + texture(textureCubemap, reflect(vPosition - uViewPosition, vNormal)) * vec4(material.specular, 1.0);
     // fragColor = vec4(normal + vec3(0.5, 0.5, 0.5), 1.0);
 
 	// fragColor = vec4((vec2(1.0, 1.0) + vVertex.xy) * 0.5, 1.0, 1.0);

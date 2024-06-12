@@ -8,6 +8,7 @@
 
 #include "GL/glew.h"
 #include "../GlFramebuffer.h"
+#include "../Camera.h"
 
 class Cubemap {
 public:
@@ -16,6 +17,8 @@ public:
 
     Cubemap(int width, bool useDepthBuffer, GLint internalformat, GLenum format);
     Cubemap(int width, bool useDepthBuffer);
+
+    void bindToSide(uint8_t side, glm::dvec3 &pos, Camera &camera);
 };
 
 

@@ -30,6 +30,7 @@ public:
 
     int getWidth() const;
     int getHeight() const;
+    double getAspectRatio() const;
     bool isResized() const;
 
     ~GlWindow();

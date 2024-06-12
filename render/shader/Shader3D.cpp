@@ -75,6 +75,10 @@ void Shader3D::bindDiffuseTexture(const Texture &texture) {
     bindTexture(DIFFUSE_TEX_UNIT, texture);
 }
 
+void Shader3D::bindCubemap(const Cubemap &cubemap) {
+    bindTexture(CUBEMAP_TEX_UNIT, *cubemap.texture);
+}
+
 void Shader3D::loadMaterial(Material *material) {
     // Setup uniform values
     loadMaterialBlock(UniformBlockCache::getMaterialBlock(material));

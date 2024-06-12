@@ -17,20 +17,22 @@ private:
     double fovy;
     double zNear;
     double zFar;
+    double aspect;
     glm::dvec3 pos;
     glm::dvec3 target;
     glm::dvec3 up;
-    GlWindow* window;
 public:
-    explicit Camera(GlWindow* window);
+    explicit Camera();
 
     glm::dvec3 getPos();
     glm::dmat4 getViewProjectionMatrix();
-    glm::dmat4 getViewProjectionMatrix(double aspect);
 
     void setPos(glm::dvec3 value);
     void setTarget(glm::dvec3 value);
+    void setFacingDir(glm::dvec3 value);
     void setUp(glm::dvec3 value);
+    void setFOV(double value);
+    void setAspectRatio(double aspect);
 };
 
 
