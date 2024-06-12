@@ -53,7 +53,7 @@ GlWindow::GlWindow(const std::string& name, int width, int height) {
 
     // Finish window setup
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
+    glfwSwapInterval(GlobalFlags::VSYNC ? 1 : 0);
     glfwShowWindow(window);
 
     // GLEW Stuff
@@ -110,7 +110,7 @@ void GlWindow::enableFullscreen() {
     glfwGetWindowPos(window, &oldWindowX, &oldWindowY);
 
     glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, GLFW_DONT_CARE);
-    glfwSwapInterval(1);
+    glfwSwapInterval(GlobalFlags::VSYNC ? 1 : 0);
 }
 
 void GlWindow::disableFullscreen() {
@@ -125,7 +125,7 @@ void GlWindow::disableFullscreen() {
 
     glfwSetWindowSize(window, oldWindowW, oldWindowH);
     glfwSetWindowPos(window, oldWindowX, oldWindowY);
-    glfwSwapInterval(1);
+    glfwSwapInterval(GlobalFlags::VSYNC ? 1 : 0);
 }
 
 void GlWindow::setResized(bool value) {

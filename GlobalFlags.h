@@ -8,6 +8,7 @@
 
 class GlobalFlags {
 public:
+    static const bool VSYNC = true;
     static const bool DEBUG = true;
     static const bool SHOW_FPS = false;
     static const bool USE_MULTISAMPLING = true;
