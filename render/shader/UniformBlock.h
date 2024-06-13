@@ -66,14 +66,14 @@ public:
         PERLIN_CONFIG
     };
     explicit UniformBlock(BindingPoint type);
-    explicit UniformBlock(Material* material);
-    explicit UniformBlock(const std::vector<Material*> &materials);
+    explicit UniformBlock(const Material &material);
+    explicit UniformBlock(const std::vector<const Material*> &materials);
 
     explicit UniformBlock(GameState::Planet &planet);
 
     explicit UniformBlock(const PerlinNoise &perlinNoise);
 
-    void loadMaterial(Material *material);
+    void loadMaterial(const Material &material);
     void loadLights(const std::vector<GameState::Light*> &lights, const glm::vec3 &ambientLight);
     void setBindingPoint(GLuint index);
 };

@@ -4,6 +4,7 @@
 
 #include "StateRenderCache.h"
 #include "glm/ext/matrix_transform.hpp"
+#include "../GlobalFlags.h"
 
 glm::mat4 StateRenderCache::getModelTransformMatrix(glm::vec3 pos, float scale) {
     return glm::translate(glm::mat4(1.0f), pos) * glm::scale(glm::mat4(1.0f), {scale, scale, scale});
@@ -90,7 +91,7 @@ void StateRenderCache::syncPlanetsToState(GameState *state) {
             .heightmapGround2 = std::make_unique<Heightmap>(*perlinShader, 500, 0.0006f * planet->radius, 0, 0.0f, *planet)
         });
         PlanetData *data = planetResources[id].get();
-        data->matBlock = std::make_unique<UniformBlock>(std::vector<Material*>{data->surfaceMat.get(), data->liquidMat.get()});
+        data->matBlock = std::make_unique<UniformBlock>(std::vector<const Material*>{data->surfaceMat.get(), data->liquidMat.get()});
         perlinShader->drawToCubemap(&planet->surfaceNoise, data->planetSurfaceMap.get());
         updatePlanetToLOD(state, planet);
     }
@@ -119,7 +120,7 @@ void StateRenderCache::syncStarsToState(GameState *state) {
             .material = std::make_unique<Material>(glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, star->color, 1.0f, 1.0f)
         });
         StarData *data = starResources[id].get();
-        data->matBlock = std::make_unique<UniformBlock>(data->material.get());
+        data->matBlock = std::make_unique<UniformBlock>(*data->material);
         updateStarToLOD(state, star);
     }
 }
@@ -155,6 +156,10 @@ StateRenderCache::StateRenderCache(ShaderPerlin *perlinShader): perlinShader(per
 
     lightBlock = std::make_unique<UniformBlock>(UniformBlock::LIGHT);
     lightBlock->setBindingPoint(UniformBlock::LIGHT);
+
+    if (GlobalFlags::DEBUG) {
+        debugMatBlock1 = std::make_unique<UniformBlock>(Material({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.5f}, {0.0f, 0.0f, 0.0f}, {0.2f, 0.2f, 0.5f}, 0.5, 1.0));
+    }
 }
 
 void StateRenderCache::syncToState(GameState *state) {

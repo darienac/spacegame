@@ -26,6 +26,7 @@ private:
     struct ModelRenderData {
         GameState::ModelState *modelState;
         Model *model;
+        UniformBlock *matBlock = nullptr;
         Cubemap *cubemap = nullptr;
     };
 
@@ -55,6 +56,8 @@ private:
     void drawStar(GameState::Star &star, Camera &renderCamera);
     void drawModel(ModelRenderData &renderData, Camera &renderCamera);
     void drawSkybox(Cubemap &cubemap, Camera &renderCamera);
+
+    void addTestSphereTask(GameState::ModelState &modelState);
 
     void runRenderTasks(Camera &renderCamera);
     void runRenderTask(RenderTask &task, Camera &renderCamera);

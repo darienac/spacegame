@@ -5,6 +5,7 @@
 #include "GameRenderer.h"
 #include "../GlobalFlags.h"
 #include "shader/UniformBlockCache.h"
+#include "model/TextureCache.h"
 
 void GameRenderer::updateCamera() {
     camera.setPos(state->camera.pos);
@@ -56,7 +57,7 @@ void GameRenderer::drawStar(GameState::Star &star, Camera &renderCamera) {
     cache->sceneShader->loadCamera(&renderCamera, starData->modelTransform);
     cache->sceneShader->loadMesh(starData->mesh);
     cache->sceneShader->bindCubemap(*cache->stateRenderCache->blackCubemap);
-    Shader3D::loadMaterialBlock(cache->stateRenderCache->starResources[star.id]->matBlock.get());
+    Shader3D::loadMaterialBlock(*cache->stateRenderCache->starResources[star.id]->matBlock);
     starData->mesh->draw();
 }
 
@@ -70,7 +71,12 @@ void GameRenderer::drawModel(GameRenderer::ModelRenderData &renderData, Camera &
     } else {
         cache->sceneShader->bindCubemap(*cache->stateRenderCache->blackCubemap);
     }
-    cache->sceneShader->drawModel(renderData.model);
+    if (renderData.matBlock) {
+        cache->sceneShader->bindDiffuseTexture(*TextureCache::getTexture(TextureCache::DEFAULT_WHITE));
+        cache->sceneShader->drawModel(renderData.model, *renderData.matBlock);
+    } else {
+        cache->sceneShader->drawModel(renderData.model);
+    }
 }
 
 void GameRenderer::drawSkybox(Cubemap &cubemap, Camera &renderCamera) {
@@ -81,6 +87,20 @@ void GameRenderer::drawSkybox(Cubemap &cubemap, Camera &renderCamera) {
     glDisable(GL_DEPTH_TEST);
     cache->skyboxShader->drawModel(cache->stateRenderCache->skybox.get());
     glEnable(GL_DEPTH_TEST);
+}
+
+void GameRenderer::addTestSphereTask(GameState::ModelState &modelState) {
+    renderTasks.emplace_back(RenderTask{
+        .type = BASIC_MODEL,
+        .usesTransparency = true,
+        .pos = modelState.pos,
+        .modelRenderData = {
+            .modelState = &modelState,
+            .model = cache->stateRenderCache->orb_3.get(),
+            .matBlock = cache->stateRenderCache->debugMatBlock1.get(),
+            .cubemap = cache->stateRenderCache->shipReflectionMap.get()
+        }
+    });
 }
 
 void GameRenderer::runRenderTasks(Camera &renderCamera) {
@@ -191,7 +211,7 @@ void GameRenderer::drawScene() {
         Material *blendMat = &cache->shipMaterials[state->ship.boosterState];
         boosterMat->load(Material::blend(*blendMat, *baseMat, state->ship.boosterStrength));
     }
-    UniformBlockCache::updateMaterialBlock(boosterMat);
+    UniformBlockCache::updateMaterialBlock(*boosterMat);
     auto &shipTask = renderTasks.emplace_back(RenderTask{
         .type = BASIC_MODEL,
         .usesTransparency = false,
@@ -212,6 +232,11 @@ void GameRenderer::drawScene() {
                 .model = cache->islandModel.get()
         }
     });
+
+    GameState::ModelState debug1 {
+        .pos = state->ship.modelState.pos
+    };
+    addTestSphereTask(debug1);
 
     for (auto &pair : state->planets) {
         renderTasks.emplace_back(RenderTask{

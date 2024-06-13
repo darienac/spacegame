@@ -32,9 +32,9 @@ public:
 
     struct ModelState {
         glm::dvec3 pos;
-        glm::dvec3 dir;
-        glm::dvec3 up;
-        double scale;
+        glm::dvec3 dir = {0.0, 0.0, -1.0};
+        glm::dvec3 up = {0.0, 1.0, 0.0};
+        double scale = 1.0;
     };
 
     enum ShipBoosterState {

@@ -56,6 +56,8 @@ public:
     std::map<boost::uuids::uuid, std::unique_ptr<StarData>> starResources;
     std::unique_ptr<UniformBlock> lightBlock;
 
+    std::unique_ptr<UniformBlock> debugMatBlock1;
+
     std::unique_ptr<Cubemap> cameraCubemap;
     std::unique_ptr<Cubemap> blackCubemap;
     std::unique_ptr<Cubemap> shipReflectionMap;

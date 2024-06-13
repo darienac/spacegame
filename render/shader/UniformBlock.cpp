@@ -28,20 +28,20 @@ UniformBlock::UniformBlock(UniformBlock::BindingPoint type) {
     delete[] buffer;
 }
 
-UniformBlock::UniformBlock(Material *material): GlBuffer() {
+UniformBlock::UniformBlock(const Material &material): GlBuffer() {
     GLSL_MATERIAL buffer = {
-        .ambient = material->ambient,
-        .diffuse = material->diffuse,
-        .specular = material->specular,
-        .emissive = material->emissive,
-        .opacity = material->opacity,
-        .glossiness = material->glossiness
+        .ambient = material.ambient,
+        .diffuse = material.diffuse,
+        .specular = material.specular,
+        .emissive = material.emissive,
+        .opacity = material.opacity,
+        .glossiness = material.glossiness
     };
 
     bufferData(sizeof(buffer), &buffer, GL_DYNAMIC_DRAW);
 }
 
-UniformBlock::UniformBlock(const std::vector<Material*> &materials): GlBuffer() {
+UniformBlock::UniformBlock(const std::vector<const Material*> &materials): GlBuffer() {
     auto *buffer = new GLSL_MATERIAL[materials.size()];
     for (uint32_t i = 0; i < materials.size(); i++) {
         buffer[i] = {
@@ -86,14 +86,14 @@ UniformBlock::UniformBlock(const PerlinNoise &perlinNoise) : GlBuffer() {
     bufferData(sizeof(buffer), &buffer);
 }
 
-void UniformBlock::loadMaterial(Material *material) {
+void UniformBlock::loadMaterial(const Material &material) {
     GLSL_MATERIAL buffer = {
-            .ambient = material->ambient,
-            .diffuse = material->diffuse,
-            .specular = material->specular,
-            .emissive = material->emissive,
-            .opacity = material->opacity,
-            .glossiness = material->glossiness
+            .ambient = material.ambient,
+            .diffuse = material.diffuse,
+            .specular = material.specular,
+            .emissive = material.emissive,
+            .opacity = material.opacity,
+            .glossiness = material.glossiness
     };
 
     subData(sizeof(buffer), &buffer);

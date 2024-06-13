@@ -67,8 +67,13 @@ void Shader3D::loadCamera(Camera* camera, const glm::dmat4& modelMatrix) const {
 void Shader3D::loadMesh(Mesh *mesh) {
     mesh->bind(aVertex, aTexCoord, aNormal);
     if (mesh->getMaterial() != nullptr) {
-        loadMaterial(mesh->getMaterial());
+        loadMaterial(*mesh->getMaterial());
     }
+}
+
+void Shader3D::loadMesh(Mesh *mesh, UniformBlock &matBlock) {
+    mesh->bind(aVertex, aTexCoord, aNormal);
+    loadMaterialBlock(matBlock);
 }
 
 void Shader3D::bindDiffuseTexture(const Texture &texture) {
@@ -79,20 +84,27 @@ void Shader3D::bindCubemap(const Cubemap &cubemap) {
     bindTexture(CUBEMAP_TEX_UNIT, *cubemap.texture);
 }
 
-void Shader3D::loadMaterial(Material *material) {
+void Shader3D::loadMaterial(const Material &material) {
     // Setup uniform values
-    loadMaterialBlock(UniformBlockCache::getMaterialBlock(material));
+    loadMaterialBlock(*UniformBlockCache::getMaterialBlock(material));
 
-    bindDiffuseTexture(*material->texture);
+    bindDiffuseTexture(*material.texture);
 }
 
-void Shader3D::loadMaterialBlock(UniformBlock *matBlock) {
-    matBlock->setBindingPoint(UniformBlock::MATERIAL);
+void Shader3D::loadMaterialBlock(UniformBlock &matBlock) {
+    matBlock.setBindingPoint(UniformBlock::MATERIAL);
 }
 
 void Shader3D::drawModel(Model *model) {
-    for (Mesh* mesh : model->getMeshes()) {
+    for (auto &mesh : model->getMeshes()) {
         loadMesh(mesh);
+        mesh->draw();
+    }
+}
+
+void Shader3D::drawModel(Model *model, UniformBlock &matBlock) {
+    for (auto &mesh : model->getMeshes()) {
+        loadMesh(mesh, matBlock);
         mesh->draw();
     }
 }

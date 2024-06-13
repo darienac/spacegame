@@ -49,12 +49,14 @@ public:
 
     void loadCamera(Camera *camera, const glm::dmat4 &modelMatrix) const;
     void loadMesh(Mesh *mesh);
+    void loadMesh(Mesh *mesh, UniformBlock &matBlock);
     void bindDiffuseTexture(const Texture &texture);
     void bindCubemap(const Cubemap &cubemap);
-    void loadMaterial(Material *material);
-    static void loadMaterialBlock(UniformBlock *matBlock);
+    void loadMaterial(const Material &material);
+    static void loadMaterialBlock(UniformBlock &matBlock);
 
     void drawModel(Model *model);
+    void drawModel(Model *model, UniformBlock &matBlock);
 
     void link() override;
     void bind() override;

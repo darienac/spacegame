@@ -4,18 +4,18 @@
 
 #include "UniformBlockCache.h"
 
-UniformBlock *UniformBlockCache::getMaterialBlock(Material *material) {
-    if (!materials.count(material)) {
-        materials[material] = new UniformBlock(material);
+UniformBlock *UniformBlockCache::getMaterialBlock(const Material &material) {
+    if (!materials.count(&material)) {
+        materials[&material] = new UniformBlock(material);
     }
-    return materials[material];
+    return materials[&material];
 }
 
-UniformBlock *UniformBlockCache::getMaterialBlock(std::vector<Material *> *materialList) {
-    if (!materialLists.count(materialList)) {
-        materialLists[materialList] = new UniformBlock(*materialList);
+UniformBlock *UniformBlockCache::getMaterialBlock(const std::vector<const Material*> &materialList) {
+    if (!materialLists.count(&materialList)) {
+        materialLists[&materialList] = new UniformBlock(materialList);
     }
-    return materialLists[materialList];
+    return materialLists[&materialList];
 }
 
 UniformBlock *UniformBlockCache::getPerlinNoiseBlock(const PerlinNoise &perlinNoise) {
@@ -25,22 +25,22 @@ UniformBlock *UniformBlockCache::getPerlinNoiseBlock(const PerlinNoise &perlinNo
     return perlinNoises[perlinNoise.id];
 }
 
-void UniformBlockCache::updateMaterialBlock(Material *material) {
+void UniformBlockCache::updateMaterialBlock(const Material &material) {
     UniformBlock *block = getMaterialBlock(material);
     block->loadMaterial(material);
 }
 
-void UniformBlockCache::freeMaterialBlock(Material *material) {
-    if (materials.count(material)) {
-        delete materials[material];
-        materials.erase(material);
+void UniformBlockCache::freeMaterialBlock(const Material &material) {
+    if (materials.count(&material)) {
+        delete materials[&material];
+        materials.erase(&material);
     }
 }
 
-void UniformBlockCache::freeMaterialBlock(std::vector<Material *> *materialList) {
-    if (materialLists.count(materialList)) {
-        delete materialLists[materialList];
-        materialLists.erase(materialList);
+void UniformBlockCache::freeMaterialBlock(const std::vector<const Material*> &materialList) {
+    if (materialLists.count(&materialList)) {
+        delete materialLists[&materialList];
+        materialLists.erase(&materialList);
     }
 }
 
