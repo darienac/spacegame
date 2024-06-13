@@ -116,7 +116,7 @@ void StateRenderCache::syncStarsToState(GameState *state) {
         }
         starResources[id] = std::make_unique<StarData>(StarData{
             .modelTransform = getModelTransformMatrix(star->position, star->radius),
-            .material = std::make_unique<Material>(glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, star->color, 1.0f, 0.0f)
+            .material = std::make_unique<Material>(glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, glm::vec3{0.0f, 0.0f, 0.0f}, star->color, 1.0f, 1.0f)
         });
         StarData *data = starResources[id].get();
         data->matBlock = std::make_unique<UniformBlock>(data->material.get());

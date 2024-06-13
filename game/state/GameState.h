@@ -82,7 +82,7 @@ public:
 
     Planet planet = {
             .id = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
-            .lod = GROUND2,
+            .lod = ATMOSPHERE,
             .surfaceColor = {0.1f, 0.25f, 0.1f},
             .atmosphereColor = {0.2f, 0.7f, 1.0f, 0.8f},
             .atmosphereHeight = 25.0f,
@@ -129,7 +129,7 @@ private:
     Star star {
             .id = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
             .lod = DISTANT2,
-            .color = {1.0, 1.0, 1.0},
+            .color = {1.5, 1.5, 1.5},
             .position = {0.0, 10000.0, 0.0},
             .radius = 1000.0
     };

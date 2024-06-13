@@ -13,8 +13,8 @@ vec4 phongShading(Material material, Light light, vec3 modelPos, vec3 viewPos, v
     vec3 ambientColor = ambientStrength * texColor.rgb;
     vec3 emissiveColor = emissiveStrength * material.emissive;
 
-    vec3 diffuseColor = vec3(0.0f, 0.0f, 0.0f);
-    vec3 specularColor = vec3(0.0f, 0.0f, 0.0f);
+    vec3 diffuseColor = vec3(0.0, 0.0, 0.0);
+    vec3 specularColor = vec3(0.0, 0.0, 0.0);
     for (uint i = 0u; i < light.numLightSources; i++) {
         vec3 lightDirection = normalize(light.lightSources[i].position - modelPos);
         vec3 reflectLightDirection = reflect(-lightDirection, normal);
@@ -22,11 +22,8 @@ vec4 phongShading(Material material, Light light, vec3 modelPos, vec3 viewPos, v
         diffuseColor += diffuseStrength * max(0.0, dot(normal, lightDirection)) * texColor.rgb * light.lightSources[i].color;
         specularColor += specularStrength * pow(max(dot(viewDirection, reflectLightDirection), 0.0), material.glossiness) * material.specular * light.lightSources[i].color;
     }
-    // vec3 emissiveColor = vec3(0.0, 0.0, 0.0);
-    // vec3 reflectColor = reflectStrength * texture(textureReflect, reflectViewDirection.xy).rgb;
-    vec3 reflectColor = vec3(0.0, 0.0, 0.0);
 
-    return vec4(ambientColor * light.ambientLightColor + (diffuseColor + specularColor + reflectColor) + emissiveColor, texColor.a * material.opacity);
+    return vec4(ambientColor * light.ambientLightColor + diffuseColor + specularColor + emissiveColor, material.opacity);
 }
 
 vec4 phongShading(Material material, Light light) {

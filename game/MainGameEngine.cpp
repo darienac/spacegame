@@ -58,8 +58,15 @@ void MainGameEngine::updateShip(Controls &controls, GameState::ShipState &ship) 
     newDir = glm::rotate(glm::dmat4(1.0), -ship.turnVel.x, ship.modelState.up) * glm::dvec4(newDir, 0.0);
     glm::dvec3 right = glm::normalize(glm::cross(newDir, ship.modelState.up));
     newDir = glm::rotate(glm::dmat4(1.0), ship.turnVel.y, right) * glm::dvec4(newDir, 0.0);
-    ship.modelState.dir = glm::normalize(newDir);
+
+    // update velocity into turn
+    newDir = glm::normalize(newDir);
+    double speedRedirected = glm::clamp(glm::dot(ship.modelState.dir, ship.vel), 0.0, 2.0);
+    ship.vel -= ship.modelState.dir * speedRedirected;
+    ship.vel += newDir * speedRedirected;
+    ship.modelState.dir = newDir;
     ship.modelState.up = glm::normalize(glm::cross(right, newDir));
+//    std::cout << "Velocity: " << glm::length(ship.vel) << std::endl;
 
 
     // Update position
@@ -71,7 +78,7 @@ void MainGameEngine::updateShip(Controls &controls, GameState::ShipState &ship) 
         ship.boosterStrength = 0.0;
     }
     if (ship.boosterState != GameState::BOOSTER_OFF) {
-        double moveSpeed = ship.boosterStrength * ((ship.boosterState == GameState::BOOSTER_TURBO) ? 0.01 : 0.001);
+        double moveSpeed = ship.boosterStrength * ((ship.boosterState == GameState::BOOSTER_TURBO) ? 0.001 : 0.0001);
         ship.vel += ship.modelState.dir * moveSpeed;
     }
     if (controls.backBoosterPower > 0.0f) {
