@@ -76,7 +76,11 @@ add_executable(spacegame main.cpp
         game/collision/BoxCollider.h
         game/engine/helper/PhysicsSimulator.cpp
         game/engine/helper/PhysicsSimulator.h
-        game/collision/AbstractCollider.cpp)
+        game/collision/AbstractCollider.cpp
+        game/collision/MeshCollider.cpp
+        game/collision/MeshCollider.h
+        game/collision/TriangleCollider.cpp
+        game/collision/TriangleCollider.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE glm::glm)

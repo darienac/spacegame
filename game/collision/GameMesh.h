@@ -15,24 +15,26 @@
 #include "assimp/postprocess.h"
 #include "assimp/mesh.h"
 #include "BoxCollider.h"
+#include "TriangleCollider.h"
 
 class GameMesh {
 private:
     static inline double INF = std::numeric_limits<double>::infinity();
 
-    struct Triangle {
-        glm::dvec3 points[3];
-    };
-    std::vector<Triangle> tris;
+    std::vector<TriangleCollider> tris;
     BoxCollider boundingBox = {glm::dvec3{INF, INF, INF}, glm::dvec3{-INF, -INF, -INF}};
 public:
     GameMesh();
-    GameMesh(const std::string& modelPath);
+    explicit GameMesh(const std::string& modelPath);
+    explicit GameMesh(const std::vector<TriangleCollider> &tris);
 
-    void addTri(const Triangle &tri);
+    [[nodiscard]] const std::vector<TriangleCollider> &getTris() const;
+
+    void addTri(const TriangleCollider &tri);
 
     void addTris(const std::string& modelPath);
     void addTris(aiMesh *mesh);
+    void addTris(const std::vector<TriangleCollider> &tris);
 
     [[nodiscard]] const BoxCollider &getBoundingBox() const;
 };

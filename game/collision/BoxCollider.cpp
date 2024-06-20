@@ -66,3 +66,7 @@ bool BoxCollider::collidesWith(const BoxCollider &collider, const glm::dmat4 &tr
 
     return true;
 }
+
+bool BoxCollider::collidesWith(const TriangleCollider &collider, const glm::dmat4 &transform) const {
+    return false;
+}

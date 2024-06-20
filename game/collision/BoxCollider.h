@@ -26,6 +26,7 @@ public:
 
     bool collidesWith(const AbstractCollider &collider, const glm::dmat4 &transform) const override;
     bool collidesWith(const BoxCollider &collider, const glm::dmat4 &transform) const override;
+    bool collidesWith(const TriangleCollider &collider, const glm::dmat4 &transform) const override;
 };
 
 

@@ -8,6 +8,7 @@
 #include "glm/fwd.hpp"
 
 class BoxCollider;
+class TriangleCollider;
 
 class AbstractCollider {
 public:
@@ -15,6 +16,7 @@ public:
 
     [[nodiscard]] virtual bool collidesWith(const AbstractCollider &collider, const glm::dmat4 &transform) const = 0;
     [[nodiscard]] virtual bool collidesWith(const BoxCollider &collider, const glm::dmat4 &transform) const = 0;
+    [[nodiscard]] virtual bool collidesWith(const TriangleCollider &collider, const glm::dmat4 &transform) const = 0;
 };
 
 #endif //SPACEGAME_ABSTRACTCOLLIDER_H
