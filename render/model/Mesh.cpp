@@ -55,10 +55,10 @@ void Mesh::draw() {
     glDrawElements(GL_TRIANGLES, facesSize / sizeof(GLint), GL_UNSIGNED_INT, nullptr); // 6 for a quad
 }
 
-Mesh::Mesh(aiMesh *mesh, Material* material): material(material) {
-    aiVector3D* vertices = mesh->mVertices;
-    aiVector3D* texCoords = mesh->mTextureCoords[0];
-    aiVector3D* normals = mesh->mNormals;
+Mesh::Mesh(aiMesh *mesh, Material *material): material(material) {
+    aiVector3D *vertices = mesh->mVertices;
+    aiVector3D *texCoords = mesh->mTextureCoords[0];
+    aiVector3D *normals = mesh->mNormals;
     aiFace* faces = mesh->mFaces;
 
     glGenBuffers(1, &verticesBuffer);

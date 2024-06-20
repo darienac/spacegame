@@ -150,6 +150,7 @@ StateRenderCache::StateRenderCache(ShaderPerlin *perlinShader): perlinShader(per
     orb_4 = std::make_unique<Model>("orb_4.obj");
     orb_5 = std::make_unique<Model>("orb_5.obj");
     skybox = std::make_unique<Model>("inverse_cube.obj");
+    testBox = std::make_unique<Model>("testBox.obj");
     cameraCubemap = std::make_unique<Cubemap>(256, true, GL_RGB, GL_RGB);
     blackCubemap = std::make_unique<Cubemap>(1, false, GL_RED, GL_RED);
     shipReflectionMap = std::make_unique<Cubemap>(256, true, GL_RGB, GL_RGB);
@@ -159,6 +160,7 @@ StateRenderCache::StateRenderCache(ShaderPerlin *perlinShader): perlinShader(per
 
     if (GlobalFlags::DEBUG) {
         debugMatBlock1 = std::make_unique<UniformBlock>(Material({0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.5f}, {0.0f, 0.0f, 0.0f}, {0.2f, 0.2f, 0.5f}, 0.5, 1.0));
+        debugMatBlock2 = std::make_unique<UniformBlock>(Material({0.0f, 0.0f, 0.0f}, {0.5f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {0.5f, 0.2f, 0.2f}, 0.5, 1.0));
     }
 }
 

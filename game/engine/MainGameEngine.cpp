@@ -7,14 +7,14 @@
 #include "glm/geometric.hpp"
 #include "glm/ext/matrix_transform.hpp"
 
-MainGameEngine::MainGameEngine(GameState *state, Controls *controls): state(state), controls(controls) {
-
-}
+MainGameEngine::MainGameEngine(GameState *state, Controls *controls): state(state), controls(controls),
+                                                                      physicsSimulator(state) {}
 
 void MainGameEngine::tick() {
     updateShip(*controls, state->ship);
     fixCamera(state->camera, *controls, state->ship);
     updateLODs(*state);
+    physicsSimulator.tick();
 }
 
 void MainGameEngine::fixCamera(GameState::CameraState &camera, Controls &controls, GameState::ShipState &ship) {

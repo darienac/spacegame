@@ -7,6 +7,10 @@
 #include "shader/UniformBlockCache.h"
 #include "model/TextureCache.h"
 
+glm::dmat4 GameRenderer::getModelTransform(const GameState::ModelState &modelState) {
+    return glm::translate(glm::dmat4(1.0), modelState.pos) * glm::inverse(glm::lookAt({0.0, 0.0, 0.0}, modelState.dir, modelState.up)) * glm::scale(glm::dmat4(1.0), modelState.scale);
+}
+
 void GameRenderer::updateCamera() {
     camera.setPos(state->camera.pos);
     camera.setFOV(45.0);
@@ -62,8 +66,7 @@ void GameRenderer::drawStar(GameState::Star &star, Camera &renderCamera) {
 }
 
 void GameRenderer::drawModel(GameRenderer::ModelRenderData &renderData, Camera &renderCamera) {
-    glm::dmat4 modelTransform = glm::translate(glm::dmat4(1.0), renderData.modelState->pos) * glm::inverse(glm::lookAt({0.0, 0.0, 0.0}, renderData.modelState->dir, renderData.modelState->up)) * glm::scale(glm::dmat4(1.0), {renderData.modelState->scale, renderData.modelState->scale, renderData.modelState->scale});
-
+    glm::dmat4 modelTransform = getModelTransform(*renderData.modelState);
     cache->sceneShader->bind();
     cache->sceneShader->loadCamera(&renderCamera, modelTransform);
     if (renderData.cubemap) {
@@ -89,7 +92,7 @@ void GameRenderer::drawSkybox(Cubemap &cubemap, Camera &renderCamera) {
     glEnable(GL_DEPTH_TEST);
 }
 
-void GameRenderer::addTestSphereTask(GameState::ModelState &modelState) {
+void GameRenderer::addTestSphereTask(GameState::ModelState &modelState, bool useHighlight) {
     renderTasks.emplace_back(RenderTask{
         .type = BASIC_MODEL,
         .usesTransparency = true,
@@ -97,9 +100,23 @@ void GameRenderer::addTestSphereTask(GameState::ModelState &modelState) {
         .modelRenderData = {
             .modelState = &modelState,
             .model = cache->stateRenderCache->orb_3.get(),
-            .matBlock = cache->stateRenderCache->debugMatBlock1.get(),
+            .matBlock = useHighlight ? cache->stateRenderCache->debugMatBlock2.get() : cache->stateRenderCache->debugMatBlock1.get(),
             .cubemap = cache->stateRenderCache->shipReflectionMap.get()
         }
+    });
+}
+
+void GameRenderer::addTestBoxTask(GameState::ModelState &modelState, bool useHighlight) {
+    renderTasks.emplace_back(RenderTask{
+            .type = BASIC_MODEL,
+            .usesTransparency = true,
+            .pos = modelState.pos,
+            .modelRenderData = {
+                    .modelState = &modelState,
+                    .model = cache->stateRenderCache->testBox.get(),
+                    .matBlock = useHighlight ? cache->stateRenderCache->debugMatBlock2.get() : cache->stateRenderCache->debugMatBlock1.get(),
+                    .cubemap = cache->stateRenderCache->shipReflectionMap.get()
+            }
     });
 }
 
@@ -234,9 +251,19 @@ void GameRenderer::drawScene() {
     });
 
     GameState::ModelState debug1 {
-        .pos = state->ship.modelState.pos
+        .pos = state->ship.modelState.pos,
+        .dir = state->ship.modelState.dir,
+        .up = state->ship.modelState.up,
+        .scale = state->ship.modelState.scale * (state->debug.shipMesh->getBoundingBox().max - state->debug.shipMesh->getBoundingBox().min)
     };
-    addTestSphereTask(debug1);
+    addTestBoxTask(debug1, state->debug.objectsCollide);
+    GameState::ModelState debug2 {
+            .pos = state->island.pos + (state->debug.islandMesh->getBoundingBox().max + state->debug.islandMesh->getBoundingBox().min) * 0.5 * state->island.scale,
+            .dir = state->island.dir,
+            .up = state->island.up,
+            .scale = state->island.scale * (state->debug.islandMesh->getBoundingBox().max - state->debug.islandMesh->getBoundingBox().min)
+    };
+    addTestBoxTask(debug2, state->debug.objectsCollide);
 
     for (auto &pair : state->planets) {
         renderTasks.emplace_back(RenderTask{

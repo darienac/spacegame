@@ -48,6 +48,8 @@ private:
     Camera camera;
     std::vector<RenderTask> renderTasks;
 
+    static glm::dmat4 getModelTransform(const GameState::ModelState &modelState);
+
     void updateCamera();
 
     void drawPlanet(GameState::Planet &planet, Camera &renderCamera);
@@ -57,7 +59,8 @@ private:
     void drawModel(ModelRenderData &renderData, Camera &renderCamera);
     void drawSkybox(Cubemap &cubemap, Camera &renderCamera);
 
-    void addTestSphereTask(GameState::ModelState &modelState);
+    void addTestSphereTask(GameState::ModelState &modelState, bool useHighlight);
+    void addTestBoxTask(GameState::ModelState &modelState, bool useHighlight);
 
     void runRenderTasks(Camera &renderCamera);
     void runRenderTask(RenderTask &task, Camera &renderCamera);

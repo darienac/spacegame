@@ -9,9 +9,9 @@
 #include "IScreen.h"
 #include "../game/state/GameState.h"
 #include "../render/GameRenderer.h"
-#include "../game/FreeFlyGameEngine.h"
+#include "../game/engine/FreeFlyGameEngine.h"
 #include "ResourceCache.h"
-#include "../game/MainGameEngine.h"
+#include "../game/engine/MainGameEngine.h"
 
 class TestScreen : public IScreen {
 private:

@@ -5,7 +5,7 @@
 #include <iostream>
 #include "BasicGameEngine.h"
 #include "glm/geometric.hpp"
-#include "../GlobalFlags.h"
+#include "../../GlobalFlags.h"
 
 void BasicGameEngine::updatePlanetLOD(GameState &state, GameState::Planet &planet) {
     double radius = planet.radius;

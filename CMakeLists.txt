@@ -45,9 +45,9 @@ add_executable(spacegame main.cpp
         screens/ScreenManager.h
         screens/TestScreen.cpp
         screens/TestScreen.h
-        game/IGameEngine.h
-        game/FreeFlyGameEngine.cpp
-        game/FreeFlyGameEngine.h
+        game/engine/IGameEngine.h
+        game/engine/FreeFlyGameEngine.cpp
+        game/engine/FreeFlyGameEngine.h
         render/GlBuffer.cpp
         render/GlBuffer.h
         render/shader/ShaderPerlin.cpp
@@ -65,10 +65,18 @@ add_executable(spacegame main.cpp
         render/model/Heightmap.h
         render/model/Mesh2D.cpp
         render/model/Mesh2D.h
-        game/BasicGameEngine.cpp
-        game/BasicGameEngine.h
-        game/MainGameEngine.cpp
-        game/MainGameEngine.h)
+        game/engine/BasicGameEngine.cpp
+        game/engine/BasicGameEngine.h
+        game/engine/MainGameEngine.cpp
+        game/engine/MainGameEngine.h
+        game/collision/GameMesh.cpp
+        game/collision/GameMesh.h
+        game/collision/AbstractCollider.h
+        game/collision/BoxCollider.cpp
+        game/collision/BoxCollider.h
+        game/engine/helper/PhysicsSimulator.cpp
+        game/engine/helper/PhysicsSimulator.h
+        game/collision/AbstractCollider.cpp)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE glm::glm)

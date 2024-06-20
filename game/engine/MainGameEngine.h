@@ -7,12 +7,16 @@
 
 
 #include "BasicGameEngine.h"
-#include "../Controls.h"
+#include "../../Controls.h"
+#include "../collision/GameMesh.h"
+#include "helper/PhysicsSimulator.h"
 
 class MainGameEngine: public BasicGameEngine {
 private:
     GameState *state;
     Controls *controls;
+
+    PhysicsSimulator physicsSimulator;
 
     static void fixCamera(GameState::CameraState &camera, Controls &controls, GameState::ShipState &ship);
     static void updateShip(Controls &controls, GameState::ShipState &ship);

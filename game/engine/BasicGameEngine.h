@@ -7,7 +7,7 @@
 
 
 #include "IGameEngine.h"
-#include "state/GameState.h"
+#include "../state/GameState.h"
 
 class BasicGameEngine: public IGameEngine {
 protected:

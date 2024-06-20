@@ -57,6 +57,7 @@ public:
     std::unique_ptr<UniformBlock> lightBlock;
 
     std::unique_ptr<UniformBlock> debugMatBlock1;
+    std::unique_ptr<UniformBlock> debugMatBlock2;
 
     std::unique_ptr<Cubemap> cameraCubemap;
     std::unique_ptr<Cubemap> blackCubemap;
@@ -66,6 +67,7 @@ public:
     std::unique_ptr<Model> orb_4;
     std::unique_ptr<Model> orb_5;
     std::unique_ptr<Model> skybox;
+    std::unique_ptr<Model> testBox;
 
     explicit StateRenderCache(ShaderPerlin *perlinShader);
 

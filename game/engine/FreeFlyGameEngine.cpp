@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "FreeFlyGameEngine.h"
-#include "../GlobalFlags.h"
+#include "../../GlobalFlags.h"
 
 void FreeFlyGameEngine::tick() {
     // logic for a free flying camera, no game logic happening otherwise

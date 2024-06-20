@@ -11,9 +11,16 @@
 #include "PerlinNoise.h"
 #include "glm/vec4.hpp"
 #include "glm/vec2.hpp"
+#include "../collision/GameMesh.h"
 
 class GameState {
 public:
+    struct Debug {
+        bool objectsCollide = false;
+        GameMesh *shipMesh;
+        GameMesh *islandMesh;
+    };
+
     enum Planet_LOD {
         DISTANT2,
         DISTANT,
@@ -34,7 +41,7 @@ public:
         glm::dvec3 pos;
         glm::dvec3 dir = {0.0, 0.0, -1.0};
         glm::dvec3 up = {0.0, 1.0, 0.0};
-        double scale = 1.0;
+        glm::dvec3 scale = {1.0, 1.0, 1.0};
     };
 
     enum ShipBoosterState {
@@ -154,12 +161,16 @@ private:
             .color = {3.0, 0.0, 0.0}
     };
 public:
+    Debug debug = {
+        .objectsCollide = false
+    };
+
     ShipState ship = {
         .modelState = {
             .pos = {0.0, 0.0, 0.0},
             .dir = {0.0, 0.0, -1.0},
             .up = {0.0, 1.0, 0.0},
-            .scale = 1.0
+            .scale = {1.0, 1.0, 1.0}
         },
         .vel = {0.0, 0.0, 0.0},
         .rollVel = 0.0,
@@ -172,7 +183,7 @@ public:
         .pos = {0.0, 0.0, 0.0},
         .dir = {0.0f, 0.0f, -1.0},
         .up = {0.0, 1.0, 0.0},
-        .scale = 0.001
+        .scale = {0.001, 0.001, 0.001}
     };
 
     CameraState camera = {
