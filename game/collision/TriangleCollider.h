@@ -15,6 +15,8 @@ public:
     explicit TriangleCollider();
     explicit TriangleCollider(glm::dvec3 *points);
 
+    [[nodiscard]] LineSegment getBoundsOnAxis(const glm::dvec3 &axis, const glm::dmat4 &transform) const;
+
     [[nodiscard]] bool collidesWith(const AbstractCollider &collider, const glm::dmat4 &transform) const override;
     [[nodiscard]] bool collidesWith(const BoxCollider &collider, const glm::dmat4 &transform) const override;
     [[nodiscard]] bool collidesWith(const TriangleCollider &collider, const glm::dmat4 &transform) const override;

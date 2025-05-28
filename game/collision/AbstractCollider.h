@@ -11,6 +11,12 @@ class BoxCollider;
 class TriangleCollider;
 
 class AbstractCollider {
+protected:
+    struct LineSegment {
+        double p1;
+        double p2;
+    };
+    [[nodiscard]] static bool spansOverlap(const LineSegment &span1, const LineSegment &span2);
 public:
     static bool collide(const AbstractCollider &collider1, const glm::dmat4 &transform1, const AbstractCollider &collider2, const glm::dmat4 &transform2);
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <list>
 #include <map>
 #include <sstream>
@@ -24,6 +25,8 @@
 
 // TODO: Change system for freeing Uniform Blocks (how can I tie to deleting a Material, etc?) (maybe std::weak_ptr?)
 // uViewPosition is still 32 bit and uModelPosition as well, may need another uniform to replace need for 64 bit
+// TODO: Make collision detection start from the last encompassing hitbox from previous tick, go up or down tree as necessary
+// TODO: Triangle-triangle collision seems to be bugged but Triangle-Box isn't
 
 int main() {
     if (!glfwInit()) {

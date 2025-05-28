@@ -13,6 +13,7 @@
 
 class MainGameEngine: public BasicGameEngine {
 private:
+    uint32_t tickNum = 0;
     GameState *state;
     Controls *controls;
 

@@ -26,6 +26,8 @@ public:
     bool arrowRight = false;
     bool arrowUp = false;
     bool arrowDown = false;
+    bool arrowLeftPressed = false;
+    bool arrowRightPressed = false;
 
     bool fullscreenPressed = false;
     bool enableDebugEngine = false;
@@ -53,6 +55,7 @@ public:
     Controls(GlWindow* window);
 
     void pollGamepadInputs(int jid);
+    void resetPressedButtons();
 };
 
 

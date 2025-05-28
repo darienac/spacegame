@@ -11,10 +11,19 @@ MainGameEngine::MainGameEngine(GameState *state, Controls *controls): state(stat
                                                                       physicsSimulator(state) {}
 
 void MainGameEngine::tick() {
+    if (controls->arrowLeftPressed && state->debug.layer > 0) {
+        state->debug.layer--;
+    }
+    if (controls->arrowRightPressed) {
+        state->debug.layer++;
+    }
     updateShip(*controls, state->ship);
     fixCamera(state->camera, *controls, state->ship);
     updateLODs(*state);
-    physicsSimulator.tick();
+    if (tickNum % 1 == 0) {
+//        physicsSimulator.tick();
+    }
+    tickNum++;
 }
 
 void MainGameEngine::fixCamera(GameState::CameraState &camera, Controls &controls, GameState::ShipState &ship) {

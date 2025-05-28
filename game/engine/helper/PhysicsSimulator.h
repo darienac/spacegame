@@ -14,8 +14,8 @@ class PhysicsSimulator {
 private:
     GameState *state;
 
-    std::unique_ptr<GameMesh> shipMesh;
-    std::unique_ptr<GameMesh> islandMesh;
+    std::unique_ptr<MeshCollider> shipMesh;
+    std::unique_ptr<MeshCollider> islandMesh;
 
     static glm::dmat4 getModelTransform(const GameState::ModelState &modelState);
 public:

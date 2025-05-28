@@ -11,12 +11,14 @@ glm::dmat4 PhysicsSimulator::getModelTransform(const GameState::ModelState &mode
 }
 
 PhysicsSimulator::PhysicsSimulator(GameState *state): state(state) {
-    shipMesh = std::make_unique<GameMesh>("spaceship.obj");
-    islandMesh = std::make_unique<GameMesh>("wuhu.obj");
+    shipMesh = std::make_unique<MeshCollider>(GameMesh("spaceship.obj"));
+    islandMesh = std::make_unique<MeshCollider>(GameMesh("wuhu.obj"));
     state->debug.shipMesh = shipMesh.get();
     state->debug.islandMesh = islandMesh.get();
 }
 
 void PhysicsSimulator::tick() {
-    state->debug.objectsCollide = AbstractCollider::collide(shipMesh->getBoundingBox(), getModelTransform(state->ship.modelState), islandMesh->getBoundingBox(), getModelTransform(state->island));
+//    state->debug.objectsCollide = AbstractCollider::collide(shipMesh->getBoundingBox(), getModelTransform(state->ship.modelState), islandMesh->getBoundingBox(), getModelTransform(state->island));
+//    state->debug.objectsCollide = AbstractCollider::collide(*shipMesh, getModelTransform(state->ship.modelState), *islandMesh, getModelTransform(state->island));
+    state->debug.objectsCollide = AbstractCollider::collide(shipMesh->getBoundingBox(), getModelTransform(state->ship.modelState), *islandMesh, getModelTransform(state->island));
 }

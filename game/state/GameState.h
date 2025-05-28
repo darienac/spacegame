@@ -12,13 +12,15 @@
 #include "glm/vec4.hpp"
 #include "glm/vec2.hpp"
 #include "../collision/GameMesh.h"
+#include "../collision/MeshCollider.h"
 
 class GameState {
 public:
     struct Debug {
         bool objectsCollide = false;
-        GameMesh *shipMesh;
-        GameMesh *islandMesh;
+        MeshCollider *shipMesh;
+        MeshCollider *islandMesh;
+        uint32_t layer = 0;
     };
 
     enum Planet_LOD {

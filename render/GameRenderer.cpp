@@ -2,6 +2,7 @@
 // Created by dacma on 3/29/2024.
 //
 
+#include <queue>
 #include "GameRenderer.h"
 #include "../GlobalFlags.h"
 #include "shader/UniformBlockCache.h"
@@ -112,10 +113,10 @@ void GameRenderer::addTestBoxTask(GameState::ModelState &modelState, bool useHig
             .usesTransparency = true,
             .pos = modelState.pos,
             .modelRenderData = {
-                    .modelState = &modelState,
-                    .model = cache->stateRenderCache->testBox.get(),
-                    .matBlock = useHighlight ? cache->stateRenderCache->debugMatBlock2.get() : cache->stateRenderCache->debugMatBlock1.get(),
-                    .cubemap = cache->stateRenderCache->shipReflectionMap.get()
+                .modelState = &modelState,
+                .model = cache->stateRenderCache->testBox.get(),
+                .matBlock = useHighlight ? cache->stateRenderCache->debugMatBlock2.get() : cache->stateRenderCache->debugMatBlock1.get(),
+                .cubemap = cache->stateRenderCache->shipReflectionMap.get()
             }
     });
 }
@@ -201,7 +202,7 @@ GameRenderer::GameRenderer(GameState *state, ResourceCache* cache): state(state)
     cache->spaceShader->bind();
     cache->spaceShader->loadPerlinConfig(state->spaceNoise, glm::mat4(1.0f));
     cache->spaceShader->draw(cache->stateRenderCache->cameraCubemap.get());
-    renderTasks.reserve(16);
+    renderTasks.reserve(16384);
 }
 
 void GameRenderer::drawScene() {
@@ -240,15 +241,15 @@ void GameRenderer::drawScene() {
         }
     });
 
-    renderTasks.emplace_back(RenderTask{
-        .type = BASIC_MODEL,
-        .usesTransparency = true,
-        .pos = {0.0f, 0.0f, 0.0f},
-        .modelRenderData = {
-                .modelState = &state->island,
-                .model = cache->islandModel.get()
-        }
-    });
+//    renderTasks.emplace_back(RenderTask{
+//        .type = BASIC_MODEL,
+//        .usesTransparency = false,
+//        .pos = {0.0f, 0.0f, 0.0f},
+//        .modelRenderData = {
+//                .modelState = &state->island,
+//                .model = cache->islandModel.get()
+//        }
+//    });
 
     GameState::ModelState debug1 {
         .pos = state->ship.modelState.pos,
@@ -256,14 +257,44 @@ void GameRenderer::drawScene() {
         .up = state->ship.modelState.up,
         .scale = state->ship.modelState.scale * (state->debug.shipMesh->getBoundingBox().max - state->debug.shipMesh->getBoundingBox().min)
     };
-    addTestBoxTask(debug1, state->debug.objectsCollide);
-    GameState::ModelState debug2 {
-            .pos = state->island.pos + (state->debug.islandMesh->getBoundingBox().max + state->debug.islandMesh->getBoundingBox().min) * 0.5 * state->island.scale,
-            .dir = state->island.dir,
-            .up = state->island.up,
-            .scale = state->island.scale * (state->debug.islandMesh->getBoundingBox().max - state->debug.islandMesh->getBoundingBox().min)
-    };
-    addTestBoxTask(debug2, state->debug.objectsCollide);
+//    addTestBoxTask(debug1, state->debug.objectsCollide);
+    std::queue<const MeshCollider*> meshes;
+    meshes.push(state->debug.islandMesh);
+    uint32_t nodesOnLayer = 1;
+    uint32_t layer = 0;
+    uint32_t numOnLayer = 0;
+    std::vector<GameState::ModelState> modelStates;
+    modelStates.reserve(16384);
+    while (!meshes.empty()) {
+        const MeshCollider *mesh = meshes.front();
+        meshes.pop();
+        nodesOnLayer--;
+        if (mesh->getTris().empty()) {
+            meshes.push(&mesh->getLeft());
+            meshes.push(&mesh->getRight());
+        }
+        if (layer == state->debug.layer) {
+//        if (!mesh->getTris().empty()) {
+            numOnLayer++;
+//            std::cout << "min: " << mesh->getBoundingBox().min.x << " " << mesh->getBoundingBox().min.y << " " << mesh->getBoundingBox().min.z << std::endl;
+//            std::cout << "max: " << mesh->getBoundingBox().max.x << " " << mesh->getBoundingBox().max.y << " " << mesh->getBoundingBox().max.z << std::endl;
+            modelStates.emplace_back(GameState::ModelState{
+                .pos = state->island.pos + (mesh->getBoundingBox().max + mesh->getBoundingBox().min) * 0.5 * state->island.scale,
+                .dir = state->island.dir,
+                .up = state->island.up,
+                .scale = state->island.scale * (mesh->getBoundingBox().max - mesh->getBoundingBox().min)
+            });
+            if (renderTasks.size() >= 16000) {
+                break;
+            }
+//            addTestBoxTask(modelStates.back(), state->debug.objectsCollide);
+        }
+        if (nodesOnLayer == 0) {
+            nodesOnLayer = meshes.size();
+            layer++;
+        }
+    }
+//    std::cout << "Num on layer: " << numOnLayer << std::endl;
 
     for (auto &pair : state->planets) {
         renderTasks.emplace_back(RenderTask{

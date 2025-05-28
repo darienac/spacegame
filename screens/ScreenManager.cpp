@@ -84,6 +84,7 @@ void ScreenManager::run() {
 void ScreenManager::tick() {
     cache->controls->pollGamepadInputs(0);
     screen->tick();
+    cache->controls->resetPressedButtons();
     tickNum++;
 }
 

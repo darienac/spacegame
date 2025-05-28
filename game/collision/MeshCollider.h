@@ -23,6 +23,11 @@ public:
     bool collidesWith(const AbstractCollider &collider, const glm::dmat4 &transform) const override;
     bool collidesWith(const BoxCollider &collider, const glm::dmat4 &transform) const override;
     bool collidesWith(const TriangleCollider &collider, const glm::dmat4 &transform) const override;
+
+    [[nodiscard]] const std::vector<TriangleCollider> &getTris() const;
+    [[nodiscard]] const BoxCollider &getBoundingBox() const;
+    [[nodiscard]] const MeshCollider &getLeft() const;
+    [[nodiscard]] const MeshCollider &getRight() const;
 };
 
 

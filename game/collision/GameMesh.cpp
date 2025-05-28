@@ -14,6 +14,9 @@ GameMesh::GameMesh(const std::string &modelPath) {
 }
 
 GameMesh::GameMesh(const std::vector<TriangleCollider> &tris) {
+    if (tris.empty()) {
+        throw std::runtime_error("No tris provided");
+    }
     addTris(tris);
 }
 

@@ -29,9 +29,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
             break;
         case GLFW_KEY_LEFT:
             controlsRef->arrowLeft = value;
+            controlsRef->arrowLeftPressed = value;
             break;
         case GLFW_KEY_RIGHT:
             controlsRef->arrowRight = value;
+            controlsRef->arrowRightPressed = value;
             break;
         case GLFW_KEY_UP:
             controlsRef->arrowUp = value;
@@ -157,6 +159,17 @@ void Controls::pollGamepadInputs(int jid) {
     if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_RIGHT_THUMB)) {
         reverseCamera = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_RIGHT_THUMB);
     }
+    if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_DPAD_LEFT)) {
+        arrowLeftPressed = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_DPAD_LEFT);
+    }
+    if (isGamepadButtonUpdated(state, GLFW_GAMEPAD_BUTTON_DPAD_RIGHT)) {
+        arrowRightPressed = isGamepadButtonPressed(state, GLFW_GAMEPAD_BUTTON_DPAD_RIGHT);
+    }
 
     lastGamepadState = state;
+}
+
+void Controls::resetPressedButtons() {
+    arrowLeftPressed = false;
+    arrowRightPressed = false;
 }
